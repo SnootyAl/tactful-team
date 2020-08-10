@@ -2,6 +2,7 @@
 //const CSVtoJSON = require("csvtojson");
 const FileSystem = require("fs");
 const averageData = require("./Average-and-StdDist-JSON.json");
+const getText = require("./PersonalityText/index.js");
 // create an array for people that have been assigned a team number
 let teamarray = [];
 
@@ -44,7 +45,7 @@ function Teamloop() {
 
 function displayTeam(item, index) {
 	console.log(
-		"Person " +
+		"\n\nPerson " +
 			item.ID +
 			", with results (E: " +
 			item.TotalE +
@@ -56,45 +57,105 @@ function displayTeam(item, index) {
 			item.TotalC +
 			" | O: " +
 			item.TotalO +
-			")."
+			").\n"
 	);
-
 	var resultText;
+	var scores = {};
 
+	var domain = "E";
 	resultText = findStdDeviation(
 		item.TotalE,
 		averageData.E.Average,
 		averageData.E.StdDist
 	);
-	console.log("Their Extraversion score was " + resultText);
 
+	scores[domain] = {
+		score: item.totalE,
+		count: 1,
+		result: resultText,
+		facet: {
+			"1": {
+				score: 6,
+				count: 2,
+				result: "neutral",
+			},
+		},
+	};
+	var domain = "N";
 	resultText = findStdDeviation(
 		item.TotalN,
 		averageData.N.Average,
 		averageData.N.StdDist
 	);
-	console.log("Their Neuroticism score was " + resultText);
-
+	scores[domain] = {
+		score: item.totalN,
+		count: 1,
+		result: resultText,
+		facet: {
+			"1": {
+				score: 6,
+				count: 2,
+				result: "neutral",
+			},
+		},
+	};
+	var domain = "A";
 	resultText = findStdDeviation(
 		item.TotalA,
 		averageData.A.Average,
 		averageData.A.StdDist
 	);
-	console.log("Their Agreeableness score was " + resultText);
-
+	scores[domain] = {
+		score: item.totalA,
+		count: 1,
+		result: resultText,
+		facet: {
+			"1": {
+				score: 6,
+				count: 2,
+				result: "neutral",
+			},
+		},
+	};
+	var domain = "C";
 	resultText = findStdDeviation(
 		item.TotalC,
 		averageData.C.Average,
 		averageData.C.StdDist
 	);
-	console.log("Their Conscientious score was " + resultText);
-
+	scores[domain] = {
+		score: item.totalC,
+		count: 1,
+		result: resultText,
+		facet: {
+			"1": {
+				score: 6,
+				count: 2,
+				result: "neutral",
+			},
+		},
+	};
+	var domain = "O";
 	resultText = findStdDeviation(
 		item.TotalO,
 		averageData.O.Average,
 		averageData.O.StdDist
 	);
-	console.log("Their Openness to Experience score was " + resultText);
+	scores[domain] = {
+		score: item.totalO,
+		count: 1,
+		result: resultText,
+		facet: {
+			"1": {
+				score: 6,
+				count: 2,
+				result: "neutral",
+			},
+		},
+	};
+	const result = getText({ scores: scores, lang: "en" });
+	//console.log(JSON.stringify(result, null, 2));
+	result.forEach((f) => console.log(f.text + "\n"));
 }
 
 function findStdDeviation(score, avg, StdDev) {
