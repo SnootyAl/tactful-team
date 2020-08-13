@@ -3,6 +3,7 @@
 const FileSystem = require("fs");
 const averageData = require("./Average-and-StdDist-JSON.json");
 const getText = require("./PersonalityText/index.js");
+const { parse } = require("path");
 // create an array for people that have been assigned a team number
 let teamarray = [];
 
@@ -35,7 +36,7 @@ function createTeam() {
 // for testing purposes
 function Teamloop() {
 	for (let i = 0; i < teamarray.length; i++) {
-		console.log("In Team " + i + ", the members are: ");
+		console.log("\n\nIn Team " + i + ", the members are: ");
 		var temp_team = teamarray[i];
 		temp_team.forEach(displayTeam);
 		teamAnalysis(temp_team);
@@ -45,7 +46,7 @@ function Teamloop() {
 
 function displayTeam(item, index) {
 	console.log(
-		"\n\nPerson " +
+		"\nPerson " +
 			item.ID +
 			", with results (E: " +
 			item.TotalE +
@@ -57,7 +58,7 @@ function displayTeam(item, index) {
 			item.TotalC +
 			" | O: " +
 			item.TotalO +
-			").\n"
+			")."
 	);
 	var resultText;
 	var scores = {};
@@ -155,7 +156,10 @@ function displayTeam(item, index) {
 	};
 	const result = getText({ scores: scores, lang: "en" });
 	//console.log(JSON.stringify(result, null, 2));
-	result.forEach((f) => console.log(f.text + "\n"));
+	var individualScores = [];
+	//result.forEach((f) => individualScores.push(f.scoreText));
+	//console.log(individualScores);
+	result.forEach((f) => console.log(f.title + ": " + f.scoreText));
 }
 
 function findStdDeviation(score, avg, StdDev) {
@@ -204,7 +208,104 @@ function findStdDeviation(score, avg, StdDev) {
 		return "neutral";
 	}
 }
-function teamAnalysis(currentTeam) {}
+function teamAnalysis(currentTeam) {
+	var arrayE = [];
+	var arrayN = [];
+	var arrayA = [];
+	var arrayC = [];
+	var arrayO = [];
+
+	// Push each individual person's domain scores into a shared team array for each domain
+	currentTeam.forEach((e) => arrayE.push(e.TotalE));
+	currentTeam.forEach((n) => arrayN.push(n.TotalN));
+	currentTeam.forEach((a) => arrayA.push(a.TotalA));
+	currentTeam.forEach((c) => arrayC.push(c.TotalC));
+	currentTeam.forEach((o) => arrayO.push(o.TotalO));
+
+	console.log("\n");
+	// Run basic data comparison and print
+	printDetails("extraversion", arrayE);
+	printDetails("neuroticism", arrayN);
+	printDetails("agreeableness", arrayA);
+	printDetails("conscientousness", arrayC);
+	printDetails("openness to experience", arrayO);
+}
+
+function printDetails(domain, workingArray) {
+	var tempIndicies = [];
+	console.log("Team " + domain + " scores: " + workingArray);
+	// Find which members of the team have the lowest score
+	tempIndicies = indexOfSmallest(workingArray);
+	// Print this information out in human readable form
+	console.log(formatDomainString(tempIndicies, "lowest", domain));
+	// Find which members of the team have the highest score
+	tempIndicies = indexOfLargest(workingArray);
+	// Print this information out in human readable form
+	console.log(formatDomainString(tempIndicies, "highest", domain));
+	console.log("\n");
+}
+
+function indexOfSmallest(a) {
+	var lowest = 50;
+	var indicies = [];
+
+	for (var i = 0; i < a.length; i++) {
+		if (parseInt(a[i]) < lowest) {
+			lowest = parseInt(a[i]);
+			indicies = [];
+			indicies.push(i);
+		} else if (parseInt(a[i]) == lowest) {
+			indicies.push(i);
+		}
+	}
+	return indicies;
+}
+
+function indexOfLargest(a) {
+	var highest = 0;
+	var indicies = [];
+
+	for (var i = 0; i < a.length; i++) {
+		if (parseInt(a[i]) > highest) {
+			highest = parseInt(a[i]);
+			indicies = [];
+			indicies.push(i);
+		} else if (parseInt(a[i]) == highest) {
+			indicies.push(i);
+		}
+	}
+	return indicies;
+}
+
+function formatDomainString(indicies, compString, domainString) {
+	var result = "";
+	if (indicies.length > 1) {
+		var tempString = "";
+		for (var i = 0; i < indicies.length - 2; i++) {
+			tempString += "person " + indicies[i + 1] + ", ";
+		}
+		// Messy at the moment - trying to counter 0-indexed arrays with human-readable team numers
+		// i.e. The first person is labelled Person 1, but their index is array[0].
+		tempString += "person " + (indicies[indicies.length - 2] + 1) + " ";
+		tempString += "and person " + (indicies[indicies.length - 1] + 1);
+		result =
+			"The members of the team with the " +
+			compString +
+			" scores in " +
+			domainString +
+			" are: " +
+			tempString;
+	} else {
+		result =
+			"The member of the team with the " +
+			compString +
+			" score in " +
+			domainString +
+			" is person " +
+			(indicies[0] + 1);
+	}
+	return result;
+}
 function start() {
 	// if Big-five-data.json is not in the folder comment out the last 2 functions and run, this will create the json file
 	//csvtojson();
