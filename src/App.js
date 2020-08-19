@@ -21,7 +21,7 @@ function csvtojson() {
 
 // import json file and tag persons with a team ID
 function createTeam() {
-	var personDATA = require("./Big-5-Data-Scaled-JSON.json");
+	let personDATA = require("./Big-5-Data-Scaled-JSON.json");
 	// outer for loop controls the teams, inner for loop controls the amount of people assigned to a team
 	for (let i = 0; i < 2; i++) {
 		teamarray.push([]);
@@ -37,7 +37,7 @@ function createTeam() {
 function Teamloop() {
 	for (let i = 0; i < teamarray.length; i++) {
 		console.log("\n\nIn Team " + i + ", the members are: ");
-		var temp_team = teamarray[i];
+		let temp_team = teamarray[i];
 		temp_team.forEach(displayTeam);
 		teamAnalysis(temp_team);
 		//console.log(temp_team);
@@ -45,6 +45,7 @@ function Teamloop() {
 }
 
 function displayTeam(item, index) {
+	let domain = "";
 	console.log(
 		"\nPerson " +
 			item.ID +
@@ -60,10 +61,10 @@ function displayTeam(item, index) {
 			item.TotalO +
 			")."
 	);
-	var resultText;
-	var scores = {};
+	let resultText;
+	let scores = {};
 
-	var domain = "E";
+	domain = "E";
 	resultText = findStdDeviation(
 		item.TotalE,
 		averageData.E.Average,
@@ -82,7 +83,7 @@ function displayTeam(item, index) {
 			},
 		},
 	};
-	var domain = "N";
+	domain = "N";
 	resultText = findStdDeviation(
 		item.TotalN,
 		averageData.N.Average,
@@ -100,7 +101,7 @@ function displayTeam(item, index) {
 			},
 		},
 	};
-	var domain = "A";
+	domain = "A";
 	resultText = findStdDeviation(
 		item.TotalA,
 		averageData.A.Average,
@@ -118,7 +119,7 @@ function displayTeam(item, index) {
 			},
 		},
 	};
-	var domain = "C";
+	domain = "C";
 	resultText = findStdDeviation(
 		item.TotalC,
 		averageData.C.Average,
@@ -136,7 +137,7 @@ function displayTeam(item, index) {
 			},
 		},
 	};
-	var domain = "O";
+	domain = "O";
 	resultText = findStdDeviation(
 		item.TotalO,
 		averageData.O.Average,
@@ -156,7 +157,7 @@ function displayTeam(item, index) {
 	};
 	const result = getText({ scores: scores, lang: "en" });
 	//console.log(JSON.stringify(result, null, 2));
-	var individualScores = [];
+	let individualScores = [];
 	//result.forEach((f) => individualScores.push(f.scoreText));
 	//console.log(individualScores);
 	result.forEach((f) => console.log(f.title + ": " + f.scoreText));
@@ -208,12 +209,13 @@ function findStdDeviation(score, avg, StdDev) {
 		return "neutral";
 	}
 }
+
 function teamAnalysis(currentTeam) {
-	var arrayE = [];
-	var arrayN = [];
-	var arrayA = [];
-	var arrayC = [];
-	var arrayO = [];
+	let arrayE = [];
+	let arrayN = [];
+	let arrayA = [];
+	let arrayC = [];
+	let arrayO = [];
 
 	// Push each individual person's domain scores into a shared team array for each domain
 	currentTeam.forEach((e) => arrayE.push(e.TotalE));
@@ -232,24 +234,35 @@ function teamAnalysis(currentTeam) {
 }
 
 function printDetails(domain, workingArray) {
-	var tempIndicies = [];
+	let smallestIndexArray = [];
+	let largestIndexArray = [];
+	let difference = 0;
 	console.log("Team " + domain + " scores: " + workingArray);
 	// Find which members of the team have the lowest score
-	tempIndicies = indexOfSmallest(workingArray);
+	smallestIndexArray = indexOfSmallest(workingArray);
+	smallestIndex = smallestIndexArray[0];
 	// Print this information out in human readable form
-	console.log(formatDomainString(tempIndicies, "lowest", domain));
+	console.log(formatDomainString(smallestIndexArray, "lowest", domain));
 	// Find which members of the team have the highest score
-	tempIndicies = indexOfLargest(workingArray);
+	largestIndexArray = indexOfLargest(workingArray);
+	largestIndex = largestIndexArray[0];
 	// Print this information out in human readable form
-	console.log(formatDomainString(tempIndicies, "highest", domain));
+	console.log(formatDomainString(largestIndexArray, "highest", domain));
+	difference = workingArray[largestIndex] - workingArray[smallestIndex];
+	console.log(
+		"The difference between the largest and smallest " +
+			domain +
+			" score is " +
+			difference
+	);
 	console.log("\n");
 }
 
 function indexOfSmallest(a) {
-	var lowest = 50;
-	var indicies = [];
+	let lowest = 50;
+	let indicies = [];
 
-	for (var i = 0; i < a.length; i++) {
+	for (let i = 0; i < a.length; i++) {
 		if (parseInt(a[i]) < lowest) {
 			lowest = parseInt(a[i]);
 			indicies = [];
@@ -262,10 +275,10 @@ function indexOfSmallest(a) {
 }
 
 function indexOfLargest(a) {
-	var highest = 0;
-	var indicies = [];
+	let highest = 0;
+	let indicies = [];
 
-	for (var i = 0; i < a.length; i++) {
+	for (let i = 0; i < a.length; i++) {
 		if (parseInt(a[i]) > highest) {
 			highest = parseInt(a[i]);
 			indicies = [];
@@ -278,10 +291,10 @@ function indexOfLargest(a) {
 }
 
 function formatDomainString(indicies, compString, domainString) {
-	var result = "";
+	let result = "";
 	if (indicies.length > 1) {
-		var tempString = "";
-		for (var i = 0; i < indicies.length - 2; i++) {
+		let tempString = "";
+		for (let i = 0; i < indicies.length - 2; i++) {
 			tempString += "person " + indicies[i + 1] + ", ";
 		}
 		// Messy at the moment - trying to counter 0-indexed arrays with human-readable team numers
