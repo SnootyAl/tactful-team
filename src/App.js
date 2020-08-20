@@ -84,16 +84,16 @@ function displayTeam(item, index) {
 	console.log(
 		"\nPerson " +
 			item.ID +
-			", with results (E: " +
-			item.TotalE +
-			" | N: " +
-			item.TotalN +
+			", with results (C: " +
+			item.TotalC +
 			" | A: " +
 			item.TotalA +
-			" | C: " +
-			item.TotalC +
+			" | N: " +
+			item.TotalN +
 			" | O: " +
 			item.TotalO +
+			" | E: " +
+			item.TotalE +
 			")."
 	);
 
@@ -140,26 +140,28 @@ function teamAnalysis(currentTeam) {
 
 	// Push each individual person's domain scores into a shared team array for each domain
 	currentTeam.forEach((member) => {
-		arrayC.push(member.TotalC);
-		arrayA.push(member.TotalA);
-		arrayN.push(member.TotalN);
-		arrayO.push(member.TotalO);
-		arrayE.push(member.TotalE);
+		arrayC.push(parseInt(member.TotalC));
+		arrayA.push(parseInt(member.TotalA));
+		arrayN.push(parseInt(member.TotalN));
+		arrayO.push(parseInt(member.TotalO));
+		arrayE.push(parseInt(member.TotalE));
 	});
 
 	console.log("\n");
 	// Run basic data comparison and print
-	printDetails("Extraversion", arrayE);
-	printDetails("Neuroticism", arrayN);
-	printDetails("Agreeableness", arrayA);
 	printDetails("Conscientousness", arrayC);
+	printDetails("Agreeableness", arrayA);
+	printDetails("Neuroticism", arrayN);
 	printDetails("Openness to experience", arrayO);
+	printDetails("Extraversion", arrayE);
 }
 
 function printDetails(domain, workingArray) {
 	let smallestIndexArray = [];
 	let largestIndexArray = [];
 	let difference = 0;
+	let totalScore = 0;
+	let teamAvg = 0;
 	console.log("Team " + domain + " scores: " + workingArray);
 	// Find which members of the team have the lowest score
 	smallestIndexArray = indexOfSmallest(workingArray);
@@ -178,9 +180,16 @@ function printDetails(domain, workingArray) {
 			" score is " +
 			difference
 	);
+
+	totalScore = workingArray.reduce(myFunc);
+	teamAvg = totalScore / workingArray.length;
+	console.log(teamAvg);
 	console.log("\n");
 }
 
+function myFunc(total, num) {
+	return total + num;
+}
 function indexOfSmallest(a) {
 	let lowest = 50;
 	let indicies = [];
