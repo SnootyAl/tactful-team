@@ -3,6 +3,7 @@
 const FileSystem = require("fs");
 const averageData = require("./Average-and-StdDist-JSON.json");
 const getText = require("./PersonalityText/index.js");
+const teamText = require("./TeamText/team-text.js");
 const { parse } = require("path");
 // create an array for people that have been assigned a team number
 let teamarray = [];
