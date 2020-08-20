@@ -45,6 +45,32 @@ function Teamloop() {
 	}
 }
 
+function pullIndividualData(item) {
+	let domains = ["C", "A", "N", "O", "E"];
+	let resultText = "";
+	let scores = {};
+	domains.forEach((d) => {
+		resultText = findStdDeviation(
+			item[`Total${d}`],
+			averageData.E.Average,
+			averageData.E.StdDist
+		);
+		scores[d] = {
+			score: item[`total${d}`],
+			count: 1,
+			result: resultText,
+			facet: {
+				"1": {
+					score: 6,
+					count: 2,
+					result: "neutral",
+				},
+			},
+		};
+	});
+
+	return scores;
+}
 function displayTeam(item, index) {
 	let domain = "";
 	console.log(
@@ -62,100 +88,8 @@ function displayTeam(item, index) {
 			item.TotalO +
 			")."
 	);
-	let resultText;
-	let scores = {};
 
-	domain = "E";
-	resultText = findStdDeviation(
-		item.TotalE,
-		averageData.E.Average,
-		averageData.E.StdDist
-	);
-
-	scores[domain] = {
-		score: item.totalE,
-		count: 1,
-		result: resultText,
-		facet: {
-			"1": {
-				score: 6,
-				count: 2,
-				result: "neutral",
-			},
-		},
-	};
-	domain = "N";
-	resultText = findStdDeviation(
-		item.TotalN,
-		averageData.N.Average,
-		averageData.N.StdDist
-	);
-	scores[domain] = {
-		score: item.totalN,
-		count: 1,
-		result: resultText,
-		facet: {
-			"1": {
-				score: 6,
-				count: 2,
-				result: "neutral",
-			},
-		},
-	};
-	domain = "A";
-	resultText = findStdDeviation(
-		item.TotalA,
-		averageData.A.Average,
-		averageData.A.StdDist
-	);
-	scores[domain] = {
-		score: item.totalA,
-		count: 1,
-		result: resultText,
-		facet: {
-			"1": {
-				score: 6,
-				count: 2,
-				result: "neutral",
-			},
-		},
-	};
-	domain = "C";
-	resultText = findStdDeviation(
-		item.TotalC,
-		averageData.C.Average,
-		averageData.C.StdDist
-	);
-	scores[domain] = {
-		score: item.totalC,
-		count: 1,
-		result: resultText,
-		facet: {
-			"1": {
-				score: 6,
-				count: 2,
-				result: "neutral",
-			},
-		},
-	};
-	domain = "O";
-	resultText = findStdDeviation(
-		item.TotalO,
-		averageData.O.Average,
-		averageData.O.StdDist
-	);
-	scores[domain] = {
-		score: item.totalO,
-		count: 1,
-		result: resultText,
-		facet: {
-			"1": {
-				score: 6,
-				count: 2,
-				result: "neutral",
-			},
-		},
-	};
+	let scores = pullIndividualData(item);
 	const result = getText({ scores: scores, lang: "en" });
 	//console.log(JSON.stringify(result, null, 2));
 	let individualScores = [];
