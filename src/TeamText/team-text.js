@@ -10,7 +10,7 @@ not everyone is deliberate as you.`,
 	A: {
 		low: ` – this means they may be more 
 stubborn than the rest of the team. When trying to find compromise, remember 
-to take it slow, think about their point of view, and try and avoid sayings 
+to take it slow, think about their point of view, and try to avoid saying 
 things such as “No, you’re wrong”.`,
 		high: ` – they are most likely caring, 
 honest, and always ready to help out. If you’re struggling with a problem, no matter 

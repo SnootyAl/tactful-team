@@ -59,8 +59,8 @@ function pullIndividualData(item) {
 		// the avarage score, and standard distribution of the curve
 		resultText = findStdDeviation(
 			item[`Total${d}`],
-			averageData.E.Average,
-			averageData.E.StdDist
+			averageData[`${d}`].Average,
+			averageData[`${d}`].StdDist
 		);
 		// Add to the final scores object this new information about the individuals domain/score
 		scores[d] = {
@@ -103,30 +103,42 @@ function displayTeam(item, index) {
 }
 
 function findStdDeviation(score, avg, StdDev) {
+	//console.log(`Score: ${score} | Avg: ${avg} | StdDev: ${StdDev}`);
 	let deviationsAway = 0;
 	if (score <= avg) {
 		// Find how many standard deviations below the average this score is
 		for (let i = 0; i < 5; i++) {
 			let temp = avg - i * StdDev;
+			//console.log(`temp in iteration ${i}: ${temp}`);
 			if (temp < score) {
-				deviationsAway = -i;
 				break;
+			} else {
+				deviationsAway = -i;
 			}
 		}
 	} else {
 		// Find how many standard deviations above the average this score is
-		for (let i = 0; i < 2; i++) {
+		for (let i = 0; i < 5; i++) {
 			let temp = avg + i * StdDev;
-			if (temp < score) {
+			if (temp > score) {
+				break;
+			} else {
 				deviationsAway = i;
 			}
 		}
 	}
+
 	if (deviationsAway < 0) {
+		// console.log("low");
+		// console.log("\n");
 		return "low";
 	} else if (deviationsAway > 0) {
+		// console.log("high");
+		// console.log("\n");
 		return "high";
 	} else {
+		// console.log("neutral");
+		// console.log("\n");
 		return "neutral";
 	}
 }
@@ -162,6 +174,7 @@ function printDetails(domain, workingArray) {
 	let difference = 0;
 	let totalScore = 0;
 	let teamAvg = 0;
+	let teamAverageText = "";
 	console.log("Team " + domain + " scores: " + workingArray);
 	// Find which members of the team have the lowest score
 	smallestIndexArray = indexOfSmallest(workingArray);
@@ -182,9 +195,18 @@ function printDetails(domain, workingArray) {
 	);
 
 	totalScore = workingArray.reduce(myFunc);
-	teamAvg = totalScore / workingArray.length;
-	console.log(teamAvg);
-	console.log("\n");
+	teamAvg = Math.round(totalScore / workingArray.length);
+	teamAverageText = findStdDeviation(
+		teamAvg,
+		averageData[domain[0]].Average,
+		averageData[domain[0]].StdDist
+	);
+	console.log(
+		`The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageText}`
+	);
+	console.log(
+		"\n-------------------------------------------------------------------------"
+	);
 }
 
 function myFunc(total, num) {
