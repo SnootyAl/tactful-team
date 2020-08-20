@@ -1,7 +1,7 @@
 // to install CSV to JSON: npm install csvtojson --save
 //const CSVtoJSON = require("csvtojson");
 const FileSystem = require("fs");
-const averageData = require("./Average-and-StdDist-JSON.json");
+const averageData = require("./Data/Average-and-StdDist-JSON.json");
 const getText = require("./PersonalityText/index.js");
 const teamText = require("./TeamText/team-text.js");
 const { parse } = require("path");
@@ -22,7 +22,7 @@ function csvtojson() {
 
 // import json file and tag persons with a team ID
 function createTeam() {
-	let personDATA = require("./Big-5-Data-Scaled-JSON.json");
+	let personDATA = require("./Data/Big-5-Data-Scaled-JSON.json");
 	// outer for loop controls the teams, inner for loop controls the amount of people assigned to a team
 	var d = new Date();
 	console.log(d.toString());
@@ -33,7 +33,6 @@ function createTeam() {
 			teamarray[i].push(Object.assign(personDATA.shift()));
 		}
 	}
-	//console.log(teamarray);
 }
 
 // for testing purposes
@@ -79,6 +78,7 @@ function pullIndividualData(item) {
 	});
 	return scores;
 }
+
 function displayTeam(item, index) {
 	let domain = "";
 	console.log(
@@ -249,6 +249,7 @@ function formatDomainString(indicies, compString, domainString) {
 	}
 	return result;
 }
+
 function start() {
 	// if Big-five-data.json is not in the folder comment out the last 2 functions and run, this will create the json file
 	//csvtojson();
