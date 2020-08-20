@@ -24,6 +24,8 @@ function csvtojson() {
 function createTeam() {
 	let personDATA = require("./Big-5-Data-Scaled-JSON.json");
 	// outer for loop controls the teams, inner for loop controls the amount of people assigned to a team
+	var d = new Date();
+	console.log(d.toString());
 	for (let i = 0; i < 2; i++) {
 		teamarray.push([]);
 		for (let j = 0; j < 4; j++) {
@@ -39,9 +41,12 @@ function Teamloop() {
 	for (let i = 0; i < teamarray.length; i++) {
 		console.log("\n\nIn Team " + i + ", the members are: ");
 		let temp_team = teamarray[i];
+
+		// Display each team member's information
 		temp_team.forEach(displayTeam);
+
+		// Full team analysis, not just individual
 		teamAnalysis(temp_team);
-		//console.log(temp_team);
 	}
 }
 
@@ -49,12 +54,16 @@ function pullIndividualData(item) {
 	let domains = ["C", "A", "N", "O", "E"];
 	let resultText = "";
 	let scores = {};
+	// For each domain...
 	domains.forEach((d) => {
+		// resultText = low, neutral or high, depending on the individuals score,
+		// the avarage score, and standard distribution of the curve
 		resultText = findStdDeviation(
 			item[`Total${d}`],
 			averageData.E.Average,
 			averageData.E.StdDist
 		);
+		// Add to the final scores object this new information about the individuals domain/score
 		scores[d] = {
 			score: item[`total${d}`],
 			count: 1,
@@ -68,7 +77,6 @@ function pullIndividualData(item) {
 			},
 		};
 	});
-
 	return scores;
 }
 function displayTeam(item, index) {
@@ -91,10 +99,6 @@ function displayTeam(item, index) {
 
 	let scores = pullIndividualData(item);
 	const result = getText({ scores: scores, lang: "en" });
-	//console.log(JSON.stringify(result, null, 2));
-	let individualScores = [];
-	//result.forEach((f) => individualScores.push(f.scoreText));
-	//console.log(individualScores);
 	result.forEach((f) => console.log(f.title + ": " + f.scoreText));
 }
 
@@ -103,22 +107,9 @@ function findStdDeviation(score, avg, StdDev) {
 	if (score <= avg) {
 		// Find how many standard deviations below the average this score is
 		for (let i = 0; i < 5; i++) {
-			//console.log("At step " + i + ", deviations away is " + deviationsAway);
 			let temp = avg - i * StdDev;
-			//console.log("At step " + i + ", temp is " + temp);
 			if (temp < score) {
-				//console.log(
-				"At step " +
-					i +
-					", we enter the if statement, where temp is" +
-					temp +
-					",\nscore is " +
-					score +
-					" and deviationsAway is " +
-					deviationsAway;
-				//);
 				deviationsAway = -i;
-				//console.log("But now deviationsAway is " + deviationsAway);
 				break;
 			}
 		}
@@ -131,16 +122,11 @@ function findStdDeviation(score, avg, StdDev) {
 			}
 		}
 	}
-	//console.log("Deviations away final: " + deviationsAway);
-	//console.log(deviationsAway < 0);
 	if (deviationsAway < 0) {
-		//console.log("I make it in here");
 		return "low";
 	} else if (deviationsAway > 0) {
-		//console.log("I make it in there");
 		return "high";
 	} else {
-		//console.log("I make it in everywhere");
 		return "neutral";
 	}
 }
@@ -153,19 +139,21 @@ function teamAnalysis(currentTeam) {
 	let arrayO = [];
 
 	// Push each individual person's domain scores into a shared team array for each domain
-	currentTeam.forEach((e) => arrayE.push(e.TotalE));
-	currentTeam.forEach((n) => arrayN.push(n.TotalN));
-	currentTeam.forEach((a) => arrayA.push(a.TotalA));
-	currentTeam.forEach((c) => arrayC.push(c.TotalC));
-	currentTeam.forEach((o) => arrayO.push(o.TotalO));
+	currentTeam.forEach((member) => {
+		arrayC.push(member.TotalC);
+		arrayA.push(member.TotalA);
+		arrayN.push(member.TotalN);
+		arrayO.push(member.TotalO);
+		arrayE.push(member.TotalE);
+	});
 
 	console.log("\n");
 	// Run basic data comparison and print
-	printDetails("extraversion", arrayE);
-	printDetails("neuroticism", arrayN);
-	printDetails("agreeableness", arrayA);
-	printDetails("conscientousness", arrayC);
-	printDetails("openness to experience", arrayO);
+	printDetails("Extraversion", arrayE);
+	printDetails("Neuroticism", arrayN);
+	printDetails("Agreeableness", arrayA);
+	printDetails("Conscientousness", arrayC);
+	printDetails("Openness to experience", arrayO);
 }
 
 function printDetails(domain, workingArray) {
@@ -227,6 +215,7 @@ function indexOfLargest(a) {
 
 function formatDomainString(indicies, compString, domainString) {
 	let result = "";
+	let domLetter = domainString[0];
 	if (indicies.length > 1) {
 		let tempString = "";
 		for (let i = 0; i < indicies.length - 2; i++) {
@@ -251,6 +240,12 @@ function formatDomainString(indicies, compString, domainString) {
 			domainString +
 			" is person " +
 			(indicies[0] + 1);
+	}
+
+	if (compString == "lowest") {
+		result += teamText[`${domLetter}`][`low`] + "\n";
+	} else {
+		result += teamText[`${domLetter}`][`high`] + "\n";
 	}
 	return result;
 }
