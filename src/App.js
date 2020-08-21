@@ -4,10 +4,12 @@ const FileSystem = require("fs");
 const averageData = require("./Data/Average-and-StdDist-JSON.json");
 const getText = require("./PersonalityText/index.js");
 const teamText = require("./TeamText/team-text.js");
+const findStdDeviation = require("./StdDev.js");
+const findIndex = require("./indexOf.js");
 const { parse } = require("path");
 // create an array for people that have been assigned a team number
 let teamarray = [];
-
+let x = getText.getInfo;
 // take csv file and convert it to JSON
 function csvtojson() {
 	CSVtoJSON()
@@ -57,11 +59,11 @@ function pullIndividualData(item) {
 	domains.forEach((d) => {
 		// resultText = low, neutral or high, depending on the individuals score,
 		// the avarage score, and standard distribution of the curve
-		resultText = findStdDeviation(
-			item[`Total${d}`],
-			averageData[`${d}`].Average,
-			averageData[`${d}`].StdDist
-		);
+		resultText = findStdDeviation({
+			score: item[`Total${d}`],
+			avg: averageData[`${d}`].Average,
+			StdDev: averageData[`${d}`].StdDist,
+		});
 		// Add to the final scores object this new information about the individuals domain/score
 		scores[d] = {
 			score: item[`total${d}`],
@@ -102,47 +104,6 @@ function displayTeam(item, index) {
 	result.forEach((f) => console.log(f.title + ": " + f.scoreText));
 }
 
-function findStdDeviation(score, avg, StdDev) {
-	//console.log(`Score: ${score} | Avg: ${avg} | StdDev: ${StdDev}`);
-	let deviationsAway = 0;
-	if (score <= avg) {
-		// Find how many standard deviations below the average this score is
-		for (let i = 0; i < 5; i++) {
-			let temp = avg - i * StdDev;
-			//console.log(`temp in iteration ${i}: ${temp}`);
-			if (temp < score) {
-				break;
-			} else {
-				deviationsAway = -i;
-			}
-		}
-	} else {
-		// Find how many standard deviations above the average this score is
-		for (let i = 0; i < 5; i++) {
-			let temp = avg + i * StdDev;
-			if (temp > score) {
-				break;
-			} else {
-				deviationsAway = i;
-			}
-		}
-	}
-
-	if (deviationsAway < 0) {
-		// console.log("low");
-		// console.log("\n");
-		return "low";
-	} else if (deviationsAway > 0) {
-		// console.log("high");
-		// console.log("\n");
-		return "high";
-	} else {
-		// console.log("neutral");
-		// console.log("\n");
-		return "neutral";
-	}
-}
-
 function teamAnalysis(currentTeam) {
 	let arrayE = [];
 	let arrayN = [];
@@ -177,12 +138,12 @@ function printDetails(domain, workingArray) {
 	let teamAverageText = "";
 	console.log("Team " + domain + " scores: " + workingArray);
 	// Find which members of the team have the lowest score
-	smallestIndexArray = indexOfSmallest(workingArray);
+	smallestIndexArray = findIndex.smallest({ array: workingArray });
 	smallestIndex = smallestIndexArray[0];
 	// Print this information out in human readable form
 	console.log(formatDomainString(smallestIndexArray, "lowest", domain));
 	// Find which members of the team have the highest score
-	largestIndexArray = indexOfLargest(workingArray);
+	largestIndexArray = findIndex.largest({ array: workingArray });
 	largestIndex = largestIndexArray[0];
 	// Print this information out in human readable form
 	console.log(formatDomainString(largestIndexArray, "highest", domain));
@@ -211,37 +172,6 @@ function printDetails(domain, workingArray) {
 
 function myFunc(total, num) {
 	return total + num;
-}
-function indexOfSmallest(a) {
-	let lowest = 50;
-	let indicies = [];
-
-	for (let i = 0; i < a.length; i++) {
-		if (parseInt(a[i]) < lowest) {
-			lowest = parseInt(a[i]);
-			indicies = [];
-			indicies.push(i);
-		} else if (parseInt(a[i]) == lowest) {
-			indicies.push(i);
-		}
-	}
-	return indicies;
-}
-
-function indexOfLargest(a) {
-	let highest = 0;
-	let indicies = [];
-
-	for (let i = 0; i < a.length; i++) {
-		if (parseInt(a[i]) > highest) {
-			highest = parseInt(a[i]);
-			indicies = [];
-			indicies.push(i);
-		} else if (parseInt(a[i]) == highest) {
-			indicies.push(i);
-		}
-	}
-	return indicies;
 }
 
 function formatDomainString(indicies, compString, domainString) {
