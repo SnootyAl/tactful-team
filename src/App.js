@@ -9,7 +9,6 @@ const findIndex = require("./indexOf.js");
 const { parse } = require("path");
 // create an array for people that have been assigned a team number
 let teamarray = [];
-let x = getText.getInfo;
 // take csv file and convert it to JSON
 function csvtojson() {
 	CSVtoJSON()
