@@ -5,6 +5,7 @@ import { GlobalStyles } from "./components/globalStyles";
 import { lightTheme, darkTheme } from "./components/Themes";
 import Toggle from "./components/Toggler";
 import Quiz from "./Quiz/Quiz";
+import data from "./data/items-en.json";
 import "./App.css";
 const App = () => {
   const [theme, themeToggler] = useDarkMode();
@@ -27,7 +28,7 @@ const App = () => {
         <div className="App">
           <Toggle theme={theme} toggleTheme={themeToggler} />
           <h1 className="test">Placeholder for Tactful Team</h1>
-          <Quiz questions={someValues} />
+          <Quiz questions={data} />
         </div>
       </>
     </ThemeProvider>
