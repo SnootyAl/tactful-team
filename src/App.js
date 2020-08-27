@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { ThemeProvider } from "styled-components";
+import { useDarkMode } from "./components/useDarkMode";
+import { GlobalStyles } from "./components/globalStyles";
+import { lightTheme, darkTheme } from "./components/Themes";
+import Toggle from "./components/Toggler";
+import Quiz from "./Quiz/Quiz";
+import "./App.css";
+const App = () => {
+  const [theme, themeToggler] = useDarkMode();
 
-function App() {
+  const themeMode = theme === "light" ? lightTheme : darkTheme;
+
+  const someValues = [
+    "First Question",
+    "Second Question",
+    "Third Question",
+    "Fourth Question",
+    "Fifth Question",
+    "Sixth Question",
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={themeMode}>
+      <>
+        <GlobalStyles />
+        <div className="App">
+          <Toggle theme={theme} toggleTheme={themeToggler} />
+          <h1 className="test">Placeholder for Tactful Team</h1>
+          <Quiz questions={someValues} />
+        </div>
+      </>
+    </ThemeProvider>
   );
-}
-
+};
 export default App;
