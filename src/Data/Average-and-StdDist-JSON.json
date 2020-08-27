@@ -1,0 +1,23 @@
+{
+	"C": {
+		"Average": 33,
+		"StdDist": 7
+	},
+	"A": {
+		"Average": 36,
+		"StdDist": 7
+	},
+	"N": {
+		"Average": 30,
+		"StdDist": 8
+	},
+
+	"O": {
+		"Average": 38,
+		"StdDist": 6
+	},
+	"E": {
+		"Average": 30,
+		"StdDist": 8
+	}
+}
