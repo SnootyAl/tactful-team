@@ -91,6 +91,8 @@ function pullIndividualData(item) {
 	return scores;
 }
 
+var teammemberscores;
+
 function displayTeam(item, index) {
 	let domain = "";
 	console.log(
@@ -111,13 +113,26 @@ function displayTeam(item, index) {
 	let scores = pullIndividualData(item);
 	const result = getText({ scores: scores, lang: "en" });
 	result.forEach((f) => console.log(f.title + ": " + f.scoreText));
-
+	
+	teammemberscores = `\nPerson 
+	${item.ID} 
+	, with results (C:  
+	${item.TotalC}
+	 | A:  
+	${item.TotalA} 
+	 | N:  
+	${item.TotalN} 
+	 | O:  
+	${item.TotalO} 
+	 | E:  
+	${item.TotalE} 
+	).`
 	
 }
 
 let teamRadarGraph;
-let ConscientousnessGraph;
 
+var carraystringtest;
 function teamAnalysis(currentTeam) {
 	let arrayE = [];
 	let arrayN = [];
@@ -141,53 +156,35 @@ function teamAnalysis(currentTeam) {
 		datasets: [
 			{
 				label: "Team Member 1",
-				backgroundColor: 'rgba(203,10,10,0.27)',
-				borderColor: 'rgba(0,0,0,1)',
+				backgroundColor: 'rgba(251,200,23,0.5)',
+				borderColor: 'rgba(251,200,23,0.75)',
 				borderWidth: 2,
 				data: [arrayC[0], arrayA[0], arrayN[0], arrayO[0], arrayE[0]]
 			},
 			{
 				label: "Team Member 2",
-				backgroundColor: 'rgba(34,14,10,0.27)',
-				borderColor: 'rgba(0,0,0,1)',
+				backgroundColor: 'rgba(164,210,21,0.5)',
+				borderColor: 'rgba(164,210,21,0.75)',
 				borderWidth: 2,
 				data: [arrayC[1], arrayA[1], arrayN[1], arrayO[1], arrayE[1]]
 			},
 			{
 				label: "Team Member 3",
-				backgroundColor: 'rgba(0,120,10,0.27)',
-				borderColor: 'rgba(0,0,0,1)',
+				backgroundColor: 'rgba(139,46,144,0.5)',
+				borderColor: 'rgba(139,46,144,0.75)',
 				borderWidth: 2,
 				data: [arrayC[2], arrayA[2], arrayN[2], arrayO[2], arrayE[2]]
 			},
 			{
 				label: "Team Member 4",
 				backgroundColor: 'rgba(20,10,100,0.27)',
-				borderColor: 'rgba(0,0,0,1)',
+				borderColor: 'rgba(20,10,100,0.75)',
 				borderWidth: 2,
 				data: [arrayC[3], arrayA[3], arrayN[3], arrayO[3], arrayE[3]]
 			}
 		]
 	}
 
-	// graph for conscientousness
-	ConscientousnessGraph = {
-		labels: ['Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'],
-		datasets: [ 
-			{
-				label: 'Conscientousness Score',
-				backgroundColor: 'rgba(75,192,192,1)',
-      			borderColor: 'rgba(0,0,0,1)',
-				borderWidth: 2,
-				data: [arrayC[0], arrayC[1], arrayC[2], arrayC[3] ]  
-			}
-			
-		]
-	}
-
-
-
-	console.log("members" + arrayC)
 	console.log("\n");
 	// Run basic data comparison and print
 	printDetails("Conscientousness", arrayC);
@@ -195,8 +192,8 @@ function teamAnalysis(currentTeam) {
 	printDetails("Neuroticism", arrayN);
 	printDetails("Openness to experience", arrayO);
 	printDetails("Extraversion", arrayE);
-
 }
+var stringoutput;
 
 function printDetails(domain, workingArray) {
 	let smallestIndexArray = [];
@@ -233,7 +230,7 @@ function printDetails(domain, workingArray) {
 	console.log(
 		`The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageText}`
 	);
-
+	stringoutput = `The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageText}`
 	console.log(
 		"\n-------------------------------------------------------------------------"
   );
@@ -309,23 +306,9 @@ export default class App extends React.Component {
            }
         }}
       />
-
-		<h1>Individual Comparisons Based on Criteria</h1>
-		<Bar
-			data={ConscientousnessGraph}
-			options={{
-			  title:{
-				display:true,
-				text:'Conscientousness',
-				fontSize:15
-			  },
-			  legend:{
-				display:true,
-				position:'right'
-			  }
-			}}
-		/>
-		<div id="teamscores"></div>
+	  <a>{teammemberscores}</a>
+	  <br></br>
+	  <a>{stringoutput}</a>
 	</div>
     );
  }
