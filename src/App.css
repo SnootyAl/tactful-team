@@ -1,7 +1,23 @@
 .App {
-  text-align: center;
+	text-align: center;
+	display: flex;
 }
 
 .test {
-  text-align: center;
+	text-align: center;
+}
+
+.leftPanel {
+	width: 20%;
+	float: left;
+}
+
+.leftPanel button {
+	display: block;
+	cursor: pointer;
+	color: red;
+}
+
+.rightPanel {
+	width: 90%;
 }
