@@ -34,11 +34,14 @@ const App = () => {
 				<div className="App">
 					<div className="leftPanel">
 						<Toggle theme={theme} toggleTheme={themeToggler} />
-						<button className="btnHome" onClick={handleHomeClick}>
-							Home
+						<button className="btnTest" onClick={handleTestClick}>
+							Take Test
 						</button>
-						<button className="btnTest1" onClick={handleTest1Click}>
-							Test1
+						<button className="btnPersonal" onClick={handlePersonalClick}>
+							Personal Results
+						</button>
+						<button className="btnTeam" onClick={handleTeamClick}>
+							Show Team
 						</button>
 					</div>
 					<div className="rightPanel">{renderContent()}</div>
@@ -47,29 +50,37 @@ const App = () => {
 		</ThemeProvider>
 	);
 
-	function handleHomeClick(e) {
+	function handleTestClick(e) {
 		e.preventDefault();
-		console.log(`Home was clicked, with state ${showing}`);
-		setShowing("Home");
+		console.log(`Test was clicked, with state ${showing}`);
+		setShowing("Test");
 	}
 
-	function handleTest1Click(e) {
+	function handlePersonalClick(e) {
 		e.preventDefault();
-		console.log(`Test1 was clicked, with state ${showing}`);
-		setShowing("Test1");
+		console.log(`Personal was clicked, with state ${showing}`);
+		setShowing("Personal");
+	}
+
+	function handleTeamClick(e) {
+		e.preventDefault();
+		console.log(`Team was clicked, with state ${showing}`);
+		setShowing("Team");
 	}
 
 	function renderContent() {
 		switch (showing) {
-			case "Home":
-				return <IndividualData />;
-			case "Test1":
+			case "Test":
 				return (
 					<div className="showTest">
-						<h1 className="test">Placeholder for Tactful Team</h1>
+						<h1 className="test">Placeholder for Test</h1>
 						<Quiz questions={data} />
 					</div>
 				);
+			case "Personal":
+				return <IndividualData title="Personal" />;
+			case "Team":
+				return <IndividualData title="Team" />;
 			default:
 				return null;
 		}
