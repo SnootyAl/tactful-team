@@ -11,6 +11,7 @@ class NameForm extends React.Component {
 
 	handleChange(event) {
 		this.setState({ value: event.target.value });
+		//console.log(event);
 	}
 
 	handleSubmit(event) {
@@ -27,7 +28,7 @@ class NameForm extends React.Component {
 					type="text"
 					placeholder="Insert unique hash here: "
 					id="userInput"
-					autocomplete="off"
+					autoComplete="off"
 					value={this.state.value}
 					onChange={this.handleChange}
 				/>
