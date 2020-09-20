@@ -68,7 +68,6 @@ class Quiz extends React.Component {
 			</div>
 		);
 	}
-
 	handleNameChange = (event) => {
 		this.setState({ name: event.target.value });
 	};

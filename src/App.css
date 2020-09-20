@@ -9,7 +9,9 @@
 
 .leftPanel {
 	width: 20%;
+	height: 100vw;
 	float: left;
+	border-right: 2px solid white;
 }
 
 .leftPanel button {
@@ -19,4 +21,27 @@
 
 .rightPanel {
 	width: 90%;
+}
+
+.quizResult {
+	width: 500px;
+	height: auto;
+	word-wrap: break-word;
+}
+
+.inputTeamTitle {
+	float: left;
+	margin-left: 20px;
+}
+
+.showHome {
+	display: flex;
+}
+
+.inputRow {
+	margin: 15px;
+}
+
+.teamInput {
+	margin-right: 10px;
 }

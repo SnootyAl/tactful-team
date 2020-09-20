@@ -8,10 +8,14 @@ class IndividualData extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			inputValue: "",
 			title: props.title,
-			hash:
-				"U2FsdGVkX1+b309BPTC734hZPct9oOA9WIMzfne6ccNGfNM4rOFwDG4v44y6NNvco+FcuI7xbqzeqfl8ddWPNgCnA1jEJFQKaUy78SH+5L+PJS5JJROqHCiY0j9ATTU29iTjm1R/P07X5FVNJdYFdGNapDhMLuyN1QdCmOSL+HIKJU0NXIoFUdW3oHLYmMi8WcDsGhh/hyzakt2XCEbe0ZtHBjNyKFA3PYlFZeGQ9GmswL+kdy/WRiPU6LMUaTbo",
+			value: { name: "", hash: "" },
+			entries: [
+				{
+					name: "",
+					hash: "",
+				},
+			],
 			hasData: false,
 			data: [],
 			userName: "",
@@ -173,20 +177,107 @@ class IndividualData extends React.Component {
 		);
 	}
 
+	renderTeamInputs() {
+		let content;
+		content = (
+			<div className="inputTeam">
+				<p className="inputTeamTitle">Welcome to your Team!</p>
+			</div>
+		);
+		return content;
+	}
+
+	handleChangeInput(index, event) {
+		const values = [...this.state.entries];
+		values[index][event.target.name] = event.target.value;
+		this.setState({ entries: values });
+	}
+
+	handleAddField() {
+		this.setState({
+			entries: [...this.state.entries, { name: "", hash: "" }],
+		});
+	}
+
+	handleRemoveField(index) {
+		const localEntries = this.state.entries;
+		localEntries.splice(index, 1);
+		this.setState({ entries: localEntries });
+	}
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		let myEntries = this.state.entries;
+		console.log("myEntries", myEntries);
+	};
+
+	renderTable() {
+		let myEntries = this.state.entries;
+		let content = myEntries.map((inputField, index) => (
+			<div className="inputRow" key={index}>
+				<input
+					type="text"
+					name="name"
+					placeholder="Member's name"
+					className="teamInput"
+					value={this.state.entries[index].name}
+					onChange={(event) => this.handleChangeInput(index, event)}
+				/>
+				<input
+					type="text"
+					name="hash"
+					placeholder="Member's hash"
+					className="teamInput"
+					value={this.state.entries[index].hash}
+					onChange={(event) => this.handleChangeInput(index, event)}
+				/>
+				<input
+					type="button"
+					value="Remove"
+					className="teamInput"
+					onClick={() => this.handleRemoveField(index)}
+				/>
+				{index == myEntries.length - 1 && (
+					<input
+						type="button"
+						value="Add"
+						onClick={() => this.handleAddField()}
+					/>
+				)}
+			</div>
+		));
+
+		return (
+			<div className="inputTable">
+				<form className="teamInputForm" onSubmit={this.handleSubmit}>
+					{content}
+					<button
+						className="teamInputButton"
+						type="submit"
+						onClick={this.handleSubmit}
+					>
+						Submit
+					</button>
+				</form>
+			</div>
+		);
+	}
+
 	render() {
 		const doesHaveData = this.state.hasData;
-		let content;
-		if (doesHaveData) {
-			content = this.renderUserData();
-		} else {
-			content = <p>No Content :(</p>;
-		}
+		let content = doesHaveData
+			? this.renderUserData()
+			: this.renderTeamInputs();
+		// I have one row of entries, based on the state (state[].length = 1)
+		// When there is text in both entries, I update state[1] to be [""", """]
+		// The table now renders these 2 new boxes in the row
 
+		let table = this.renderTable();
 		return (
 			<div className="showHome">
 				<h1 className="Home">{this.state.title}</h1>
-				<NameForm onInputHash={this.handleInput} />
 				{content}
+				{table}
 			</div>
 		);
 	}

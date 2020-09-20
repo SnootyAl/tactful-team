@@ -8,6 +8,7 @@ import Quiz from "./Quiz/Quiz";
 import data from "./data/items-en.json";
 
 import IndividualData from "./components/IndividualData";
+import TeamData from "./components/TeamData";
 //import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 //import ToggleButton from "react-bootstrap/ToggleButton";
 
@@ -80,7 +81,7 @@ const App = () => {
 			case "Personal":
 				return <IndividualData title="Personal" />;
 			case "Team":
-				return <IndividualData title="Team" />;
+				return <TeamData title="Team" />;
 			default:
 				return null;
 		}
