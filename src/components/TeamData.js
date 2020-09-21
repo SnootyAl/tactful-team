@@ -14,6 +14,7 @@ class IndividualData extends React.Component {
 				{
 					name: "",
 					hash: "",
+					plain: "",
 				},
 			],
 			hasData: false,
@@ -179,9 +180,11 @@ class IndividualData extends React.Component {
 
 	renderTeamInputs() {
 		let content;
+		let table = this.renderTable();
 		content = (
 			<div className="inputTeam">
 				<p className="inputTeamTitle">Welcome to your Team!</p>
+				{table}
 			</div>
 		);
 		return content;
@@ -195,7 +198,7 @@ class IndividualData extends React.Component {
 
 	handleAddField() {
 		this.setState({
-			entries: [...this.state.entries, { name: "", hash: "" }],
+			entries: [...this.state.entries, { name: "", hash: "", plain: "" }],
 		});
 	}
 
@@ -208,12 +211,18 @@ class IndividualData extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		let myEntries = this.state.entries;
+		this.setState({ hasData: true });
 		console.log("myEntries", myEntries);
+
+		// Unhash each entry
+		// Run checking algorithm on returned data
+		// DIsplay meaningful results
 	};
 
 	renderTable() {
 		let myEntries = this.state.entries;
-		let content = myEntries.map((inputField, index) => (
+		let content, temp;
+		temp = myEntries.map((inputField, index) => (
 			<div className="inputRow" key={index}>
 				<input
 					type="text"
@@ -246,21 +255,22 @@ class IndividualData extends React.Component {
 				)}
 			</div>
 		));
+		content = (
+			<form className="teamInputForm" onSubmit={this.handleSubmit}>
+				{temp}
 
-		return (
-			<div className="inputTable">
-				<form className="teamInputForm" onSubmit={this.handleSubmit}>
-					{content}
-					<button
-						className="teamInputButton"
-						type="submit"
-						onClick={this.handleSubmit}
-					>
-						Submit
-					</button>
-				</form>
-			</div>
+				<button
+					className="teamInputButton"
+					type="submit"
+					onClick={this.handleSubmit}
+				>
+					Submit
+				</button>
+			</form>
 		);
+		//content = <form className="teamInputForm" onSubmit={this.handleSubmit}></form>
+
+		return <div className="inputTable">{content}</div>;
 	}
 
 	render() {
@@ -272,12 +282,10 @@ class IndividualData extends React.Component {
 		// When there is text in both entries, I update state[1] to be [""", """]
 		// The table now renders these 2 new boxes in the row
 
-		let table = this.renderTable();
 		return (
 			<div className="showHome">
 				<h1 className="Home">{this.state.title}</h1>
 				{content}
-				{table}
 			</div>
 		);
 	}

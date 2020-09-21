@@ -5,7 +5,7 @@ const AnswerButton = (props) => {
 	return (
 		<div className="btn-group">
 			<button className="veryInaccurate" onClick={props.click} value={0}>
-				ALEX SUCKS
+				Very Inaccurate
 			</button>
 			<button className="somewhatInaccurate" onClick={props.click} value={1}>
 				Somewhat Inaccurate

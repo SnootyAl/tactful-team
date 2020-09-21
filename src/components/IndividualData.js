@@ -48,8 +48,9 @@ class IndividualData extends React.Component {
 			const rawResults = data[2];
 			// Get 5 domain numbers
 			const arrResults = this.recSumData(rawResults);
-			console.log(arrResults);
-			this.setState({ hasData: true, data: arrResults, userName: name });
+			this.setState({ hasData: true, data: arrResults, userName: name }, () => {
+				console.log(this.state.data);
+			});
 		} else {
 			alert("False");
 		}
@@ -114,18 +115,34 @@ class IndividualData extends React.Component {
 	// Recursive function to move down data string and use each element to sum its respective domain
 	recSumData(data) {
 		let myJson = this.createJsonTemplate();
-
-		for (let i = 0; i < data.length; i++) {
-			let currentScore = parseInt(data.slice(i, i + 1));
-			let currentQuestion = questionData[i];
-
-			let added =
-				currentQuestion.keyed == "plus" ? currentScore : 6 - currentScore;
-			myJson[`total${currentQuestion.domain}`][
-				`f${currentQuestion.facet}`
-			] += added;
-			myJson[`total${currentQuestion.domain}`].total += added;
-			//console.log(myJson[`total${currentQuestion.domain}`]);
+		const domainNames = [
+			"Compassion",
+			"Agreeableness",
+			"Neuroticism",
+			"Openness to Experience",
+			"Extraversion",
+		];
+		let a = 0;
+		let n = 0;
+		for (var topKey of Object.keys(myJson)) {
+			for (var lowKey of Object.keys(myJson[topKey])) {
+				let currentScore = parseInt(data.slice(a, a + 2));
+				console.log(
+					`Top key: ${topKey} | Low key: ${lowKey} | Value: ${currentScore}`
+				);
+				if (lowKey == "domain") {
+					console.log("Domain Key");
+					myJson[topKey].domain = domainNames[n];
+				} else {
+					console.log(
+						`Inside else: Top key: ${topKey} | Low key: ${lowKey} | Value: ${currentScore}`
+					);
+					myJson[topKey][lowKey] = currentScore;
+					a += 2;
+				}
+			}
+			console.log(myJson[topKey]);
+			n++;
 		}
 		return [
 			myJson.totalC,
@@ -153,7 +170,7 @@ class IndividualData extends React.Component {
 					<h1>Domain: {cD.domain}</h1>
 					<p>Total: {cD.total}</p>
 					<p>
-						Facet 1: {cD.f1} | Facet 2: {cD.f2} | Facet 3: {cD.f4} | Facet 4:{" "}
+						Facet 1: {cD.f1} | Facet 2: {cD.f2} | Facet 3: {cD.f3} | Facet 4:{" "}
 						{cD.f4} | Facet 5: {cD.f5} | Facet 6: {cD.f6}
 					</p>
 				</div>
