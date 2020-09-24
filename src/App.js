@@ -1,6 +1,6 @@
 // to install CSV to JSON: npm install csvtojson --save
 import React from 'react';
-import {Radar, Bar} from 'react-chartjs-2';
+import {Radar, Bar, HorizontalBar} from 'react-chartjs-2';
 import { Domain } from 'domain';
 import ReactDOM from 'react-dom';
 //const CSVtoJSON = require("csvtojson");
@@ -33,7 +33,7 @@ function createTeam() {
 	// outer for loop controls the teams, inner for loop controls the amount of people assigned to a team
 	var d = new Date();
 	console.log(d.toString());
-	for (let i = 0; i < 2; i++) {
+	for (let i = 0; i < 1; i++) {
 		teamarray.push([]);
 		for (let j = 0; j < 4; j++) {
 			// tagging system: will take a person from the JSON file push it to the array, insert JSON key and Value, and remove itself
@@ -43,7 +43,7 @@ function createTeam() {
 	}
 }
 
-var output;
+var output = [];
 
 // for testing purposes
 function Teamloop() {
@@ -56,8 +56,6 @@ function Teamloop() {
 
 		// Full team analysis, not just individual
 		teamAnalysis(temp_team);
-
-		output = teamAnalysis(temp_team)
 	}
 }
 
@@ -91,7 +89,7 @@ function pullIndividualData(item) {
 	return scores;
 }
 
-var teammemberscores;
+var teammemberscores = [];
 
 function displayTeam(item, index) {
 	let domain = "";
@@ -114,7 +112,7 @@ function displayTeam(item, index) {
 	const result = getText({ scores: scores, lang: "en" });
 	result.forEach((f) => console.log(f.title + ": " + f.scoreText));
 	
-	teammemberscores = `\nPerson 
+	teammemberscores.push(`\nPerson 
 	${item.ID} 
 	, with results (C:  
 	${item.TotalC}
@@ -126,13 +124,18 @@ function displayTeam(item, index) {
 	${item.TotalO} 
 	 | E:  
 	${item.TotalE} 
-	).`
+	).`)
 	
 }
 
 let teamRadarGraph;
+let conGraph;
+let AgreeGraph;
+let NeuroGraph;
+let OpenGraph;
+let ExtraGraph;
 
-var carraystringtest;
+var carraystringtest = [];
 function teamAnalysis(currentTeam) {
 	let arrayE = [];
 	let arrayN = [];
@@ -185,6 +188,76 @@ function teamAnalysis(currentTeam) {
 		]
 	}
 
+	conGraph = {
+		labels: [
+			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+		],
+		datasets: [
+			{
+				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
+				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				borderWidth: 2,
+				data: [arrayC[0], arrayC[1], arrayC[2], arrayC[3]]
+			}
+		]
+	}
+
+	AgreeGraph = {
+		labels: [
+			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+		],
+		datasets: [
+			{
+				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
+				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				borderWidth: 2,
+				data: [arrayA[0], arrayA[1], arrayA[2], arrayA[3]]
+			}
+		]
+	}
+
+	NeuroGraph = {
+		labels: [
+			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+		],
+		datasets: [
+			{
+				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
+				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				borderWidth: 2,
+				data: [arrayN[0], arrayN[1], arrayN[2], arrayN[3]]
+			}
+		]
+	}
+
+	OpenGraph = {
+		labels: [
+			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+		],
+		datasets: [
+			{
+				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
+				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				borderWidth: 2,
+				data: [arrayO[0], arrayO[1], arrayO[2], arrayO[3]]
+			}
+		]
+	}
+
+	ExtraGraph = {
+		labels: [
+			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+		],
+		datasets: [
+			{
+				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
+				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				borderWidth: 2,
+				data: [arrayE[0], arrayE[1], arrayE[2], arrayE[3]]
+			}
+		]
+	}
+
 	console.log("\n");
 	// Run basic data comparison and print
 	printDetails("Conscientousness", arrayC);
@@ -192,8 +265,9 @@ function teamAnalysis(currentTeam) {
 	printDetails("Neuroticism", arrayN);
 	printDetails("Openness to experience", arrayO);
 	printDetails("Extraversion", arrayE);
+
 }
-var stringoutput;
+var stringoutput = [];
 
 function printDetails(domain, workingArray) {
 	let smallestIndexArray = [];
@@ -230,10 +304,18 @@ function printDetails(domain, workingArray) {
 	console.log(
 		`The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageText}`
 	);
-	stringoutput = `The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageText}`
+	
 	console.log(
 		"\n-------------------------------------------------------------------------"
   );
+
+  // format HTML output 
+ stringoutput.push(`Team ${domain} scores: ${workingArray} ${formatDomainString(smallestIndexArray, "lowest", domain)} ${formatDomainString(largestIndexArray, "highest", domain)} 
+		"The difference between the largest and smallest "
+		${domain} 
+		" score is " 
+		${difference} The team's average score for ${domain} is ${teamAvg}. Compared to the average score for ${domain}, this is ${teamAverageText} 
+ `)
     
 }
 
@@ -306,9 +388,147 @@ export default class App extends React.Component {
            }
         }}
       />
-	  <a>{teammemberscores}</a>
 	  <br></br>
-	  <a>{stringoutput}</a>
+	  <h2>Team Members Scores</h2>
+	  <div className="outcomes">
+		  {teammemberscores.map((score, index) =>{
+			  const values = carraystringtest[index]
+			  return(
+				  <div>
+					<div className="Score">
+						<a>{score}</a>
+					</div>
+				  </div>
+			  )
+		  })}
+	  </div>
+	  <h1>Conscientousness</h1>
+	  <p><i>Conscientiousness is a fundamental personality trait—one of the Big Five—that reflects the tendency to be responsible, organized, hard-working, goal-directed, and to adhere to norms and rules.
+		  Like the other core personality factors, it has multiple facets; conscientiousness comprises self-control, industriousness, responsibility, and reliability. <br></br>  <br></br>
+		  
+		  A conscientious person is good at self-regulation and impulse control. this trait influences whether you will set and keep long-range goals,
+		  delibertate over choices, behave cautiously or implusively, and take obligations seriously. Conscientousness is generally a key ingredient for success.
+
+		  </i></p>
+	  <HorizontalBar
+		  data={conGraph}
+		  options={{
+            title:{
+            display:true,
+            text: "Team Conscientousness Scores",
+            fontSize:15
+            },
+    	    legend:{
+            display:false,
+            position:'right'
+           }
+        }}
+	  />
+		<br></br>
+		<br></br>
+		<p>{stringoutput[0]}</p>
+		<br></br>
+		<br></br>
+		<br></br>
+		<h1>Agreeableness</h1>
+		<p><i>Is a personality trait that can be described as cooperative, polite, kind and friendly. People high in Agreeableness are more trusting, affectionate, altruistic, and generally displaying
+			more prosocial behaviours than others. People high in this prosocial trait are particularly empathethic, showing great concern for the welfare of others, they are the first to help those in need</i></p>
+	 <HorizontalBar
+		  data={AgreeGraph}
+		  options={{
+            title:{
+            display:true,
+            text: "Agreeableness",
+            fontSize:15
+            },
+    	    legend:{
+            display:false,
+            position:'right'
+           }
+        }}
+	  />
+	  	<br></br>
+		<br></br>
+		<p>{stringoutput[1]}</p>
+		<br></br>
+		<br></br>
+		<br></br>
+		<h1>Neuroticism</h1>
+		<p><i>Is typically defined as a tendincy towards anxiety, depression, self-doubt, and other negative feelings. All personality traits including neuroticism, exist on a specturm - some poeple are just more neurotic than others.
+			In the context of the Big 5, neuroticism is sometimes described as low emotional stability or negative emotionality</i></p>
+	 <HorizontalBar
+		  data={NeuroGraph}
+		  options={{
+            title:{
+            display:true,
+            text: "Neuroticism",
+            fontSize:15
+            },
+    	    legend:{
+            display:false,
+            position:'right'
+           }
+        }}
+	  />
+	  	<br></br>
+		<br></br>
+		<p>{stringoutput[2]}</p>
+		<br></br>
+		<br></br>
+		<br></br>
+		<h1>Openness</h1>
+		<p><i>Openness to experience, or simply openness, is a basic personality trait denoting receptivity to new ideas and new experiences. People with high levels of openness are more likely to seek out a variety of experineces,
+			be comfortable with the unfamilar, and pay attention to their inner feelings more than those who are less open to novelty. 
+			they tend to exhibit high levels of curiousity and often enjoy being surprised. People with low levels of openness prefer familiar routines, people, and ideas; they can be perceived as closed-minded</i></p>
+	 <HorizontalBar
+		  data={OpenGraph}
+		  options={{
+            title:{
+            display:true,
+            text: "Openness",
+            fontSize:15
+            },
+    	    legend:{
+            display:false,
+            position:'right'
+           }
+        }}
+	  />
+	  	<br></br>
+		<br></br>
+		<p>{stringoutput[3]}</p>
+		<br></br>
+		<br></br>
+		<br></br>
+		<h1>Extraversion</h1>
+		<p><i>Extraversion is a personality trait typically characterised by outgoingness, high energy, and/or talkativeness.
+			In general, the terms refers to a state of being where someone "recharges", or draws energy, from being with others people;
+			the opposite - Drawing energy from being alone - is known as intoversion</i></p>
+		<div>
+	 	<HorizontalBar
+		  data={ExtraGraph}
+		  width={"30%"}
+		  height={"150%"}
+		  options={{
+            title:{
+            display:true,
+            text: "Extraversion",
+            fontSize:15
+            },
+    	    legend:{
+            display:false,
+            position:'right'
+		   },
+		   maintainAspectRatio: false
+        }}
+	  />
+	  </div>
+	  	<br></br>
+		<br></br>
+		<p>{stringoutput[4]}</p>
+		<br></br>
+		<br></br>
+		<br></br>
 	</div>
     );
  }
