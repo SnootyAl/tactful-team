@@ -3,6 +3,7 @@ import NameForm from "./NameForm";
 import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
 import questionData from "../data/items-en-trimmed.json";
+import scoreObject from "../data/templates/ScoreObject.json";
 
 class IndividualData extends React.Component {
 	constructor(props) {
@@ -56,65 +57,9 @@ class IndividualData extends React.Component {
 		}
 	}
 
-	createJsonTemplate() {
-		let result = {
-			totalC: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Compassion",
-			},
-			totalA: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Agreeableness",
-			},
-			totalN: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Neuroticism",
-			},
-			totalO: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Openness To Experience",
-			},
-			totalE: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Extraversion",
-			},
-		};
-		return result;
-	}
-
 	// Recursive function to move down data string and use each element to sum its respective domain
 	recSumData(data) {
-		let myJson = this.createJsonTemplate();
+		let myJson = scoreObject;
 		const domainNames = [
 			"Compassion",
 			"Agreeableness",
@@ -127,16 +72,9 @@ class IndividualData extends React.Component {
 		for (var topKey of Object.keys(myJson)) {
 			for (var lowKey of Object.keys(myJson[topKey])) {
 				let currentScore = parseInt(data.slice(a, a + 2));
-				console.log(
-					`Top key: ${topKey} | Low key: ${lowKey} | Value: ${currentScore}`
-				);
 				if (lowKey == "domain") {
-					console.log("Domain Key");
 					myJson[topKey].domain = domainNames[n];
 				} else {
-					console.log(
-						`Inside else: Top key: ${topKey} | Low key: ${lowKey} | Value: ${currentScore}`
-					);
 					myJson[topKey][lowKey] = currentScore;
 					a += 2;
 				}
@@ -167,12 +105,16 @@ class IndividualData extends React.Component {
 			let cD = userData[i];
 			let elements = (
 				<div className="domain" key={cD.domain}>
-					<h1>Domain: {cD.domain}</h1>
-					<p>Total: {cD.total}</p>
-					<p>
-						Facet 1: {cD.f1} | Facet 2: {cD.f2} | Facet 3: {cD.f3} | Facet 4:{" "}
-						{cD.f4} | Facet 5: {cD.f5} | Facet 6: {cD.f6}
-					</p>
+					<div className="domainHeader">
+						<h1>Domain: {cD.domain}</h1>
+						<p>Total: {cD.total}</p>
+					</div>
+					<div className="domainFacet">
+						<p>
+							Facet 1: {cD.f1} | Facet 2: {cD.f2} | Facet 3: {cD.f3} | Facet 4:{" "}
+							{cD.f4} | Facet 5: {cD.f5} | Facet 6: {cD.f6}
+						</p>
+					</div>
 				</div>
 			);
 			domainElements.push(elements);
@@ -180,12 +122,8 @@ class IndividualData extends React.Component {
 		return (
 			<div className="domainResults">
 				<h1>User: {this.state.userName}</h1>
-				{/*need 5 className domain*/}
 
 				{domainElements}
-				<div className="domainHeader"></div>
-				{/*need 6 className domainFacet*/}
-				<div className="domainFacet"></div>
 			</div>
 		);
 	}

@@ -3,6 +3,8 @@ import NameForm from "./NameForm";
 import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
 import questionData from "../data/items-en-trimmed.json";
+import scoreObject from "../data/templates/ScoreObject.json";
+import TeamDisplay from "./TeamDisplay";
 
 class IndividualData extends React.Component {
 	constructor(props) {
@@ -10,11 +12,10 @@ class IndividualData extends React.Component {
 		this.state = {
 			title: props.title,
 			value: { name: "", hash: "" },
-			entries: [
+			members: [
 				{
 					name: "",
 					hash: "",
-					plain: "",
 				},
 			],
 			hasData: false,
@@ -24,158 +25,102 @@ class IndividualData extends React.Component {
 
 		// HASH VALUE TO TEST DATA:
 		// Hash:
-		// U2FsdGVkX1+b309BPTC734hZPct9oOA9WIMzfne6ccNGfNM4rOFwDG4v44y6NNvco+FcuI7xbqzeqfl8ddWPNgCnA1jEJFQKaUy78SH+5L+PJS5JJROqHCiY0j9ATTU29iTjm1R/P07X5FVNJdYFdGNapDhMLuyN1QdCmOSL+HIKJU0NXIoFUdW3oHLYmMi8WcDsGhh/hyzakt2XCEbe0ZtHBjNyKFA3PYlFZeGQ9GmswL+kdy/WRiPU6LMUaTbo
-		// Plain: The result was CheckSum{-data-}Jonathan{-data-}123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345{-data-}
+		// U2FsdGVkX1+atMWiquQcAXQtfJgJnXjDnIbYgRF4aC7OFdnsRQcwTrqUtjO7tgb+N/pm16YcGvAlbPL5iedbD26diDq7w5n6ryNSqCMsU2uPbcIJ5NlThnZgFeURXltA+xNpxcnuyQ9gO96U6xDTgJLuQR9QvnZZnDdSeUPYVfA=
+		// Plain: The result was CheckSum{-data-}Tester{-data-}1610150912177914111710091879101511131110700615181111117210181412110873{-data-}
 		// I generated this with a local program I wrote, basically an AES encryption with secret key "Super Secret Key".
 		// Uses CryptoJS (npm install crypto-js).
 	}
-	unHash(value) {
-		//alert(`Called with ${this.state.inputValue}`);
-		const decryptedBytes = AES.decrypt(value, "Super Secret Key");
-		const plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
-		console.log(value);
-		this.checkValue(plaintext);
-		//console.log(plaintext);
+
+	// Given an array of member objects, unhash each input and store the plaintext + score object
+	// in the state.
+	unHashTeam() {
+		const teamData = this.state.members.slice();
+		const updatedTeamData = teamData.map((member) => {
+			let decryptedBytes = AES.decrypt(member.hash, "Super Secret Key");
+			let plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
+			let isValid = this.checkValue(plaintext);
+			if (isValid != false) {
+				console.log(isValid);
+				member.plain = plaintext;
+				member.scores = isValid;
+			}
+			return member;
+		});
+
+		this.setState({ members: updatedTeamData }, () => {
+			//console.log(this.state.members);
+		});
 	}
 
+	// Given a plaintext string, check that it meets the criteria of a correctly decrpyted hash
 	checkValue(value) {
 		const errCheck = value.slice(0, 8);
-		console.log(errCheck);
+		console.log(value);
 		const result = value.slice(8);
-		// Check hash hasn't been malformed
-		// Remove checksum
-		// Remove name (need some identifier to split name from data)
-		// {-data-};
-		// "CheckSumJonathan{-Data-}"
 		if (errCheck === "CheckSum") {
 			const data = result.split("{-data-}");
 			const name = data[1];
 			const rawResults = data[2];
-			// Get 5 domain numbers
-			const arrResults = this.recSumData(rawResults);
-			console.log(arrResults);
-			this.setState({ hasData: true, data: arrResults, userName: name });
+			if (rawResults.length == 70) {
+				console.log(rawResults);
+				let formattedScores = this.pullScores(rawResults);
+				return formattedScores;
+			} else {
+				return false;
+			}
 		} else {
 			alert("False");
+			return false;
 		}
 	}
 
-	createJsonTemplate() {
-		let result = {
-			totalC: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Compassion",
-			},
-			totalA: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Agreeableness",
-			},
-			totalN: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Neuroticism",
-			},
-			totalO: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Openness To Experience",
-			},
-			totalE: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Extraversion",
-			},
-		};
-		return result;
-	}
-
-	// Recursive function to move down data string and use each element to sum its respective domain
-	recSumData(data) {
-		let myJson = this.createJsonTemplate();
-
-		for (let i = 0; i < data.length; i++) {
-			let currentScore = parseInt(data.slice(i, i + 1));
-			let currentQuestion = questionData[i];
-
-			let added =
-				currentQuestion.keyed == "plus" ? currentScore : 6 - currentScore;
-			myJson[`total${currentQuestion.domain}`][
-				`f${currentQuestion.facet}`
-			] += added;
-			myJson[`total${currentQuestion.domain}`].total += added;
-			//console.log(myJson[`total${currentQuestion.domain}`]);
-		}
-		return [
-			myJson.totalC,
-			myJson.totalA,
-			myJson.totalN,
-			myJson.totalO,
-			myJson.totalE,
+	// Given a string of 70 characters, pull each 2 digit substring and place in its
+	// respective score object position.
+	pullScores(strScores) {
+		let template = scoreObject;
+		let scores = [];
+		const domainNames = [
+			"Compassion",
+			"Agreeableness",
+			"Neuroticism",
+			"Openness to Experience",
+			"Extraversion",
 		];
+
+		for (let i = 0; i < 5; i++) {
+			let domArray = [];
+			for (let a = i * 14; a < i * 14 + 14; a += 2) {
+				let currentScore = parseInt(strScores.slice(a, a + 2));
+				domArray.push(currentScore);
+			}
+			scores.push(domArray);
+		}
+		// let a = 0;
+		// let n = 0;
+		// for (let topKey of Object.keys(test)) {
+		// 	for (let lowKey of Object.keys(test[topKey])) {
+		// 		let currentScore = parseInt(strScores.slice(a, a + 2));
+		// 		if (lowKey == "domain") {
+		// 			template[topKey].domain = domainNames[n];
+		// 		} else {
+		// 			template[topKey][lowKey] = currentScore;
+		// 			console.log(template[topKey][lowKey]);
+		// 			console.log("-----------");
+		// 			a += 2;
+		// 		}
+		// 		console.log(topKey);
+		// 		console.log(lowKey);
+		// 		console.log(template);
+		// 	}
+		// 	n++;
+		// }
+		return scores;
 	}
 
-	handleInput = (tempInputValue) => {
-		this.setState({ inputValue: tempInputValue }, () => {
-			this.unHash(this.state.inputValue);
-		});
-	};
-
-	renderUserData() {
-		const userData = this.state.data;
-		const userName = this.state.userName;
-		let domainElements = [];
-		for (let i = 0; i < 5; i++) {
-			let cD = userData[i];
-			let elements = (
-				<div className="domain" key={cD.domain}>
-					<h1>Domain: {cD.domain}</h1>
-					<p>Total: {cD.total}</p>
-					<p>
-						Facet 1: {cD.f1} | Facet 2: {cD.f2} | Facet 3: {cD.f4} | Facet 4:{" "}
-						{cD.f4} | Facet 5: {cD.f5} | Facet 6: {cD.f6}
-					</p>
-				</div>
-			);
-			domainElements.push(elements);
-		}
-		return (
-			<div className="domainResults">
-				<h1>User: {this.state.userName}</h1>
-				{/*need 5 className domain*/}
-
-				{domainElements}
-				<div className="domainHeader"></div>
-				{/*need 6 className domainFacet*/}
-				<div className="domainFacet"></div>
-			</div>
-		);
+	renderTeamData() {
+		const teamData = this.state.members;
+		return <TeamDisplay data={teamData} />;
+		//return <p>Data</p>;
 	}
 
 	renderTeamInputs() {
@@ -191,45 +136,41 @@ class IndividualData extends React.Component {
 	}
 
 	handleChangeInput(index, event) {
-		const values = [...this.state.entries];
+		const values = [...this.state.members];
 		values[index][event.target.name] = event.target.value;
-		this.setState({ entries: values });
+		this.setState({ members: values });
 	}
 
 	handleAddField() {
 		this.setState({
-			entries: [...this.state.entries, { name: "", hash: "", plain: "" }],
+			members: [...this.state.members, { name: "", hash: "", plain: "" }],
 		});
 	}
 
 	handleRemoveField(index) {
-		const localEntries = this.state.entries;
-		localEntries.splice(index, 1);
-		this.setState({ entries: localEntries });
+		const localmembers = this.state.members;
+		localmembers.splice(index, 1);
+		this.setState({ members: localmembers });
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		let myEntries = this.state.entries;
+		let myMembers = this.state.members;
+		this.unHashTeam();
 		this.setState({ hasData: true });
-		console.log("myEntries", myEntries);
-
-		// Unhash each entry
-		// Run checking algorithm on returned data
-		// DIsplay meaningful results
 	};
 
 	renderTable() {
-		let myEntries = this.state.entries;
+		let myMembers = this.state.members;
 		let content, temp;
-		temp = myEntries.map((inputField, index) => (
+		temp = myMembers.map((inputField, index) => (
 			<div className="inputRow" key={index}>
 				<input
 					type="text"
 					name="name"
 					placeholder="Member's name"
 					className="teamInput"
-					value={this.state.entries[index].name}
+					value={this.state.members[index].name}
 					onChange={(event) => this.handleChangeInput(index, event)}
 				/>
 				<input
@@ -237,7 +178,7 @@ class IndividualData extends React.Component {
 					name="hash"
 					placeholder="Member's hash"
 					className="teamInput"
-					value={this.state.entries[index].hash}
+					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}
 				/>
 				<input
@@ -246,7 +187,7 @@ class IndividualData extends React.Component {
 					className="teamInput"
 					onClick={() => this.handleRemoveField(index)}
 				/>
-				{index == myEntries.length - 1 && (
+				{index == myMembers.length - 1 && (
 					<input
 						type="button"
 						value="Add"
@@ -276,12 +217,8 @@ class IndividualData extends React.Component {
 	render() {
 		const doesHaveData = this.state.hasData;
 		let content = doesHaveData
-			? this.renderUserData()
+			? this.renderTeamData()
 			: this.renderTeamInputs();
-		// I have one row of entries, based on the state (state[].length = 1)
-		// When there is text in both entries, I update state[1] to be [""", """]
-		// The table now renders these 2 new boxes in the row
-
 		return (
 			<div className="showHome">
 				<h1 className="Home">{this.state.title}</h1>
