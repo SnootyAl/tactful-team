@@ -134,6 +134,7 @@ let AgreeGraph;
 let NeuroGraph;
 let OpenGraph;
 let ExtraGraph;
+let teammebername = ["Calum", "Jonathan", "Alex", "Jordan"]
 
 var carraystringtest = [];
 function teamAnalysis(currentTeam) {
@@ -158,28 +159,28 @@ function teamAnalysis(currentTeam) {
 					'Openness to experience', 'Extraversion'],
 		datasets: [
 			{
-				label: "Team Member 1",
+				label: teammebername[0],
 				backgroundColor: 'rgba(251,200,23,0.5)',
 				borderColor: 'rgba(251,200,23,0.75)',
 				borderWidth: 2,
 				data: [arrayC[0], arrayA[0], arrayN[0], arrayO[0], arrayE[0]]
 			},
 			{
-				label: "Team Member 2",
+				label: teammebername[1],
 				backgroundColor: 'rgba(164,210,21,0.5)',
 				borderColor: 'rgba(164,210,21,0.75)',
 				borderWidth: 2,
 				data: [arrayC[1], arrayA[1], arrayN[1], arrayO[1], arrayE[1]]
 			},
 			{
-				label: "Team Member 3",
+				label: teammebername[2],
 				backgroundColor: 'rgba(139,46,144,0.5)',
 				borderColor: 'rgba(139,46,144,0.75)',
 				borderWidth: 2,
 				data: [arrayC[2], arrayA[2], arrayN[2], arrayO[2], arrayE[2]]
 			},
 			{
-				label: "Team Member 4",
+				label: teammebername[3],
 				backgroundColor: 'rgba(20,10,100,0.27)',
 				borderColor: 'rgba(20,10,100,0.75)',
 				borderWidth: 2,
@@ -190,12 +191,12 @@ function teamAnalysis(currentTeam) {
 
 	conGraph = {
 		labels: [
-			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+			teammebername[0], teammebername[1], teammebername[2], teammebername[3]
 		],
 		datasets: [
 			{
-				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
-				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				backgroundColor: ['rgba(139,116,215,0.5)' , 'rgba(139,116,215,0.5)', 'rgba(139,116,215,0.5)', 'rgba(139,116,215,0.5)'],
+				borderColor: ['rgba(139,116,215,0.75)', 'rgba(139,116,215,0.75)', 'rgba(139,116,215,0.75)', 'rgba(139,116,215,0.75)'],
 				borderWidth: 2,
 				data: [arrayC[0], arrayC[1], arrayC[2], arrayC[3]]
 			}
@@ -208,8 +209,8 @@ function teamAnalysis(currentTeam) {
 		],
 		datasets: [
 			{
-				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
-				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				backgroundColor: ['rgba(254,97,118,0.5)' , 'rgba(254,97,118,0.5)', 'rgba(254,97,118,0.5)', 'rgba(254,97,118,0.5)'],
+				borderColor: ['rgba(254,97,118,0.75)', 'rgba(254,97,118,0.75)', 'rgba(254,97,118,0.75)', 'rgba(254,97,118,0.75)'],
 				borderWidth: 2,
 				data: [arrayA[0], arrayA[1], arrayA[2], arrayA[3]]
 			}
@@ -222,8 +223,8 @@ function teamAnalysis(currentTeam) {
 		],
 		datasets: [
 			{
-				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
-				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				backgroundColor: ['rgba(61,160,252,0.5)' , 'rgba(61,160,252,0.5)', 'rgba(61,160,252,0.5)', 'rgba(61,160,252,0.5)'],
+				borderColor: ['rgba(61,160,252,0.75)', 'rgba(61,160,252,0.75)', 'rgba(61,160,252,0.75)', 'rgba(61,160,252,0.75)'],
 				borderWidth: 2,
 				data: [arrayN[0], arrayN[1], arrayN[2], arrayN[3]]
 			}
@@ -236,8 +237,8 @@ function teamAnalysis(currentTeam) {
 		],
 		datasets: [
 			{
-				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
-				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				backgroundColor: ['rgba(253,188,74,0.5)' , 'rgba(253,188,74,0.5)', 'rgba(253,188,74,0.5)', 'rgba(253,188,74,0.5)'],
+				borderColor: ['rgba(253,188,74,0.75)', 'rgba(253,188,74,0.75)', 'rgba(253,188,74,0.75)', 'rgba(253,188,74,0.75)'],
 				borderWidth: 2,
 				data: [arrayO[0], arrayO[1], arrayO[2], arrayO[3]]
 			}
@@ -250,8 +251,8 @@ function teamAnalysis(currentTeam) {
 		],
 		datasets: [
 			{
-				backgroundColor: ['rgba(251,200,23,0.5)' , 'rgba(164,210,21,0.5)', 'rgba(139,46,144,0.5)', 'rgba(20,10,100,0.27)'],
-				borderColor: ['rgba(251,200,23,0.75)', 'rgba(164,210,21,0.75)', 'rgba(139,46,144,0.75)', 'rgba(20,10,100,0.75)'],
+				backgroundColor: ['rgba(79,231,165,0.5)' , 'rgba(79,231,165,0.5)', 'rgba(79,231,165,0.5)', 'rgba(79,231,165,0.5)'],
+				borderColor: ['rgba(79,231,165,0.75)', 'rgba(79,231,165,0.75)', 'rgba(79,231,165,0.75)', 'rgba(79,231,165,0.75)'],
 				borderWidth: 2,
 				data: [arrayE[0], arrayE[1], arrayE[2], arrayE[3]]
 			}
@@ -410,20 +411,21 @@ export default class App extends React.Component {
 		  delibertate over choices, behave cautiously or implusively, and take obligations seriously. Conscientousness is generally a key ingredient for success.
 
 		  </i></p>
-	  <HorizontalBar
-		  data={conGraph}
-		  options={{
-            title:{
-            display:true,
-            text: "Team Conscientousness Scores",
-            fontSize:15
-            },
-    	    legend:{
-            display:false,
-            position:'right'
-           }
-        }}
-	  />
+		  <div style={{ position: "relative", margin: "auto", width: "70%", height: "30%"}}>
+			<HorizontalBar
+				data={conGraph}
+				options={{
+					title:{
+					display:true,
+					fontSize:15
+					},
+					legend:{
+					display:false,
+					position:'right'
+				}
+				}}
+			/>
+	  	</div>
 		<br></br>
 		<br></br>
 		<p>{stringoutput[0]}</p>
@@ -433,20 +435,21 @@ export default class App extends React.Component {
 		<h1>Agreeableness</h1>
 		<p><i>Is a personality trait that can be described as cooperative, polite, kind and friendly. People high in Agreeableness are more trusting, affectionate, altruistic, and generally displaying
 			more prosocial behaviours than others. People high in this prosocial trait are particularly empathethic, showing great concern for the welfare of others, they are the first to help those in need</i></p>
-	 <HorizontalBar
-		  data={AgreeGraph}
-		  options={{
-            title:{
-            display:true,
-            text: "Agreeableness",
-            fontSize:15
-            },
-    	    legend:{
-            display:false,
-            position:'right'
-           }
-        }}
-	  />
+			<div style={{ position: "relative", margin: "auto", width: "70%", height: "30%"}}>
+			<HorizontalBar
+				data={AgreeGraph}
+				options={{
+					title:{
+					display:true,
+					fontSize:15
+					},
+					legend:{
+					display:false,
+					position:'right'
+				}
+				}}
+			/>
+	  	</div>
 	  	<br></br>
 		<br></br>
 		<p>{stringoutput[1]}</p>
@@ -456,20 +459,21 @@ export default class App extends React.Component {
 		<h1>Neuroticism</h1>
 		<p><i>Is typically defined as a tendincy towards anxiety, depression, self-doubt, and other negative feelings. All personality traits including neuroticism, exist on a specturm - some poeple are just more neurotic than others.
 			In the context of the Big 5, neuroticism is sometimes described as low emotional stability or negative emotionality</i></p>
-	 <HorizontalBar
-		  data={NeuroGraph}
-		  options={{
-            title:{
-            display:true,
-            text: "Neuroticism",
-            fontSize:15
-            },
-    	    legend:{
-            display:false,
-            position:'right'
-           }
-        }}
-	  />
+			<div style={{ position: "relative", margin: "auto", width: "70%", height: "30%"}}>
+			<HorizontalBar
+				data={NeuroGraph}
+				options={{
+					title:{
+					display:true,
+					fontSize:15
+					},
+					legend:{
+					display:false,
+					position:'right'
+				}
+				}}
+			/>
+	  	</div>
 	  	<br></br>
 		<br></br>
 		<p>{stringoutput[2]}</p>
@@ -480,20 +484,21 @@ export default class App extends React.Component {
 		<p><i>Openness to experience, or simply openness, is a basic personality trait denoting receptivity to new ideas and new experiences. People with high levels of openness are more likely to seek out a variety of experineces,
 			be comfortable with the unfamilar, and pay attention to their inner feelings more than those who are less open to novelty. 
 			they tend to exhibit high levels of curiousity and often enjoy being surprised. People with low levels of openness prefer familiar routines, people, and ideas; they can be perceived as closed-minded</i></p>
-	 <HorizontalBar
-		  data={OpenGraph}
-		  options={{
-            title:{
-            display:true,
-            text: "Openness",
-            fontSize:15
-            },
-    	    legend:{
-            display:false,
-            position:'right'
-           }
-        }}
-	  />
+			<div style={{ position: "relative", margin: "auto", width: "70%", height: "30%"}}>
+			<HorizontalBar
+				data={OpenGraph}
+				options={{
+					title:{
+					display:true,
+					fontSize:15
+					},
+					legend:{
+					display:false,
+					position:'right'
+				}
+				}}
+			/>
+	  	</div>
 	  	<br></br>
 		<br></br>
 		<p>{stringoutput[3]}</p>
@@ -505,23 +510,21 @@ export default class App extends React.Component {
 			In general, the terms refers to a state of being where someone "recharges", or draws energy, from being with others people;
 			the opposite - Drawing energy from being alone - is known as intoversion</i></p>
 		<div>
-	 	<HorizontalBar
-		  data={ExtraGraph}
-		  width={"30%"}
-		  height={"150%"}
-		  options={{
-            title:{
-            display:true,
-            text: "Extraversion",
-            fontSize:15
-            },
-    	    legend:{
-            display:false,
-            position:'right'
-		   },
-		   maintainAspectRatio: false
-        }}
-	  />
+		<div style={{ position: "relative", margin: "auto", width: "70%", height: "30%"}}>
+			<HorizontalBar
+				data={ExtraGraph}
+				options={{
+					title:{
+					display:true,
+					fontSize:15
+					},
+					legend:{
+					display:false,
+					position:'right'
+				}
+				}}
+			/>
+	  	</div>
 	  </div>
 	  	<br></br>
 		<br></br>
