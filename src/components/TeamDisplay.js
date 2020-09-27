@@ -14,16 +14,25 @@ class TeamDisplay extends React.Component {
 
 	formatDomainString(indicies, compString, domainString) {
 		let result = "";
+		let names = [];
 		let domLetter = domainString[0];
+		let myTeam = this.state.team;
+		indicies.forEach((index) => {
+			names.push(myTeam[index].name);
+		});
+		console.log(names);
 		if (indicies.length > 1) {
 			let tempString = "";
 			for (let i = 0; i < indicies.length - 2; i++) {
-				tempString += "person " + indicies[i + 1] + ", ";
+				//tempString += "person " + indicies[i + 1] + ", ";
+				tempString += `${names[i]}, `;
 			}
 			// Messy at the moment - trying to counter 0-indexed arrays with human-readable team numers
 			// i.e. The first person is labelled Person 1, but their index is array[0].
-			tempString += "person " + (indicies[indicies.length - 2] + 1) + " ";
-			tempString += "and person " + (indicies[indicies.length - 1] + 1);
+			//tempString += "person " + (indicies[indicies.length - 2] + 1) + " ";
+			tempString += `${names[names.length - 2]} `;
+			//tempString += "and person " + (indicies[indicies.length - 1] + 1);
+			tempString += `and ${names[names.length - 1]}`;
 			result =
 				"The members of the team with the " +
 				compString +
@@ -37,8 +46,8 @@ class TeamDisplay extends React.Component {
 				compString +
 				" score in " +
 				domainString +
-				" is person " +
-				(indicies[0] + 1);
+				" is " +
+				names[0];
 		}
 
 		if (compString == "lowest") {
@@ -56,18 +65,23 @@ class TeamDisplay extends React.Component {
 		let totalScore = 0;
 		let teamAvg = 0;
 		let teamAverageCompare = "";
-		console.log("Team " + domain + " scores: " + workingArray);
+		let teamScores = "";
+
+		teamScores += "| ";
+		for (let i = 0; i < workingArray.length; i++) {
+			teamScores += workingArray[i];
+			teamScores += " | ";
+		}
 		// Find which members of the team have the lowest score
 		smallestIndexArray = findIndex.smallest({ array: workingArray });
 		let smallestIndex = smallestIndexArray[0];
 		// Print this information out in human readable form
-		//console.log(this.formatDomainString(smallestIndexArray, "lowest", domain));
 		let lowestMember = this.formatDomainString(
 			smallestIndexArray,
 			"lowest",
 			domain
 		);
-		console.log(lowestMember);
+
 		// Find which members of the team have the highest score
 		largestIndexArray = findIndex.largest({ array: workingArray });
 		let largestIndex = largestIndexArray[0];
@@ -77,7 +91,6 @@ class TeamDisplay extends React.Component {
 			"highest",
 			domain
 		);
-		console.log(largestMember);
 
 		// Calculate difference between highest and lowest value
 		difference = workingArray[largestIndex] - workingArray[smallestIndex];
@@ -86,7 +99,6 @@ class TeamDisplay extends React.Component {
 			domain +
 			" score is " +
 			difference;
-		console.log(strDifference);
 
 		// Calculate combined team's average
 		totalScore = workingArray.reduce(this.myFunc);
@@ -97,15 +109,11 @@ class TeamDisplay extends React.Component {
 			averageData[domain[0]].StdDist
 		);
 		let teamAverageText = `The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageCompare}`;
-		console.log(teamAverageText);
-		console.log(
-			"\n-------------------------------------------------------------------------"
-		);
 
 		return (
 			<div className="teamDomain">
 				<h1>{domain}</h1>
-				<p>Team scores: {workingArray}</p>
+				<p>Team scores: {teamScores}</p>
 				<p>{lowestMember}</p>
 				<p>{largestMember}</p>
 				<p>{strDifference}</p>
@@ -120,7 +128,7 @@ class TeamDisplay extends React.Component {
 
 	renderTeam() {
 		const currentTeam = this.state.team;
-		let teamString = "";
+		console.log(currentTeam);
 		let teamElements = [];
 		let arrayC = [];
 		let arrayA = [];
@@ -136,15 +144,10 @@ class TeamDisplay extends React.Component {
 			arrayE.push(member.scores[4][6]);
 		});
 
-		teamString += this.printDetails("Conscientousness", arrayC);
 		teamElements.push(this.printDetails("Conscientousness", arrayC));
-		teamString += this.printDetails("Agreeableness", arrayA);
 		teamElements.push(this.printDetails("Agreeableness", arrayA));
-		teamString += this.printDetails("Neuroticism", arrayN);
 		teamElements.push(this.printDetails("Neuroticism", arrayN));
-		teamString += this.printDetails("Openness to experience", arrayO);
 		teamElements.push(this.printDetails("Openness to experience", arrayO));
-		teamString += this.printDetails("Extraversion", arrayE);
 		teamElements.push(this.printDetails("Extraversion", arrayE));
 
 		return (

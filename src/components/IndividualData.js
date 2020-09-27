@@ -38,11 +38,6 @@ class IndividualData extends React.Component {
 		const errCheck = value.slice(0, 8);
 		console.log(errCheck);
 		const result = value.slice(8);
-		// Check hash hasn't been malformed
-		// Remove checksum
-		// Remove name (need some identifier to split name from data)
-		// {-data-};
-		// "CheckSumJonathan{-Data-}"
 		if (errCheck === "CheckSum") {
 			const data = result.split("{-data-}");
 			const name = data[1];
