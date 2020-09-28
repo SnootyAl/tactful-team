@@ -2,31 +2,36 @@
 	{
 		"stage": 0,
 		"title": "Conscientiousness",
-		"info": "Neuroticism refers to the tendency to experience negative feelings.",
-		"quote": "Tact is the art of making a point without making an enemy - Isaac Newton"
+		"info": "Conscientiousness is a fundamental personality trait that reflects the tendency to be responsible, organized, hard-working, goal-directed, and to adhere to norms and rules.",
+		"quote": "Nothing in all the world is more dangerous than sincere ignorance and conscientious stupidity.",
+		"author": "Martin Luther King, Jr"
 	},
 	{
 		"stage": 1,
 		"title": "Agreeableness",
-		"info": "Neuroticism refers to the tendency to experience negative feelings.",
-		"quote": "Tact is the art of making a point without making an enemy - Isaac Newton"
+		"info": "Agreeableness is a personality trait manifesting itself in individual behavioral characteristics that are perceived as kind, sympathetic, cooperative, warm, and considerate.",
+		"quote": "Tact is the art of making a point without making an enemy.",
+		"author": "Isaac Newton"
 	},
 	{
 		"stage": 2,
 		"title": "Neuroticism",
 		"info": "Neuroticism refers to the tendency to experience negative feelings.",
-		"quote": "Tact is the art of making a point without making an enemy - Isaac Newton"
+		"quote": "When someone tell me 'no', it doesn't mean I can't do it, it simply means I can't do it with them.",
+		"author": "Karen E. Quinones Miller"
 	},
 	{
 		"stage": 3,
 		"title": "Openness to Experience",
-		"info": "Neuroticism refers to the tendency to experience negative feelings.",
-		"quote": "Tact is the art of making a point without making an enemy - Isaac Newton"
+		"info": "Openness to experience refers to a tendency towards intellectual curiosity, aesthetic sensitivity, liberal values, and emotional differentiation.",
+		"quote": "It takes a lot of courage to show your dreams to someone else.",
+		"author": "Erma Bombeck"
 	},
 	{
 		"stage": 4,
 		"title": "Extraversion",
-		"info": "Neuroticism refers to the tendency to experience negative feelings.",
-		"quote": "Tact is the art of making a point without making an enemy - Isaac Newton"
+		"info": "Extraversion refers to the tendency to focus on gratification obtained from outside the self.",
+		"quote": "There is no such thing as a pure extrovert or a pure introvert. Such a man would be in the lunatic asylum.",
+		"author": "Carl Jung"
 	}
 ]

@@ -42,7 +42,7 @@ class SlideShow extends React.Component {
 			<div name="slideshow-container" className="slideshow-container">
 				<div className="slideshow-content">
 					<div
-						className={`${this.state.fadeState}`}
+						className={`slideshow-header`}
 						style={{ transitionDuration: `${FADE_DURATION}ms` }}
 					>
 						<h1>{ssInfo[stage].title}</h1>
@@ -82,7 +82,10 @@ class SlideShow extends React.Component {
 							height={4 === this.state.stage ? 30 : 10}
 						/>
 					</div>
-					<div className="slideshow-quote">Insert meaningful text here</div>
+					<div className="slideshow-quote">
+						{ssInfo[stage].quote}
+						<br /> {`- ${ssInfo[stage].author}`}
+					</div>
 				</div>
 			</div>
 		);
