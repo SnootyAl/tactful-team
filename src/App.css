@@ -1,13 +1,16 @@
 .App {
 	text-align: center;
+	font: ;
 }
-
+.body {
+	overflow-x: hidden;
+}
 .test {
 	text-align: center;
 }
 
 .headerPanel {
-	width: 100%;
+	width: auto;
 	height: 40px;
 	background-color: #212121;
 	padding-left: 25%;
@@ -21,7 +24,7 @@
 .headerButtons {
 	padding-left: 13%;
 	margin-top: 10px;
-	width: 70%;
+	width: 50%;
 }
 
 .btnTest,
@@ -39,9 +42,15 @@
 	cursor: pointer;
 }
 
-.banner {
-	position: relative;
+.homeDiv {
 	width: 100%;
+}
+
+.banner {
+	height: auto;
+	width: 100%;
+	display: block;
+	overflow: auto;
 }
 
 .banner h1 {
@@ -74,6 +83,25 @@
 	cursor: pointer;
 }
 
+.banner img {
+	float: right;
+	max-width: 70%;
+}
+
+.slideshow-header {
+	transition: opacity ease-in-out;
+}
+
+.fade-out {
+	transition: opacity ease-out;
+	opacity: 0;
+}
+
+.fade-in {
+	transition: opacity ease-in;
+	opacity: 1;
+}
+
 .slideshow-bar {
 	display: inline-block;
 	width: 100%;
@@ -84,9 +112,23 @@
 	position: relative;
 	width: 20%;
 	height: 20px;
-	background-color: white;
 	float: left;
-	top: 30px;
+}
+
+.slideshow-blue {
+	background-color: blue;
+}
+.slideshow-green {
+	background-color: green;
+}
+.slideshow-yellow {
+	background-color: yellow;
+}
+.slideshow-red {
+	background-color: red;
+}
+.slideshow-purple {
+	background-color: purple;
 }
 
 .toggleTheme {
