@@ -12,10 +12,14 @@ const Button = styled.button`
   }
 `;
 const Toggle = ({ theme, toggleTheme }) => {
-  return <Button onClick={toggleTheme}>Switch Theme</Button>;
+	return (
+		<Button className="toggleTheme" onClick={toggleTheme}>
+			Switch Theme
+		</Button>
+	);
 };
 Toggle.propTypes = {
-  theme: string.isRequired,
-  toggleTheme: func.isRequired,
+	theme: string.isRequired,
+	toggleTheme: func.isRequired,
 };
 export default Toggle;
