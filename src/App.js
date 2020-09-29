@@ -33,7 +33,7 @@ function createTeam() {
 	// outer for loop controls the teams, inner for loop controls the amount of people assigned to a team
 	var d = new Date();
 	console.log(d.toString());
-	for (let i = 0; i < 1; i++) {
+	for (let i = 0; i < 8; i++) {
 		teamarray.push([]);
 		for (let j = 0; j < 4; j++) {
 			// tagging system: will take a person from the JSON file push it to the array, insert JSON key and Value, and remove itself
@@ -188,9 +188,10 @@ function teamAnalysis(currentTeam) {
 			}
 		]
 	}
-
+	// create graphs for individual domains
 	conGraph = {
 		labels: [
+			// this handels the labels on the left hand side, change to allow for user entered names 
 			teammebername[0], teammebername[1], teammebername[2], teammebername[3]
 		],
 		datasets: [
@@ -390,6 +391,8 @@ export default class App extends React.Component {
         }}
       />
 	  <br></br>
+		{/*If we want to display the team members scores this will need to be changed as if we create a new team 
+		by changing the for loop to a higher number then this will just return all numbers */}
 	  <h2>Team Members Scores</h2>
 	  <div className="outcomes">
 		  {teammemberscores.map((score, index) =>{
@@ -404,6 +407,7 @@ export default class App extends React.Component {
 		  })}
 	  </div>
 	  <h1>Conscientousness</h1>
+	  {/* find a better way of implementing large bits of text */}
 	  <p><i>Conscientiousness is a fundamental personality trait—one of the Big Five—that reflects the tendency to be responsible, organized, hard-working, goal-directed, and to adhere to norms and rules.
 		  Like the other core personality factors, it has multiple facets; conscientiousness comprises self-control, industriousness, responsibility, and reliability. <br></br>  <br></br>
 		  
@@ -422,16 +426,19 @@ export default class App extends React.Component {
 					legend:{
 					display:false,
 					position:'right'
-				}
+				},
+				scales: {
+					xAxes: [{
+					  ticks: {
+						beginAtZero: true
+					  }
+					}]
+				  }
 				}}
 			/>
 	  	</div>
-		<br></br>
-		<br></br>
 		<p>{stringoutput[0]}</p>
-		<br></br>
-		<br></br>
-		<br></br>
+
 		<h1>Agreeableness</h1>
 		<p><i>Is a personality trait that can be described as cooperative, polite, kind and friendly. People high in Agreeableness are more trusting, affectionate, altruistic, and generally displaying
 			more prosocial behaviours than others. People high in this prosocial trait are particularly empathethic, showing great concern for the welfare of others, they are the first to help those in need</i></p>
@@ -446,16 +453,19 @@ export default class App extends React.Component {
 					legend:{
 					display:false,
 					position:'right'
-				}
+				},
+				scales: {
+					xAxes: [{
+					  ticks: {
+						beginAtZero: true
+					  }
+					}]
+				  }
 				}}
 			/>
 	  	</div>
-	  	<br></br>
-		<br></br>
 		<p>{stringoutput[1]}</p>
-		<br></br>
-		<br></br>
-		<br></br>
+
 		<h1>Neuroticism</h1>
 		<p><i>Is typically defined as a tendincy towards anxiety, depression, self-doubt, and other negative feelings. All personality traits including neuroticism, exist on a specturm - some poeple are just more neurotic than others.
 			In the context of the Big 5, neuroticism is sometimes described as low emotional stability or negative emotionality</i></p>
@@ -470,16 +480,19 @@ export default class App extends React.Component {
 					legend:{
 					display:false,
 					position:'right'
-				}
+				},
+				scales: {
+					xAxes: [{
+					  ticks: {
+						beginAtZero: true
+					  }
+					}]
+				  }
 				}}
 			/>
 	  	</div>
-	  	<br></br>
-		<br></br>
 		<p>{stringoutput[2]}</p>
-		<br></br>
-		<br></br>
-		<br></br>
+
 		<h1>Openness</h1>
 		<p><i>Openness to experience, or simply openness, is a basic personality trait denoting receptivity to new ideas and new experiences. People with high levels of openness are more likely to seek out a variety of experineces,
 			be comfortable with the unfamilar, and pay attention to their inner feelings more than those who are less open to novelty. 
@@ -495,16 +508,19 @@ export default class App extends React.Component {
 					legend:{
 					display:false,
 					position:'right'
-				}
+				},
+				scales: {
+					xAxes: [{
+					  ticks: {
+						beginAtZero: true
+					  }
+					}]
+				  }
 				}}
 			/>
 	  	</div>
-	  	<br></br>
-		<br></br>
 		<p>{stringoutput[3]}</p>
-		<br></br>
-		<br></br>
-		<br></br>
+
 		<h1>Extraversion</h1>
 		<p><i>Extraversion is a personality trait typically characterised by outgoingness, high energy, and/or talkativeness.
 			In general, the terms refers to a state of being where someone "recharges", or draws energy, from being with others people;
@@ -521,17 +537,19 @@ export default class App extends React.Component {
 					legend:{
 					display:false,
 					position:'right'
-				}
+				},
+				scales: {
+					xAxes: [{
+					  ticks: {
+						beginAtZero: true
+					  }
+					}]
+				  }
 				}}
 			/>
 	  	</div>
 	  </div>
-	  	<br></br>
-		<br></br>
 		<p>{stringoutput[4]}</p>
-		<br></br>
-		<br></br>
-		<br></br>
 	</div>
     );
  }
