@@ -205,7 +205,7 @@ function teamAnalysis(currentTeam) {
 
 	AgreeGraph = {
 		labels: [
-			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+			teammebername[0], teammebername[1], teammebername[2], teammebername[3]
 		],
 		datasets: [
 			{
@@ -219,7 +219,7 @@ function teamAnalysis(currentTeam) {
 
 	NeuroGraph = {
 		labels: [
-			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+			teammebername[0], teammebername[1], teammebername[2], teammebername[3]
 		],
 		datasets: [
 			{
@@ -233,7 +233,7 @@ function teamAnalysis(currentTeam) {
 
 	OpenGraph = {
 		labels: [
-			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+			teammebername[0], teammebername[1], teammebername[2], teammebername[3]
 		],
 		datasets: [
 			{
@@ -247,7 +247,7 @@ function teamAnalysis(currentTeam) {
 
 	ExtraGraph = {
 		labels: [
-			'Team Member 1', 'Team Member 2', 'Team Member 3', 'Team Member 4'
+			teammebername[0], teammebername[1], teammebername[2], teammebername[3]
 		],
 		datasets: [
 			{
