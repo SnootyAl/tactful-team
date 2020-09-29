@@ -18,6 +18,10 @@
 	position: fixed;
 }
 
+.btnHome {
+	margin-top: 10px;
+}
+
 .btnHome:hover {
 	cursor: pointer;
 }
@@ -89,72 +93,6 @@
 	max-width: 70%;
 }
 
-.slideshow-header {
-	transition: opacity ease-in-out;
-	float: left;
-	padding-left: 25%;
-	display: inline;
-}
-
-.slideshow-header h1 {
-	text-align: left;
-	margin: 0px;
-}
-
-.slideshow-header p {
-	text-align: left;
-	width: 500px;
-	height: 50px;
-	margin-bottom: 40px;
-}
-
-.slideshow-quote {
-	margin-bottom: 40px;
-	width: 450px;
-	float: left;
-	padding-left: 25%;
-	text-align: left;
-}
-
-.fade-out {
-	transition: opacity ease-out;
-	opacity: 0;
-}
-
-.fade-in {
-	transition: opacity ease-in;
-	opacity: 1;
-}
-
-.slideshow-bar {
-	display: inline-block;
-	width: 100%;
-	height: 50px;
-}
-
-.slideshow-bar div {
-	position: relative;
-	width: 20%;
-	height: 20px;
-	float: left;
-}
-
-.slideshow-blue {
-	background-color: blue;
-}
-.slideshow-green {
-	background-color: green;
-}
-.slideshow-yellow {
-	background-color: yellow;
-}
-.slideshow-red {
-	background-color: red;
-}
-.slideshow-purple {
-	background-color: purple;
-}
-
 .toggleTheme {
 	float: left;
 }
@@ -165,27 +103,6 @@
 
 .bodyPanel {
 	width: 100%;
-}
-
-.quizResult {
-	width: 500px;
 	height: auto;
-	word-wrap: break-word;
-}
-
-.inputTeamTitle {
-	float: left;
-	margin-left: 20px;
-}
-
-.showHome {
-	display: flex;
-}
-
-.inputRow {
-	margin: 15px;
-}
-
-.teamInput {
-	margin-right: 10px;
+	padding-top: 50px;
 }

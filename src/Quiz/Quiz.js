@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./Quiz.css";
+import "../stylesheets/Quiz.css";
 import AnswerButton from "./AnswerButtons";
 import Question from "./Question";
 import questionData from "../data/items-en-trimmed.json";
 import cryptoJS from "crypto-js";
+import TemplateJSON from "../data/templates/ScoreObject.json";
+import QuizHelp from "../components/QuizHelp";
 
 class Quiz extends React.Component {
 	constructor(props) {
@@ -17,6 +19,7 @@ class Quiz extends React.Component {
 			hashPlain: "",
 			hashString: "",
 			stage: 0,
+			overlayWidth: "0%",
 		};
 	}
 
@@ -47,25 +50,46 @@ class Quiz extends React.Component {
 				console.log("answer");
 			}
 		);
+	};
 
-		// This is super ugly but also it works soooo
-		//setQuestionNumberState(questionNumberState + 1);
-		// Now with less ugly!
+	showHelp = (e) => {
+		console.log("Show!");
+		this.setState({ overlayWidth: "100%" });
+	};
+	hideHelp = (e) => {
+		console.log("Hide!");
+		this.setState({ overlayWidth: "0%" });
 	};
 
 	renderQuizContent() {
 		return (
-			<div className="QuizQuestions">
-				<Question
-					className="question"
-					question={
-						this.state.questions.questions[this.state.questionNumberState].text
-					}
-				/>
-				<AnswerButton
-					className="answerButton"
-					click={this.buttonPressHandler.bind()}
-				/>
+			<div className="QuizWhole">
+				<div className="QuizOverlay" style={{ width: this.state.overlayWidth }}>
+					<QuizHelp />
+					<div className="divQuizHelpHide">
+						<a className="btnQuizHelpHide" onClick={this.hideHelp}>
+							&times; Hide
+						</a>
+					</div>
+				</div>
+				<div className="QuizQuestions">
+					<Question
+						className="question"
+						question={
+							this.state.questions.questions[this.state.questionNumberState]
+								.text
+						}
+					/>
+					<AnswerButton
+						className="answerButton"
+						click={this.buttonPressHandler.bind()}
+					/>
+				</div>
+				<div className="QuizHelp">
+					<a className="btnQuizHelpShow" onClick={this.showHelp}>
+						Help
+					</a>
+				</div>
 			</div>
 		);
 	}
@@ -74,67 +98,11 @@ class Quiz extends React.Component {
 		this.setState({ name: event.target.value });
 	};
 
-	createJsonTemplate() {
-		let result = {
-			totalC: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Compassion",
-			},
-			totalA: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Agreeableness",
-			},
-			totalN: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Neuroticism",
-			},
-			totalO: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Openness To Experience",
-			},
-			totalE: {
-				f1: 0,
-				f2: 0,
-				f3: 0,
-				f4: 0,
-				f5: 0,
-				f6: 0,
-				total: 0,
-				domain: "Extraversion",
-			},
-		};
-		return result;
-	}
-
 	handleNameSubmit = (event) => {
 		const answer = this.state.answer;
 		const name = this.state.name;
 
-		let myJson = this.createJsonTemplate();
+		let myJson = TemplateJSON;
 		for (let i = 0; i < answer.length; i++) {
 			let currentScore = parseInt(answer.slice(i, i + 1));
 			let currentQuestion = questionData[i];
@@ -147,7 +115,6 @@ class Quiz extends React.Component {
 			myJson[`total${currentQuestion.domain}`].total += added;
 		}
 		let finalAnswer = "";
-		let padding = false;
 		for (var topKey of Object.keys(myJson)) {
 			console.log(topKey + " -> " + myJson[topKey]);
 			for (var lowKey of Object.keys(myJson[topKey])) {

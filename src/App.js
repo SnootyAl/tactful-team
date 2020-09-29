@@ -14,7 +14,7 @@ import TeamData from "./components/TeamData";
 //import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 //import ToggleButton from "react-bootstrap/ToggleButton";
 // <Toggle theme={theme} toggleTheme={themeToggler} />
-import "./App.css";
+import "./stylesheets/App.css";
 
 const App = () => {
 	const [theme, themeToggler] = useDarkMode();
@@ -76,7 +76,7 @@ const App = () => {
 			case "Test":
 				return (
 					<div className="showTest">
-						<h1 className="test">Placeholder for Test</h1>
+						<h1 className="test">Big 5 Personality Test</h1>
 						<Quiz questions={data} />
 					</div>
 				);

@@ -6,6 +6,8 @@ import questionData from "../data/items-en-trimmed.json";
 import scoreObject from "../data/templates/ScoreObject.json";
 import TeamDisplay from "./TeamDisplay";
 
+import "../stylesheets/Team.css";
+
 class IndividualData extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,11 +18,26 @@ class IndividualData extends React.Component {
 				{
 					name: "",
 					hash: "",
+					plain: "",
+					colour: "#463A6B",
 				},
 			],
 			hasData: false,
 			data: [],
 			userName: "",
+			colours: {
+				available: [
+					"#7F303B",
+					"#7F5E25",
+					"#287352",
+					"#1E507E",
+					"#A897E1",
+					"#FE8898",
+					"#FECD77",
+					"#7BEDBB",
+					"#6DB8FD",
+				],
+			},
 		};
 
 		// HASH VALUE TO TEST DATA:
@@ -95,25 +112,6 @@ class IndividualData extends React.Component {
 			}
 			scores.push(domArray);
 		}
-		// let a = 0;
-		// let n = 0;
-		// for (let topKey of Object.keys(test)) {
-		// 	for (let lowKey of Object.keys(test[topKey])) {
-		// 		let currentScore = parseInt(strScores.slice(a, a + 2));
-		// 		if (lowKey == "domain") {
-		// 			template[topKey].domain = domainNames[n];
-		// 		} else {
-		// 			template[topKey][lowKey] = currentScore;
-		// 			console.log(template[topKey][lowKey]);
-		// 			console.log("-----------");
-		// 			a += 2;
-		// 		}
-		// 		console.log(topKey);
-		// 		console.log(lowKey);
-		// 		console.log(template);
-		// 	}
-		// 	n++;
-		// }
 		return scores;
 	}
 
@@ -142,15 +140,39 @@ class IndividualData extends React.Component {
 	}
 
 	handleAddField() {
-		this.setState({
-			members: [...this.state.members, { name: "", hash: "", plain: "" }],
-		});
+		let availableColours = this.state.colours.available;
+		this.setState(
+			{
+				members: [
+					...this.state.members,
+					{ name: "", hash: "", plain: "", colour: availableColours.shift() },
+				],
+				colours: {
+					available: availableColours,
+				},
+			},
+			() => {
+				console.log(this.state.members);
+			}
+		);
 	}
 
 	handleRemoveField(index) {
 		const localmembers = this.state.members;
-		localmembers.splice(index, 1);
-		this.setState({ members: localmembers });
+		const removedUser = localmembers.splice(index, 1);
+		const removedColour = removedUser[0].colour;
+		console.log(removedColour);
+		let localColours = this.state.colours.available;
+		localColours.push(removedColour);
+		this.setState(
+			{
+				members: localmembers,
+				colours: { available: localColours },
+			},
+			() => {
+				console.log(this.state.colours.available);
+			}
+		);
 	}
 
 	handleSubmit = (e) => {
@@ -159,17 +181,21 @@ class IndividualData extends React.Component {
 		this.unHashTeam();
 		this.setState({ hasData: true });
 	};
-
+	//style={{ transitionDuration: `${FADE_DURATION}ms` }}
 	renderTable() {
 		let myMembers = this.state.members;
 		let content, temp;
-		temp = myMembers.map((inputField, index) => (
+		temp = myMembers.map((member, index) => (
 			<div className="inputRow" key={index}>
+				<span
+					className={`inputRowColour ${member.colour}`}
+					style={{ "background-color": `${member.colour}` }}
+				/>
 				<input
 					type="text"
 					name="name"
 					placeholder="Member's name"
-					className="teamInput"
+					className="teamInput inputName"
 					value={this.state.members[index].name}
 					onChange={(event) => this.handleChangeInput(index, event)}
 				/>
@@ -177,7 +203,7 @@ class IndividualData extends React.Component {
 					type="text"
 					name="hash"
 					placeholder="Member's hash"
-					className="teamInput"
+					className="teamInput inputHash"
 					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}
 				/>
@@ -187,25 +213,23 @@ class IndividualData extends React.Component {
 					className="teamInput"
 					onClick={() => this.handleRemoveField(index)}
 				/>
-				{index == myMembers.length - 1 && (
-					<input
-						type="button"
-						value="Add"
-						onClick={() => this.handleAddField()}
-					/>
-				)}
 			</div>
 		));
 		content = (
 			<form className="teamInputForm" onSubmit={this.handleSubmit}>
 				{temp}
-
+				<input
+					className="btnTeamAdd"
+					type="button"
+					value="Add"
+					onClick={() => this.handleAddField()}
+				/>
 				<button
-					className="teamInputButton"
+					className="btnTeamSubmit"
 					type="submit"
 					onClick={this.handleSubmit}
 				>
-					Submit
+					Submit Team
 				</button>
 			</form>
 		);
@@ -221,7 +245,7 @@ class IndividualData extends React.Component {
 			: this.renderTeamInputs();
 		return (
 			<div className="showHome">
-				<h1 className="Home">{this.state.title}</h1>
+				<h1 className="teamTitle">Create Team</h1>
 				{content}
 			</div>
 		);

@@ -1,0 +1,36 @@
+.teamTitle {
+	width: 100%;
+}
+
+.inputRow {
+	margin: 15px;
+	padding-left: 55px;
+	display: flex;
+	justify-content: center;
+}
+
+.inputRowColour {
+	background-color: red;
+	border-radius: 50%;
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	border-right: 20px;
+}
+
+.teamInput {
+	margin-right: 10px;
+}
+
+.inputName {
+	margin-left: 10px;
+}
+
+.btnTeamAdd {
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+.btnTeamSubmit {
+	margin: auto;
+}

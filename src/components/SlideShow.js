@@ -5,6 +5,8 @@ import { Module, Component } from "@onenexus/lucid";
 import Carousel from "react-bootstrap/Carousel";
 import AnimateHeight from "react-animate-height";
 
+import "../stylesheets/Slideshow.css";
+
 const FADE_DURATION = 2000;
 
 class SlideShow extends React.Component {

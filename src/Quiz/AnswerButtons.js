@@ -1,5 +1,5 @@
 import React from "react";
-import "./AnswerButton.css";
+import "../stylesheets/AnswerButton.css";
 
 const AnswerButton = (props) => {
 	return (
