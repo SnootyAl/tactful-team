@@ -42,48 +42,45 @@ class SlideShow extends React.Component {
 		let stage = this.state.stage;
 		return (
 			<div name="slideshow-container" className="slideshow-container">
-				<div className="slideshow-content">
-					<div
-						className={`slideshow-header`}
-						style={{ transitionDuration: `${FADE_DURATION}ms` }}
-					>
-						<h1>{ssInfo[stage].title}</h1>
-						<p>{ssInfo[stage].info}</p>
-					</div>
-					<div className="slideshow-bar">
-						<AnimateHeight
-							id="panel0"
-							className="slideshow-blue"
-							duration={1000}
-							height={0 === this.state.stage ? 30 : 10}
-						/>
+				<div className={`slideshow-header`}>
+					<h1>{ssInfo[stage].title}</h1>
+					<p>{ssInfo[stage].info}</p>
+				</div>
+				<div className="slideshow-bar">
+					<AnimateHeight
+						id="panel0"
+						className="slideshow-blue"
+						duration={1000}
+						height={0 === this.state.stage ? 30 : 10}
+					/>
 
-						<AnimateHeight
-							id="panel1"
-							className="slideshow-green"
-							duration={1000}
-							height={1 === this.state.stage ? 30 : 10}
-						/>
-						<AnimateHeight
-							id="panel2"
-							className="slideshow-yellow"
-							duration={1000}
-							height={2 === this.state.stage ? 30 : 10}
-						/>
+					<AnimateHeight
+						id="panel1"
+						className="slideshow-green"
+						duration={1000}
+						height={1 === this.state.stage ? 30 : 10}
+					/>
+					<AnimateHeight
+						id="panel2"
+						className="slideshow-yellow"
+						duration={1000}
+						height={2 === this.state.stage ? 30 : 10}
+					/>
 
-						<AnimateHeight
-							id="panel3"
-							className="slideshow-red"
-							duration={1000}
-							height={3 === this.state.stage ? 30 : 10}
-						/>
-						<AnimateHeight
-							id="panel4"
-							className="slideshow-purple"
-							duration={1000}
-							height={4 === this.state.stage ? 30 : 10}
-						/>
-					</div>
+					<AnimateHeight
+						id="panel3"
+						className="slideshow-red"
+						duration={1000}
+						height={3 === this.state.stage ? 30 : 10}
+					/>
+					<AnimateHeight
+						id="panel4"
+						className="slideshow-purple"
+						duration={1000}
+						height={4 === this.state.stage ? 30 : 10}
+					/>
+				</div>
+				<div className="slideshow-quote-container">
 					<div className="slideshow-quote">
 						{ssInfo[stage].quote}
 						<br /> {`- ${ssInfo[stage].author}`}

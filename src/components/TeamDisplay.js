@@ -155,12 +155,16 @@ class TeamDisplay extends React.Component {
 				>
 					...
 				</span>
-				<span
-					id={`more ${DL}`}
-					style={{ display: this.state.more === `${DL}` ? "inline" : "none" }}
-				>
-					<i dangerouslySetInnerHTML={{ __html: longDescription }} />
-				</span>
+				<div className={`more ${DL}`}>
+					<span
+						id={`more ${DL}`}
+						style={{
+							display: this.state.more === `${DL}` ? "inline" : "none",
+						}}
+					>
+						<i dangerouslySetInnerHTML={{ __html: longDescription }} />
+					</span>
+				</div>
 				<div className="btnSpanDiv">
 					<a onClick={() => this.toggleSpan(DL)} className="btnToggleSpan">
 						{this.state.more === DL ? "Read less" : "Read more"}
@@ -182,6 +186,7 @@ class TeamDisplay extends React.Component {
 								display: false,
 								position: "right",
 							},
+
 							scales: {
 								xAxes: [
 									{

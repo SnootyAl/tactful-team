@@ -1,9 +1,10 @@
 .App {
 	text-align: center;
-	font: ;
 }
 .body {
 	overflow-x: hidden;
+	font-family: "Montserrat";
+	background-color: black;
 }
 .test {
 	text-align: center;
@@ -107,12 +108,18 @@
 	padding-top: 50px;
 }
 
-#more {
-	display: none;
+.teamDomain {
+	width: 60%;
+	margin: auto;
+	z-index: -1;
+}
+
+.more {
+	margin-top: 15px;
 }
 .btnSpanDiv {
 	margin: auto;
-	margin-top: 15px;
+	margin-top: 20px;
 }
 .btnToggleSpan {
 	color: black;
@@ -127,6 +134,14 @@
 	position: relative;
 	margin: auto;
 	margin-top: 20px;
-	width: 50%;
+	width: 100%;
 	border: 1px solid white;
+	border-radius: 10px;
+	padding: 5px;
+	box-shadow: 1px 1px #77aaff, 2px 2px #77aaff, 3px 3px #77aaff, 4px 4px #77aaff,
+		5px 5px #77aaff;
+}
+
+.footerPanel {
+	width: 100%;
 }

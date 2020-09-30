@@ -11,6 +11,7 @@ import SlideShow from "./components/SlideShow";
 
 import IndividualData from "./components/IndividualData";
 import TeamData from "./components/TeamData";
+import Footer from "./components/Footer";
 //import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 //import ToggleButton from "react-bootstrap/ToggleButton";
 // <Toggle theme={theme} toggleTheme={themeToggler} />
@@ -22,30 +23,33 @@ const App = () => {
 	const themeMode = theme === "light" ? lightTheme : darkTheme;
 
 	return (
-		<ThemeProvider theme={themeMode}>
-			<>
-				<GlobalStyles />
-				<div className="App">
-					<div className="headerPanel">
-						<a className="btnHome" onClick={handleHomeClick}>
-							Tactful Team
-						</a>
-						<div className="headerButtons">
-							<a className="btnTest" onClick={handleTestClick}>
-								Take Test
-							</a>
-							<a className="btnPersonal" onClick={handlePersonalClick}>
-								Personal Results
-							</a>
-							<a className="btnTeam" onClick={handleTeamClick}>
-								Show Team
-							</a>
-						</div>
-					</div>
-					<div className="bodyPanel">{renderContent()}</div>
+		// <ThemeProvider theme={themeMode}>
+		// 	<>
+		// 		<GlobalStyles />
+		<div className="App">
+			<div className="headerPanel">
+				<a className="btnHome" onClick={handleHomeClick}>
+					Tactful Team
+				</a>
+				<div className="headerButtons">
+					<a className="btnTest" onClick={handleTestClick}>
+						Take Test
+					</a>
+					<a className="btnPersonal" onClick={handlePersonalClick}>
+						Personal Results
+					</a>
+					<a className="btnTeam" onClick={handleTeamClick}>
+						Show Team
+					</a>
 				</div>
-			</>
-		</ThemeProvider>
+			</div>
+			<div className="bodyPanel">{renderContent()}</div>
+			<div className="footerPanel">
+				<Footer />
+			</div>
+		</div>
+		// 	</>
+		// </ThemeProvider>
 	);
 
 	function handleHomeClick(e) {

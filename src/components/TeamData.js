@@ -94,15 +94,7 @@ class IndividualData extends React.Component {
 	// Given a string of 70 characters, pull each 2 digit substring and place in its
 	// respective score object position.
 	pullScores(strScores) {
-		let template = scoreObject;
 		let scores = [];
-		const domainNames = [
-			"Compassion",
-			"Agreeableness",
-			"Neuroticism",
-			"Openness to Experience",
-			"Extraversion",
-		];
 
 		for (let i = 0; i < 5; i++) {
 			let domArray = [];
@@ -118,7 +110,6 @@ class IndividualData extends React.Component {
 	renderTeamData() {
 		const teamData = this.state.members;
 		return <TeamDisplay data={teamData} />;
-		//return <p>Data</p>;
 	}
 
 	renderTeamInputs() {
@@ -177,11 +168,9 @@ class IndividualData extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		let myMembers = this.state.members;
 		this.unHashTeam();
 		this.setState({ hasData: true });
 	};
-	//style={{ transitionDuration: `${FADE_DURATION}ms` }}
 	renderTable() {
 		let myMembers = this.state.members;
 		let content, temp;
@@ -235,8 +224,6 @@ class IndividualData extends React.Component {
 				</button>
 			</form>
 		);
-		//content = <form className="teamInputForm" onSubmit={this.handleSubmit}></form>
-
 		return <div className="inputTable">{content}</div>;
 	}
 
