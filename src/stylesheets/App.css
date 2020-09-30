@@ -106,3 +106,27 @@
 	height: auto;
 	padding-top: 50px;
 }
+
+#more {
+	display: none;
+}
+.btnSpanDiv {
+	margin: auto;
+	margin-top: 15px;
+}
+.btnToggleSpan {
+	color: black;
+	background-color: white;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+.btnToggleSpan:hover {
+	cursor: pointer;
+}
+.barGraph {
+	position: relative;
+	margin: auto;
+	margin-top: 20px;
+	width: 50%;
+	border: 1px solid white;
+}

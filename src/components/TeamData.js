@@ -19,7 +19,7 @@ class IndividualData extends React.Component {
 					name: "",
 					hash: "",
 					plain: "",
-					colour: "#463A6B",
+					colour: ["104", "87", "161"],
 				},
 			],
 			hasData: false,
@@ -27,15 +27,15 @@ class IndividualData extends React.Component {
 			userName: "",
 			colours: {
 				available: [
-					"#7F303B",
-					"#7F5E25",
-					"#287352",
-					"#1E507E",
-					"#A897E1",
-					"#FE8898",
-					"#FECD77",
-					"#7BEDBB",
-					"#6DB8FD",
+					["127", "48", "59"],
+					["127", "94", "37"],
+					["40", "115", "82"],
+					["30", "80", "126"],
+					["168", "151", "225"],
+					["254", "136", "152"],
+					["254", "205", "119"],
+					["123", "237", "187"],
+					["109", "184", "253"],
 				],
 			},
 		};
@@ -189,7 +189,9 @@ class IndividualData extends React.Component {
 			<div className="inputRow" key={index}>
 				<span
 					className={`inputRowColour ${member.colour}`}
-					style={{ "background-color": `${member.colour}` }}
+					style={{
+						"background-color": `rgb(${member.colour[0]},${member.colour[1]},${member.colour[2]})`,
+					}}
 				/>
 				<input
 					type="text"

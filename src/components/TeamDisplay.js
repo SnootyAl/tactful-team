@@ -1,14 +1,47 @@
 import React, { useState, useEffect } from "react";
+import { Radar, Bar, HorizontalBar } from "react-chartjs-2";
 import findIndex from "../javascripts/indexOf";
-import teamText from "../TextFiles/team-text";
+import Graph from "../javascripts/Graphs";
 import findStdDeviation from "../javascripts/StdDev";
 import averageData from "../data/Average-and-StdDist-JSON.json";
+import teamText from "../TextFiles/team-text";
+import DomainText from "../data/DomainText/index";
 
 class TeamDisplay extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			team: props.data,
+			data: {
+				arrayC: [],
+				arrayA: [],
+				arrayN: [],
+				arrayO: [],
+				arrayE: [],
+			},
+			display: {
+				C: {
+					dots: "inline",
+					more: "none",
+				},
+				A: {
+					dots: "inline",
+					more: "none",
+				},
+				N: {
+					dots: "inline",
+					more: "none",
+				},
+				O: {
+					dots: "inline",
+					more: "none",
+				},
+				E: {
+					dots: "inline",
+					more: "none",
+				},
+			},
+			more: "",
 		};
 	}
 
@@ -20,7 +53,6 @@ class TeamDisplay extends React.Component {
 		indicies.forEach((index) => {
 			names.push(myTeam[index].name);
 		});
-		console.log(names);
 		if (indicies.length > 1) {
 			let tempString = "";
 			for (let i = 0; i < indicies.length - 2; i++) {
@@ -58,7 +90,7 @@ class TeamDisplay extends React.Component {
 		return result;
 	}
 
-	printDetails(domain, workingArray) {
+	printDetails(domain, workingArray, graph) {
 		let smallestIndexArray = [];
 		let largestIndexArray = [];
 		let difference = 0;
@@ -66,7 +98,9 @@ class TeamDisplay extends React.Component {
 		let teamAvg = 0;
 		let teamAverageCompare = "";
 		let teamScores = "";
-
+		const DL = domain[0];
+		const shortDescription = DomainText[DL].shortDescription;
+		const longDescription = DomainText[DL].description;
 		teamScores += "| ";
 		for (let i = 0; i < workingArray.length; i++) {
 			teamScores += workingArray[i];
@@ -111,8 +145,58 @@ class TeamDisplay extends React.Component {
 		let teamAverageText = `The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageCompare}`;
 
 		return (
-			<div className="teamDomain">
+			<div className="teamDomain" key={`${DL}`}>
 				<h1>{domain}</h1>
+				<i>{shortDescription}</i>
+				<br />
+				<span
+					id={`dots ${DL}`}
+					style={{ display: this.state.more === `${DL}` ? "none" : "inline" }}
+				>
+					...
+				</span>
+				<span
+					id={`more ${DL}`}
+					style={{ display: this.state.more === `${DL}` ? "inline" : "none" }}
+				>
+					<i dangerouslySetInnerHTML={{ __html: longDescription }} />
+				</span>
+				<div className="btnSpanDiv">
+					<a onClick={() => this.toggleSpan(DL)} className="btnToggleSpan">
+						{this.state.more === DL ? "Read less" : "Read more"}
+					</a>
+				</div>
+
+				<div className="barGraph">
+					<HorizontalBar
+						className="barGraph"
+						data={graph}
+						options={{
+							responsive: true,
+
+							title: {
+								display: true,
+								fontSize: 15,
+							},
+							legend: {
+								display: false,
+								position: "right",
+							},
+							scales: {
+								xAxes: [
+									{
+										ticks: {
+											max: 95,
+											min: 35,
+											stepSize: 5,
+										},
+									},
+								],
+							},
+						}}
+					/>
+				</div>
+
 				<p>Team scores: {teamScores}</p>
 				<p>{lowestMember}</p>
 				<p>{largestMember}</p>
@@ -122,8 +206,31 @@ class TeamDisplay extends React.Component {
 		);
 	}
 
+	toggleSpan(DLetter) {
+		console.log("Hello");
+		let tempDL = DLetter;
+		let currentMore = this.state.more;
+		this.setState({
+			more: currentMore === tempDL ? "" : tempDL,
+		});
+	}
 	myFunc(total, num) {
 		return total + num;
+	}
+
+	createGraphs(allDomains) {
+		const team = this.state.team;
+
+		let allGraphs = [];
+		let teamRadarGraph = Graph.Radar(allDomains, team);
+		allGraphs.push(teamRadarGraph);
+
+		allDomains.forEach((domain) => {
+			let tempGraph = Graph.Bar(domain, team);
+			allGraphs.push(tempGraph);
+		});
+
+		return allGraphs;
 	}
 
 	renderTeam() {
@@ -144,15 +251,46 @@ class TeamDisplay extends React.Component {
 			arrayE.push(member.scores[4][6]);
 		});
 
-		teamElements.push(this.printDetails("Conscientousness", arrayC));
-		teamElements.push(this.printDetails("Agreeableness", arrayA));
-		teamElements.push(this.printDetails("Neuroticism", arrayN));
-		teamElements.push(this.printDetails("Openness to experience", arrayO));
-		teamElements.push(this.printDetails("Extraversion", arrayE));
+		const allDomains = [arrayC, arrayA, arrayN, arrayO, arrayE];
+		const allGraphs = this.createGraphs(allDomains);
+		console.log(allGraphs);
+		teamElements.push(
+			this.printDetails("Conscientousness", arrayC, allGraphs[1])
+		);
+		teamElements.push(this.printDetails("Agreeableness", arrayA, allGraphs[2]));
+		teamElements.push(this.printDetails("Neuroticism", arrayN, allGraphs[3]));
+		teamElements.push(
+			this.printDetails("Openness to experience", arrayO, allGraphs[4])
+		);
+		teamElements.push(this.printDetails("Extraversion", arrayE, allGraphs[5]));
 
 		return (
 			<div className="teamResults">
 				<h1>Team Results:</h1>
+				<Radar
+					data={allGraphs[0]}
+					options={{
+						title: {
+							display: true,
+							text: "Team 1",
+							fontSize: 15,
+						},
+						legend: {
+							display: true,
+							position: "right",
+						},
+						scale: {
+							gridLines: {
+								color: "#FFFFFF",
+							},
+							ticks: {
+								max: 95,
+								min: 35,
+								stepSize: 5,
+							},
+						},
+					}}
+				/>
 				{teamElements}
 			</div>
 		);
