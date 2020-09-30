@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ssInfo from "../data/slideshow-info.json";
-import { CSSTransition } from "react-transition-group";
-import { Module, Component } from "@onenexus/lucid";
-import Carousel from "react-bootstrap/Carousel";
 import AnimateHeight from "react-animate-height";
 
 import "../stylesheets/Slideshow.css";
@@ -34,8 +31,6 @@ class SlideShow extends React.Component {
 			});
 		}, FADE_DURATION);
 		clearTimeout(this.state.fadeTransition);
-
-		this.setState({ fadeState: "fade_out", fadeTransition: timeout });
 	}
 
 	render() {
@@ -82,8 +77,9 @@ class SlideShow extends React.Component {
 				</div>
 				<div className="slideshow-quote-container">
 					<div className="slideshow-quote">
-						{ssInfo[stage].quote}
-						<br /> {`- ${ssInfo[stage].author}`}
+						<h2>{ssInfo[stage].quote}</h2>
+						<br />
+						{`- ${ssInfo[stage].author}`}
 					</div>
 				</div>
 			</div>

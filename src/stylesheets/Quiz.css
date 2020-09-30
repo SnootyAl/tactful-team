@@ -28,7 +28,18 @@
 }
 
 .QuizHelp {
-	margin-top: 30px;
+	margin-top: 40px;
+}
+
+.divQuizBack {
+	margin-top: 15px;
+}
+
+.btnQuizBack {
+	background-color: white;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
 }
 .btnQuizHelpShow {
 	background-color: white;

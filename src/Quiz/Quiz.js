@@ -7,6 +7,8 @@ import cryptoJS from "crypto-js";
 import TemplateJSON from "../data/templates/ScoreObject.json";
 import QuizHelp from "../components/QuizHelp";
 
+// NEED BACK BUTTON FOR QUIZ
+
 class Quiz extends React.Component {
 	constructor(props) {
 		super(props);
@@ -19,7 +21,7 @@ class Quiz extends React.Component {
 			hashPlain: "",
 			hashString: "",
 			stage: 0,
-			overlayWidth: "0%",
+			overlayWidth: "100%",
 		};
 	}
 
@@ -50,6 +52,13 @@ class Quiz extends React.Component {
 				console.log("answer");
 			}
 		);
+	};
+
+	previousQuestion = (e) => {
+		let questionNumber = this.state.questionNumberState;
+		if (questionNumber > 0) {
+			this.setState({ questionNumberState: questionNumber - 1 });
+		}
 	};
 
 	showHelp = (e) => {
@@ -84,6 +93,11 @@ class Quiz extends React.Component {
 						className="answerButton"
 						click={this.buttonPressHandler.bind()}
 					/>
+					<div className="divQuizBack">
+						<a className="btnQuizBack" onClick={this.previousQuestion}>
+							Previous Question
+						</a>
+					</div>
 				</div>
 				<div className="QuizHelp">
 					<a className="btnQuizHelpShow" onClick={this.showHelp}>

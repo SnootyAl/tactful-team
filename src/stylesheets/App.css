@@ -1,5 +1,10 @@
 .App {
 	text-align: center;
+	height: 100%;
+	width: 100%;
+	min-height: calc(100vh - 120px);
+	position: relative;
+	display: table;
 }
 .body {
 	overflow-x: hidden;
@@ -104,8 +109,9 @@
 
 .bodyPanel {
 	width: 100%;
-	height: auto;
+	height: 100%;
 	padding-top: 50px;
+	margin: auto;
 }
 
 .teamDomain {
@@ -144,4 +150,6 @@
 
 .footerPanel {
 	width: 100%;
+	height: 60px;
+	vertical-align: bottom;
 }
