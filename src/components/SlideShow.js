@@ -4,8 +4,10 @@ import AnimateHeight from "react-animate-height";
 
 import "../stylesheets/Slideshow.css";
 
+// Set time (in ms) taken to change bar height
 const FADE_DURATION = 2000;
 
+// Component class that handles the slideshow section of the home page
 class SlideShow extends React.Component {
 	constructor(props) {
 		super(props);
@@ -20,6 +22,9 @@ class SlideShow extends React.Component {
 		this.timerID = setInterval(() => this.tick(), 9000);
 	}
 
+	/**
+	 * Controls the animation of the domain slideshow bar
+	 */
 	tick() {
 		let tempStage = this.state.stage;
 		let newStage = (tempStage + 1) % 5;

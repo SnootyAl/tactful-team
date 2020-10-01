@@ -12,6 +12,11 @@
 	margin: auto;
 	margin: 0px 10px;
 }
+
+.footerImage:hover {
+	cursor: pointer;
+	filter: brightness(50%);
+}
 .footerText {
 	width: 100%;
 	margin: auto;

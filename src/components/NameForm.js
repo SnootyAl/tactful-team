@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
+// Component class to handle the input for personal results
 class NameForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -9,13 +10,19 @@ class NameForm extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+	/**
+	 * Stores any updates to the input box in the state
+	 * @param {event} event
+	 */
 	handleChange(event) {
 		this.setState({ value: event.target.value });
-		//console.log(event);
 	}
 
+	/**
+	 * Passes the final entered value to the parent IndividualData component
+	 * @param {event} event
+	 */
 	handleSubmit(event) {
-		//alert("A hash was submitted: " + this.state.value);
 		this.props.onInputHash(this.state.value);
 		event.preventDefault();
 	}

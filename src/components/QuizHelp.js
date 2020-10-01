@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
+// Basic component class to render the "quiz help" overlay on the quiz page
 class QuizHelp extends React.Component {
 	constructor(props) {
 		super(props);

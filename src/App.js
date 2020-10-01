@@ -39,7 +39,7 @@ const App = () => {
 						Personal Results
 					</a>
 					<a className="btnTeam" onClick={handleTeamClick}>
-						Show Team
+						Team Results
 					</a>
 				</div>
 			</div>
@@ -52,31 +52,41 @@ const App = () => {
 		// </ThemeProvider>
 	);
 
+	// Functions to handle page navigation
 	function handleHomeClick(e) {
 		e.preventDefault();
+		setShowing("null");
 		setShowing("Home");
 	}
 
 	function handleTestClick(e) {
 		e.preventDefault();
-		console.log(`Test was clicked, with state ${showing}`);
+		setShowing("null");
+		setShowing("Test");
+	}
+
+	function handleChangeTestClick(e) {
+		e.preventDefault();
+		setShowing("null");
 		setShowing("Test");
 	}
 
 	function handlePersonalClick(e) {
 		e.preventDefault();
-		console.log(`Personal was clicked, with state ${showing}`);
+		setShowing("null");
 		setShowing("Personal");
 	}
 
 	function handleTeamClick(e) {
 		e.preventDefault();
-		console.log(`Team was clicked, with state ${showing}`);
+		setShowing("null");
 		setShowing("Team");
 	}
 
+	// Main helper function to determine what content is displayed.
 	function renderContent() {
 		switch (showing) {
+			// Display the test page.
 			case "Test":
 				return (
 					<div className="showTest">
@@ -84,10 +94,21 @@ const App = () => {
 						<Quiz questions={data} />
 					</div>
 				);
+
+			// Display the personal results page.
 			case "Personal":
-				return <IndividualData title="Personal" />;
+				return (
+					<IndividualData
+						title="Personal Results"
+						onHandleTest={handleChangeTestClick}
+					/>
+				);
+
+			// Display the team creation page
 			case "Team":
 				return <TeamData title="Team" />;
+
+			// Display the home page
 			case "Home":
 				return (
 					<div className="homeDiv">
@@ -99,7 +120,7 @@ const App = () => {
 								your team's personalities, through Big Five Personality test
 								combined with our in-house research.
 							</p>
-							<a className="bannerButton" onClick={handleTestClick}>
+							<a className="btn btnBanner" onClick={handleTestClick}>
 								Take the Test!
 							</a>
 						</div>

@@ -6,6 +6,7 @@ import Facebook from "../Design Assets/F.png";
 import LinkedIn from "../Design Assets/LinkedIn.png";
 import Email from "../Design Assets/Email.png";
 
+// Basic component to render the footer on each page
 class Footer extends React.Component {
 	constructor(props) {
 		super(props);

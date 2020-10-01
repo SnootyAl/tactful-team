@@ -8,7 +8,10 @@ import TeamDisplay from "./TeamDisplay";
 
 import "../stylesheets/Team.css";
 
-class IndividualData extends React.Component {
+/**
+ * Component class that handles data input
+ */
+class TeamData extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -39,13 +42,6 @@ class IndividualData extends React.Component {
 				],
 			},
 		};
-
-		// HASH VALUE TO TEST DATA:
-		// Hash:
-		// U2FsdGVkX1+atMWiquQcAXQtfJgJnXjDnIbYgRF4aC7OFdnsRQcwTrqUtjO7tgb+N/pm16YcGvAlbPL5iedbD26diDq7w5n6ryNSqCMsU2uPbcIJ5NlThnZgFeURXltA+xNpxcnuyQ9gO96U6xDTgJLuQR9QvnZZnDdSeUPYVfA=
-		// Plain: The result was CheckSum{-data-}Tester{-data-}1610150912177914111710091879101511131110700615181111117210181412110873{-data-}
-		// I generated this with a local program I wrote, basically an AES encryption with secret key "Super Secret Key".
-		// Uses CryptoJS (npm install crypto-js).
 	}
 
 	// Given an array of member objects, unhash each input and store the plaintext + score object
@@ -212,7 +208,7 @@ class IndividualData extends React.Component {
 				<input
 					className="btnTeamAdd"
 					type="button"
-					value="Add"
+					value="Add Member"
 					onClick={() => this.handleAddField()}
 				/>
 				<button
@@ -241,4 +237,4 @@ class IndividualData extends React.Component {
 	}
 }
 
-export default IndividualData;
+export default TeamData;

@@ -166,7 +166,7 @@ class TeamDisplay extends React.Component {
 					</span>
 				</div>
 				<div className="btnSpanDiv">
-					<a onClick={() => this.toggleSpan(DL)} className="btnToggleSpan">
+					<a onClick={() => this.toggleSpan(DL)} className="btn ToggleSpan">
 						{this.state.more === DL ? "Read less" : "Read more"}
 					</a>
 				</div>
@@ -201,8 +201,6 @@ class TeamDisplay extends React.Component {
 						}}
 					/>
 				</div>
-
-				<p>Team scores: {teamScores}</p>
 				<p>{lowestMember}</p>
 				<p>{largestMember}</p>
 				<p>{strDifference}</p>

@@ -35,22 +35,11 @@
 	margin-top: 15px;
 }
 
-.btnQuizBack {
-	background-color: white;
-	color: black;
-	padding: 5px 10px;
-	border-radius: 5px;
-}
 .btnQuizHelpShow {
 	background-color: white;
 	padding: 5px 10px;
 	color: black;
 	border-radius: 5px;
-}
-
-.btnQuizHelpShow:hover {
-	cursor: pointer;
-	color: rgb(40, 132, 207);
 }
 
 .divQuizHelpHide {
@@ -62,10 +51,6 @@
 .btnQuizHelpHide {
 	position: relative;
 	top: 10%;
-	background-color: white;
-	color: black;
-	padding: 5px 10px;
-	border-radius: 5px;
 }
 
 .btnQuizHelpHide:hover {
@@ -76,4 +61,21 @@
 	width: 500px;
 	height: auto;
 	word-wrap: break-word;
+}
+
+.divRetakeQuiz {
+	position: absolute;
+	top: 50%;
+	left: 47%;
+}
+
+.btn {
+	background-color: white;
+	color: #111111;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.btn:hover {
+	cursor: pointer;
 }

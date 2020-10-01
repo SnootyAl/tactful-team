@@ -22,6 +22,7 @@
 	padding-left: 25%;
 	display: flex;
 	position: fixed;
+	z-index: 2;
 }
 
 .btnHome {
@@ -84,14 +85,6 @@
 	position: absolute;
 	left: 25%;
 	top: 480px;
-	background-color: white;
-	color: #111111;
-	padding: 5px 25px;
-	border-radius: 5px;
-}
-
-.banner a:hover {
-	cursor: pointer;
 }
 
 .banner img {
@@ -102,10 +95,6 @@
 .toggleTheme {
 	float: left;
 }
-.bodyPanel button {
-	display: block;
-	cursor: pointer;
-}
 
 .bodyPanel {
 	width: 100%;
@@ -114,42 +103,34 @@
 	margin: auto;
 }
 
-.teamDomain {
-	width: 60%;
-	margin: auto;
-	z-index: -1;
+.bodyPanel button {
+	display: block;
 }
-
-.more {
-	margin-top: 15px;
-}
-.btnSpanDiv {
-	margin: auto;
-	margin-top: 20px;
-}
-.btnToggleSpan {
-	color: black;
-	background-color: white;
-	padding: 5px 10px;
-	border-radius: 5px;
-}
-.btnToggleSpan:hover {
-	cursor: pointer;
-}
-.barGraph {
-	position: relative;
-	margin: auto;
-	margin-top: 20px;
-	width: 100%;
-	border: 1px solid white;
-	border-radius: 10px;
-	padding: 5px;
-	box-shadow: 1px 1px #77aaff, 2px 2px #77aaff, 3px 3px #77aaff, 4px 4px #77aaff,
-		5px 5px #77aaff;
-}
-
 .footerPanel {
 	width: 100%;
 	height: 60px;
 	vertical-align: bottom;
+}
+
+.divQuizProgress {
+	border: 1px solid white;
+}
+.progress-bar {
+	background-color: rgb(235, 86, 86);
+}
+
+.btnTestRedirect:hover {
+	cursor: pointer;
+}
+
+.btn {
+	background-color: white;
+	color: #111111;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.btn:hover {
+	cursor: pointer;
+	background-color: rgb(231, 230, 212);
 }

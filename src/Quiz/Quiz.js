@@ -7,6 +7,8 @@ import cryptoJS from "crypto-js";
 import TemplateJSON from "../data/templates/ScoreObject.json";
 import QuizHelp from "../components/QuizHelp";
 
+import ProgressBar from "react-bootstrap/ProgressBar";
+
 // NEED BACK BUTTON FOR QUIZ
 
 class Quiz extends React.Component {
@@ -22,6 +24,7 @@ class Quiz extends React.Component {
 			hashString: "",
 			stage: 0,
 			overlayWidth: "100%",
+			copied: false,
 		};
 	}
 
@@ -93,14 +96,23 @@ class Quiz extends React.Component {
 						className="answerButton"
 						click={this.buttonPressHandler.bind()}
 					/>
+					<div className="divQuizProgress">
+						<ProgressBar
+							animated
+							variant="success"
+							now={this.state.questionNumberState}
+							label={`${this.state.questionNumberState + 1}/120`}
+							max={120}
+						/>
+					</div>
 					<div className="divQuizBack">
-						<a className="btnQuizBack" onClick={this.previousQuestion}>
+						<a className="btn QuizBack" onClick={this.previousQuestion}>
 							Previous Question
 						</a>
 					</div>
 				</div>
 				<div className="QuizHelp">
-					<a className="btnQuizHelpShow" onClick={this.showHelp}>
+					<a className="btn QuizHelpShow" onClick={this.showHelp}>
 						Help
 					</a>
 				</div>
@@ -176,18 +188,61 @@ class Quiz extends React.Component {
 		return content;
 	};
 
+	handleCopy = (e) => {
+		//document.execCommand("copy", false, this.state.hashString);
+		navigator.clipboard.writeText(this.state.hashString);
+		this.setState({ copied: true }, () => {
+			setTimeout(() => {
+				this.setState({ copied: false });
+			}, 2500);
+		});
+	};
+
+	retakeQuiz = (e) => {
+		let questions = this.state.questions;
+		this.setState({
+			questionNumberState: 0,
+			answer: "",
+			questionsRemain: true,
+			questions: questions,
+			name: "",
+			hashPlain: "",
+			hashString: "",
+			stage: 0,
+			overlayWidth: "100%",
+			copied: false,
+		});
+		e.preventDefault();
+	};
+
 	renderResultContent = () => {
 		console.log(this.state.hashPlain);
+
 		let content = (
 			<div className="quizResult">
-				<p>{this.state.hashString}</p>
+				<div className="divCopyHash">
+					<a className="btn CopyHash" onClick={this.handleCopy}>
+						Copy your personality code
+					</a>
+				</div>
+				<div className="copySuccess">
+					{this.state.copied && (
+						<p>
+							Hash successfully copied to clipboard. Save it somewhere safe!
+						</p>
+					)}
+				</div>
+				<div className="divRetakeQuiz">
+					<a className="btn RetakeQuiz" onClick={this.retakeQuiz}>
+						Retake Quiz
+					</a>
+				</div>
 			</div>
 		);
 		return content;
 	};
 
 	render() {
-		//console.log(this.state.questions.questions[0]);
 		let content;
 		switch (this.state.stage) {
 			case 0:
@@ -201,9 +256,6 @@ class Quiz extends React.Component {
 		}
 		return <div className="Quiz">{content}</div>;
 	}
-	// const [questionNumberState, setQuestionNumberState] = useState(0);
-	// const [answer, addToAnswer] = useState("");
-	// let questionsRemain = true;
 }
 
 export default Quiz;
