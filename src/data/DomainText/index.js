@@ -9,4 +9,3 @@ module.exports.A = A;
 module.exports.N = N;
 module.exports.O = O;
 module.exports.E = E;
-// = Object.assign([], [C, A, N, O, E]);

@@ -25,6 +25,7 @@ class Quiz extends React.Component {
 			stage: 0,
 			overlayWidth: "100%",
 			copied: false,
+			hasCopied: false,
 		};
 	}
 
@@ -191,7 +192,7 @@ class Quiz extends React.Component {
 	handleCopy = (e) => {
 		//document.execCommand("copy", false, this.state.hashString);
 		navigator.clipboard.writeText(this.state.hashString);
-		this.setState({ copied: true }, () => {
+		this.setState({ copied: true, hasCopied: true }, () => {
 			setTimeout(() => {
 				this.setState({ copied: false });
 			}, 2500);
@@ -228,14 +229,33 @@ class Quiz extends React.Component {
 				<div className="copySuccess">
 					{this.state.copied && (
 						<p>
-							Hash successfully copied to clipboard. Save it somewhere safe!
+							Personality code copied successfully! Save that somewhere for next
+							time.
 						</p>
 					)}
 				</div>
-				<div className="divRetakeQuiz">
-					<a className="btn RetakeQuiz" onClick={this.retakeQuiz}>
-						Retake Quiz
-					</a>
+				<div className="divPostQuizButtons">
+					<div className="relativeDiv">
+						<div className="divRetakeQuiz">
+							<a className="btn RetakeQuiz" onClick={this.retakeQuiz}>
+								Retake Quiz
+							</a>
+						</div>
+
+						<div className="divReviewPersonality">
+							<a
+								className="btn reviewPersonality"
+								onClick={this.reviewPersonality}
+							>
+								Review Personality
+							</a>
+						</div>
+						<div className="divCompareTeam">
+							<a className="btn compareTeam" onClick={this.compareTeam}>
+								Compare with Team
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		);

@@ -46,6 +46,7 @@
 	margin-right: 7%;
 	background-color: #212121;
 	color: white;
+	height: 100%;
 }
 
 .btnTest:hover,
@@ -128,9 +129,19 @@
 	color: #111111;
 	padding: 5px 10px;
 	border-radius: 5px;
+	font-weight: bold;
 }
 
 .btn:hover {
 	cursor: pointer;
 	background-color: rgb(231, 230, 212);
+}
+
+.RetakeQuiz {
+	background-color: #757575;
+	color: #f8f8f8;
+}
+
+.RetakeQuiz:hover {
+	background-color: #585757;
 }
