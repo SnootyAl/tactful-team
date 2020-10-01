@@ -1,0 +1,62 @@
+.btn-group button {
+  color: black; /* White text */
+  font-size: 18px;
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  width: 141px;
+  height: 141px;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.veryInaccurate {
+  background-color: #3da0fc;
+}
+.veryInaccurate:hover {
+  background-color: #1172ce;
+}
+
+.somewhatInaccurate {
+  background-color: #fdbc4a;
+}
+.somewhatInaccurate:hover {
+  background-color: #d89118;
+}
+
+.neither {
+  background-color: #4fe7a5;
+}
+.neither:hover {
+  background-color: #21b675;
+}
+
+.somewhatAccurate {
+  background-color: #fe6176;
+}
+.somewhatAccurate:hover {
+  background-color: #dd2840;
+}
+
+.veryAccurate {
+  background-color: #bb74d7;
+}
+.veryAccurate:hover {
+  background-color: #9d43c0;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+/* .btn-group button:hover {
+  background-color: #3e8e41;
+} */

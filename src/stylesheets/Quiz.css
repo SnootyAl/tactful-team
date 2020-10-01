@@ -1,0 +1,86 @@
+.Quiz {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.QuizOverlay {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.9);
+	overflow-x: hidden;
+	transition: 0.5s;
+}
+
+.QuizOverlayContent {
+	position: relative;
+	top: 20%;
+	left: 30%;
+	width: 40%;
+	text-align: center;
+	margin-top: 30px;
+}
+
+.QuizHelp {
+	margin-top: 40px;
+}
+
+.divQuizBack {
+	margin-top: 15px;
+}
+
+.btnQuizHelpShow {
+	background-color: white;
+	padding: 5px 10px;
+	color: black;
+	border-radius: 5px;
+}
+
+.divQuizHelpHide {
+	height: auto;
+	position: relative;
+	top: 30%;
+}
+
+.btnQuizHelpHide {
+	position: relative;
+	top: 10%;
+}
+
+.btnQuizHelpHide:hover {
+	cursor: pointer;
+}
+
+.copySuccess {
+	margin-top: 150px;
+}
+.quizResult {
+	width: 500px;
+	height: auto;
+	word-wrap: break-word;
+}
+
+.divPostQuizButtons {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: auto;
+}
+
+.relativeDiv {
+	position: relative;
+	left: -50%;
+	width: auto;
+	display: flex;
+}
+
+.divRetakeQuiz,
+.divReviewPersonality {
+	margin-right: 20px;
+}

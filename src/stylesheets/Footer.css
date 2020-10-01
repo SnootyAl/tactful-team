@@ -1,0 +1,24 @@
+.footerPanel {
+}
+
+.footerIcons {
+	width: 50%;
+	display: inline-block;
+	padding-top: 20px;
+	margin: auto;
+}
+
+.footerImage {
+	margin: auto;
+	margin: 0px 10px;
+}
+
+.footerImage:hover {
+	cursor: pointer;
+	filter: brightness(50%);
+}
+.footerText {
+	width: 100%;
+	margin: auto;
+	padding-bottom: 20px;
+}

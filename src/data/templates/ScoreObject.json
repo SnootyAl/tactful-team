@@ -1,0 +1,52 @@
+{
+	"totalC": {
+		"f1": 0,
+		"f2": 0,
+		"f3": 0,
+		"f4": 0,
+		"f5": 0,
+		"f6": 0,
+		"total": 0,
+		"domain": "Compassion"
+	},
+	"totalA": {
+		"f1": 0,
+		"f2": 0,
+		"f3": 0,
+		"f4": 0,
+		"f5": 0,
+		"f6": 0,
+		"total": 0,
+		"domain": "Agreeableness"
+	},
+	"totalN": {
+		"f1": 0,
+		"f2": 0,
+		"f3": 0,
+		"f4": 0,
+		"f5": 0,
+		"f6": 0,
+		"total": 0,
+		"domain": "Neuroticism"
+	},
+	"totalO": {
+		"f1": 0,
+		"f2": 0,
+		"f3": 0,
+		"f4": 0,
+		"f5": 0,
+		"f6": 0,
+		"total": 0,
+		"domain": "Openness To Experience"
+	},
+	"totalE": {
+		"f1": 0,
+		"f2": 0,
+		"f3": 0,
+		"f4": 0,
+		"f5": 0,
+		"f6": 0,
+		"total": 0,
+		"domain": "Extraversion"
+	}
+}
