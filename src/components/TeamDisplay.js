@@ -12,6 +12,7 @@ class TeamDisplay extends React.Component {
 		super(props);
 		this.state = {
 			team: props.data,
+			showInfo: false,
 			data: {
 				arrayC: [],
 				arrayA: [],
@@ -236,6 +237,10 @@ class TeamDisplay extends React.Component {
 		return allGraphs;
 	}
 
+	displayInfo(shouldDisplayInfo) {
+		this.setState({ showInfo: shouldDisplayInfo });
+	}
+
 	renderTeam() {
 		const currentTeam = this.state.team;
 		console.log(currentTeam);
@@ -299,8 +304,33 @@ class TeamDisplay extends React.Component {
 		);
 	}
 
+	renderRoleAssign() {
+		return (
+			<div className="roleAssign">
+				<h1>This is where the role assign Widget will be</h1>
+			</div>
+		);
+	}
+
 	render() {
-		return this.renderTeam();
+		// Buttons to split between team info and role builder
+		return (
+			<div className="teamPage">
+				<div className="teamNavButtons">
+					<a className="btn showInfo" onClick={() => this.displayInfo(true)}>
+						Team Info
+					</a>
+					<a
+						className="btn showRoleAssign"
+						onClick={() => this.displayInfo(false)}
+					>
+						Role Assignments
+					</a>
+				</div>
+				{this.state.showInfo && this.renderTeam()}
+				{!this.state.showInfo && this.renderRoleAssign()}
+			</div>
+		);
 	}
 }
 
