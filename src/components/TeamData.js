@@ -228,12 +228,7 @@ class TeamData extends React.Component {
 		let content = doesHaveData
 			? this.renderTeamData()
 			: this.renderTeamInputs();
-		return (
-			<div className="showHome">
-				<h1 className="teamTitle">Create Team</h1>
-				{content}
-			</div>
-		);
+		return <div className="showHome">{content}</div>;
 	}
 }
 
