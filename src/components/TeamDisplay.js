@@ -6,6 +6,7 @@ import findStdDeviation from "../javascripts/StdDev";
 import averageData from "../data/Average-and-StdDist-JSON.json";
 import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
+import RoleAssign from "../javascripts/RoleAssign";
 
 class TeamDisplay extends React.Component {
 	constructor(props) {
@@ -17,22 +18,32 @@ class TeamDisplay extends React.Component {
 				Team: {
 					Full: "Team Lead",
 					val: "",
-				},
-				Comm: {
-					Full: "Communications Lead",
-					val: "",
-				},
-				Crtv: {
-					Full: "Creative Lead",
-					val: "",
+					index: 0,
+					total: 0,
 				},
 				Rela: {
 					Full: "Relations Lead",
 					val: "",
+					index: 1,
+					total: 0,
 				},
 				Motv: {
 					Full: "Motivation Lead",
 					val: "",
+					index: 2,
+					total: 0,
+				},
+				Crtv: {
+					Full: "Creative Lead",
+					val: "",
+					index: 3,
+					total: 0,
+				},
+				Comm: {
+					Full: "Communications Lead",
+					val: "",
+					index: 4,
+					total: 0,
 				},
 			},
 			data: {
@@ -240,6 +251,7 @@ class TeamDisplay extends React.Component {
 			more: currentMore === tempDL ? "" : tempDL,
 		});
 	}
+
 	myFunc(total, num) {
 		return total + num;
 	}
@@ -339,6 +351,25 @@ class TeamDisplay extends React.Component {
 
 	handleRoleAssign = (e) => {
 		console.log(this.state.roles);
+		const team = this.state.team;
+		const data = this.state.data;
+		let formTeam = [];
+
+		team.forEach((member) => {
+			let tempScores = [];
+			let memberScores = member.scores;
+			for (let i = 0; i < memberScores.length; i++) {
+				tempScores.push(memberScores[i][6]);
+			}
+			let temp = {
+				name: member.name,
+				scores: tempScores,
+			};
+			formTeam.push(temp);
+		});
+		const roles = this.state.roles;
+		const calculatedRoles = RoleAssign(formTeam, roles, data);
+		console.log(calculatedRoles);
 		e.preventDefault();
 	};
 
@@ -399,20 +430,22 @@ class TeamDisplay extends React.Component {
 				<div className="roleTable">
 					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
 						<table>
-							{mytable}
-							<tr>
-								<td></td>
-								<td>
-									<button
-										type="submit"
-										value="Calculate"
-										className="btnRoleAssign"
-										onClick={() => this.handleRoleAssign}
-									>
-										Calculate{" "}
-									</button>
-								</td>
-							</tr>
+							<tbody>
+								{mytable}
+								<tr>
+									<td></td>
+									<td>
+										<button
+											type="submit"
+											value="Calculate"
+											className="btnRoleAssign"
+											onClick={() => this.handleRoleAssign}
+										>
+											Calculate{" "}
+										</button>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 					</form>
 				</div>
