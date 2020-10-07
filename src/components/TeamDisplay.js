@@ -12,7 +12,29 @@ class TeamDisplay extends React.Component {
 		super(props);
 		this.state = {
 			team: props.data,
-			showInfo: false,
+			showInfo: true,
+			roles: {
+				Team: {
+					Full: "Team Lead",
+					val: "",
+				},
+				Comm: {
+					Full: "Communications Lead",
+					val: "",
+				},
+				Crtv: {
+					Full: "Creative Lead",
+					val: "",
+				},
+				Rela: {
+					Full: "Relations Lead",
+					val: "",
+				},
+				Motv: {
+					Full: "Motivation Lead",
+					val: "",
+				},
+			},
 			data: {
 				arrayC: [],
 				arrayA: [],
@@ -304,10 +326,96 @@ class TeamDisplay extends React.Component {
 		);
 	}
 
+	updateSetRole(roleName, event) {
+		const values = { ...this.state.roles };
+		values[roleName].val = event.target.value;
+		for (const [key, value] of Object.entries(values)) {
+			if (value.val === event.target.value && key != roleName) {
+				values[key].val = "";
+			}
+		}
+		this.setState({ roles: values });
+	}
+
+	handleRoleAssign = (e) => {
+		console.log(this.state.roles);
+		e.preventDefault();
+	};
+
+	formatTeamOptions() {
+		const team = this.state.team;
+		let optionsObject = [];
+
+		optionsObject.push(<option value="">- Not Set -</option>);
+		for (let i = 0; i < team.length; i++) {
+			let member = team[i];
+			optionsObject.push(<option value={member.name}>{member.name}</option>);
+		}
+		return optionsObject;
+	}
+
 	renderRoleAssign() {
+		let roles = this.state.roles;
+		let mytable = [];
+		let temp;
+
+		const teamOptions = this.formatTeamOptions();
+
+		for (const [key, value] of Object.entries(roles)) {
+			temp = (
+				<tr>
+					<td>{value.Full}</td>
+					<td>
+						<select
+							className={`inp${key}`}
+							name={key}
+							value={this.state.roles[key].val}
+							onChange={(event) => this.updateSetRole(key, event)}
+						>
+							{teamOptions}
+						</select>
+					</td>
+				</tr>
+			);
+			mytable.push(temp);
+		}
+		// temp = roles.map((role, index) => {
+		// 	<tr>
+		// 		<td>{role.Full}</td>
+		// 		<td>
+		// 			<input
+		// 				type="text"
+		// 				className={`inp${role}`}
+		// 				name={role}
+		// 				value={this.state.roles[role].val}
+		// 				onChange={(event) => this.updateSetRole(role, event)}
+		// 			/>
+		// 		</td>
+		// 	</tr>;
+		// });
 		return (
 			<div className="roleAssign">
 				<h1>This is where the role assign Widget will be</h1>
+				<div className="roleTable">
+					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
+						<table>
+							{mytable}
+							<tr>
+								<td></td>
+								<td>
+									<button
+										type="submit"
+										value="Calculate"
+										className="btnRoleAssign"
+										onClick={() => this.handleRoleAssign}
+									>
+										Calculate{" "}
+									</button>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
 		);
 	}
