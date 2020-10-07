@@ -7,6 +7,7 @@ import averageData from "../data/Average-and-StdDist-JSON.json";
 import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
 import RoleAssign from "../javascripts/RoleAssign";
+import RoleImage from "../Design Assets/role_icon.png";
 
 class TeamDisplay extends React.Component {
 	constructor(props) {
@@ -18,32 +19,32 @@ class TeamDisplay extends React.Component {
 				Team: {
 					Full: "Team Lead",
 					val: "",
+					set: "- Not set -",
 					index: 0,
-					total: 0,
 				},
 				Rela: {
 					Full: "Relations Lead",
 					val: "",
+					set: "- Not set -",
 					index: 1,
-					total: 0,
 				},
 				Motv: {
 					Full: "Motivation Lead",
 					val: "",
+					set: "- Not set -",
 					index: 2,
-					total: 0,
 				},
 				Crtv: {
 					Full: "Creative Lead",
 					val: "",
+					set: "- Not set -",
 					index: 3,
-					total: 0,
 				},
 				Comm: {
 					Full: "Communications Lead",
 					val: "",
+					set: "- Not set -",
 					index: 4,
-					total: 0,
 				},
 			},
 			data: {
@@ -244,7 +245,6 @@ class TeamDisplay extends React.Component {
 	}
 
 	toggleSpan(DLetter) {
-		console.log("Hello");
 		let tempDL = DLetter;
 		let currentMore = this.state.more;
 		this.setState({
@@ -277,7 +277,6 @@ class TeamDisplay extends React.Component {
 
 	renderTeam() {
 		const currentTeam = this.state.team;
-		console.log(currentTeam);
 		let teamElements = [];
 		let arrayC = [];
 		let arrayA = [];
@@ -295,7 +294,6 @@ class TeamDisplay extends React.Component {
 
 		const allDomains = [arrayC, arrayA, arrayN, arrayO, arrayE];
 		const allGraphs = this.createGraphs(allDomains);
-		console.log(allGraphs);
 		teamElements.push(
 			this.printDetails("Conscientousness", arrayC, allGraphs[1])
 		);
@@ -346,11 +344,12 @@ class TeamDisplay extends React.Component {
 				values[key].val = "";
 			}
 		}
-		this.setState({ roles: values });
+		this.setState({ roles: values }, () => {
+			console.log(this.state.roles);
+		});
 	}
 
 	handleRoleAssign = (e) => {
-		console.log(this.state.roles);
 		const team = this.state.team;
 		const data = this.state.data;
 		let formTeam = [];
@@ -369,6 +368,7 @@ class TeamDisplay extends React.Component {
 		});
 		const roles = this.state.roles;
 		const calculatedRoles = RoleAssign(formTeam, roles, data);
+		this.setState({ roles: calculatedRoles });
 		console.log(calculatedRoles);
 		e.preventDefault();
 	};
@@ -387,66 +387,67 @@ class TeamDisplay extends React.Component {
 
 	renderRoleAssign() {
 		let roles = this.state.roles;
-		let mytable = [];
 		let temp;
+		let tableNames = [];
+		let tableInputs = [];
 
 		const teamOptions = this.formatTeamOptions();
 
 		for (const [key, value] of Object.entries(roles)) {
 			temp = (
-				<tr>
-					<td>{value.Full}</td>
-					<td>
-						<select
-							className={`inp${key}`}
-							name={key}
-							value={this.state.roles[key].val}
-							onChange={(event) => this.updateSetRole(key, event)}
-						>
-							{teamOptions}
-						</select>
-					</td>
-				</tr>
+				<td
+					key={`txt${key}`}
+					value={this.state.roles[key].set}
+					className="txtRoleName"
+				>
+					{this.state.roles[key].set}
+				</td>
 			);
-			mytable.push(temp);
+			tableNames.push(temp);
 		}
-		// temp = roles.map((role, index) => {
-		// 	<tr>
-		// 		<td>{role.Full}</td>
-		// 		<td>
-		// 			<input
-		// 				type="text"
-		// 				className={`inp${role}`}
-		// 				name={role}
-		// 				value={this.state.roles[role].val}
-		// 				onChange={(event) => this.updateSetRole(role, event)}
-		// 			/>
-		// 		</td>
-		// 	</tr>;
-		// });
+
+		for (const [key, value] of Object.entries(roles)) {
+			temp = (
+				<td>
+					<select
+						className={`inp inpTeam inp${key}`}
+						name={key}
+						value={this.state.roles[key].val}
+						onChange={(event) => this.updateSetRole(key, event)}
+					>
+						{teamOptions}
+					</select>
+				</td>
+			);
+			tableInputs.push(temp);
+		}
 		return (
 			<div className="roleAssign">
-				<h1>This is where the role assign Widget will be</h1>
-				<div className="roleTable">
+				<div className="roleContents">
 					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
-						<table>
-							<tbody>
-								{mytable}
-								<tr>
-									<td></td>
-									<td>
-										<button
-											type="submit"
-											value="Calculate"
-											className="btnRoleAssign"
-											onClick={() => this.handleRoleAssign}
-										>
-											Calculate{" "}
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+						<img src={RoleImage} className="imgRoleImage" />
+						<div className="divRoleTable">
+							<table className="tblRoleTable">
+								<tbody>
+									<tr className="trRoleNames">{tableNames}</tr>
+								</tbody>
+							</table>
+							<div className="divRoleInputs">
+								<table className="tblRoleInputTable">
+									<tbody>
+										<tr>{tableInputs}</tr>
+									</tbody>
+								</table>
+								<div className="divRoleSubmit">
+									<a
+										className="btn btnRoleSubmit"
+										onClick={this.handleRoleAssign}
+									>
+										Calculate
+									</a>
+								</div>
+							</div>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -458,15 +459,19 @@ class TeamDisplay extends React.Component {
 		return (
 			<div className="teamPage">
 				<div className="teamNavButtons">
-					<a className="btn showInfo" onClick={() => this.displayInfo(true)}>
-						Team Info
-					</a>
-					<a
-						className="btn showRoleAssign"
-						onClick={() => this.displayInfo(false)}
-					>
-						Role Assignments
-					</a>
+					<div className="teamNav Left">
+						<a className="btn showInfo" onClick={() => this.displayInfo(true)}>
+							Team Results
+						</a>
+					</div>
+					<div className="teamNav Right">
+						<a
+							className="btn showRoleAssign"
+							onClick={() => this.displayInfo(false)}
+						>
+							Team Roles
+						</a>
+					</div>
 				</div>
 				{this.state.showInfo && this.renderTeam()}
 				{!this.state.showInfo && this.renderRoleAssign()}

@@ -75,29 +75,24 @@ class TeamData extends React.Component {
 			let plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
 			let isValid = this.checkValue(plaintext);
 			if (isValid != false) {
-				console.log(isValid);
 				member.plain = plaintext;
 				member.scores = isValid;
 			}
 			return member;
 		});
 
-		this.setState({ members: updatedTeamData }, () => {
-			//console.log(this.state.members);
-		});
+		this.setState({ members: updatedTeamData }, () => {});
 	}
 
 	// Given a plaintext string, check that it meets the criteria of a correctly decrpyted hash
 	checkValue(value) {
 		const errCheck = value.slice(0, 8);
-		console.log(value);
 		const result = value.slice(8);
 		if (errCheck === "CheckSum") {
 			const data = result.split("{-data-}");
 			const name = data[1];
 			const rawResults = data[2];
 			if (rawResults.length == 70) {
-				console.log(rawResults);
 				let formattedScores = this.pullScores(rawResults);
 				return formattedScores;
 			} else {
@@ -150,38 +145,27 @@ class TeamData extends React.Component {
 
 	handleAddField() {
 		let availableColours = this.state.colours.available;
-		this.setState(
-			{
-				members: [
-					...this.state.members,
-					{ name: "", hash: "", plain: "", colour: availableColours.shift() },
-				],
-				colours: {
-					available: availableColours,
-				},
+		this.setState({
+			members: [
+				...this.state.members,
+				{ name: "", hash: "", plain: "", colour: availableColours.shift() },
+			],
+			colours: {
+				available: availableColours,
 			},
-			() => {
-				console.log(this.state.members);
-			}
-		);
+		});
 	}
 
 	handleRemoveField(index) {
 		const localmembers = this.state.members;
 		const removedUser = localmembers.splice(index, 1);
 		const removedColour = removedUser[0].colour;
-		console.log(removedColour);
 		let localColours = this.state.colours.available;
 		localColours.push(removedColour);
-		this.setState(
-			{
-				members: localmembers,
-				colours: { available: localColours },
-			},
-			() => {
-				console.log(this.state.colours.available);
-			}
-		);
+		this.setState({
+			members: localmembers,
+			colours: { available: localColours },
+		});
 	}
 
 	handleSubmit = (e) => {
