@@ -24,6 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy-production": "react-scripts build && scp -r ./build/* alex@139.59.231.101:/var/www/tactful/html",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
