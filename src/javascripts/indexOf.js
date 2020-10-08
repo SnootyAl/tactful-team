@@ -8,7 +8,7 @@ module.exports.smallest = (data) => {
 			lowest = parseInt(a[i]);
 			indicies = [];
 			indicies.push(i);
-		} else if (parseInt(a[i]) == lowest) {
+		} else if (parseInt(a[i]) === lowest) {
 			indicies.push(i);
 		}
 	}
@@ -25,7 +25,7 @@ module.exports.largest = (data) => {
 			highest = parseInt(a[i]);
 			indicies = [];
 			indicies.push(i);
-		} else if (parseInt(a[i]) == highest) {
+		} else if (parseInt(a[i]) === highest) {
 			indicies.push(i);
 		}
 	}

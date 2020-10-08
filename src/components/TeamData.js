@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import NameForm from "./NameForm";
+import React from "react";
 import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
-import questionData from "../data/items-en-trimmed.json";
-import scoreObject from "../data/templates/ScoreObject.json";
 import TeamDisplay from "./TeamDisplay";
+import minIcon from "../Design Assets/minus_icon.png";
+import plsIcon from "../Design Assets/minus_icon.png";
 
 import "../stylesheets/Team.css";
 
@@ -74,7 +73,7 @@ class TeamData extends React.Component {
 			let decryptedBytes = AES.decrypt(member.hash, "Super Secret Key");
 			let plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
 			let isValid = this.checkValue(plaintext);
-			if (isValid != false) {
+			if (isValid !== false) {
 				member.plain = plaintext;
 				member.scores = isValid;
 			}
@@ -90,9 +89,8 @@ class TeamData extends React.Component {
 		const result = value.slice(8);
 		if (errCheck === "CheckSum") {
 			const data = result.split("{-data-}");
-			const name = data[1];
 			const rawResults = data[2];
-			if (rawResults.length == 70) {
+			if (rawResults.length === 70) {
 				let formattedScores = this.pullScores(rawResults);
 				return formattedScores;
 			} else {
@@ -200,10 +198,9 @@ class TeamData extends React.Component {
 					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}
 				/>
-				<input
-					type="button"
-					value="Remove"
-					className="teamInput"
+				<img
+					src={minIcon}
+					className="teamInput btnRemoveField"
 					onClick={() => this.handleRemoveField(index)}
 				/>
 			</div>

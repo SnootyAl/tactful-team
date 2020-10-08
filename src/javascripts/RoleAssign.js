@@ -7,21 +7,27 @@ module.exports = (Team, SetRoles, Data) => {
 		let currentName = value.val;
 		for (let i = 0; i < localTeam.length; i++) {
 			if (localTeam[i].name === currentName) {
+				console.log(currentName);
 				localTeam.splice(i, 1);
 				let roleIndex = value.index;
 				takenIndicies.push(roleIndex);
 				SetRoles[key].set = currentName;
+				console.log(SetRoles[key].set, roleIndex);
+				console.log(SetRoles);
 				break;
 			}
 		}
 	}
 
+	// Loop through SetRoles instead
+	// Check that user[i]'s score is higher than previous, and that user[i] isn't already assigned a role?
 	localTeam.forEach(function (member, index, object) {
 		let foundSlot = false;
 		let tempScore = 0;
 		let tempIter = 0;
 		for (let i = 0; i < member.scores.length; i++) {
 			let currentScore = member.scores[i];
+			//if (currentScore > tempScore && !takenIndicies.includes(i)) {
 			if (currentScore > tempScore && !takenIndicies.includes(i)) {
 				tempScore = currentScore;
 				tempIter = i;

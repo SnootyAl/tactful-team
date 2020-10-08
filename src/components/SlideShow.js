@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ssInfo from "../data/slideshow-info.json";
 import AnimateHeight from "react-animate-height";
 
@@ -22,13 +22,17 @@ class SlideShow extends React.Component {
 		this.timerID = setInterval(() => this.tick(), 9000);
 	}
 
+	componentWillUnmount() {
+		clearInterval(this.timerID);
+	}
+
 	/**
 	 * Controls the animation of the domain slideshow bar
 	 */
 	tick() {
 		let tempStage = this.state.stage;
 		let newStage = (tempStage + 1) % 5;
-		const timeout = setTimeout(() => {
+		setTimeout(() => {
 			this.setState({
 				stage: newStage,
 				fadeTransition: null,
@@ -52,6 +56,7 @@ class SlideShow extends React.Component {
 						className="slideshow-blue"
 						duration={1000}
 						height={0 === this.state.stage ? 30 : 10}
+						children=""
 					/>
 
 					<AnimateHeight
@@ -59,12 +64,14 @@ class SlideShow extends React.Component {
 						className="slideshow-green"
 						duration={1000}
 						height={1 === this.state.stage ? 30 : 10}
+						children=""
 					/>
 					<AnimateHeight
 						id="panel2"
 						className="slideshow-yellow"
 						duration={1000}
 						height={2 === this.state.stage ? 30 : 10}
+						children=""
 					/>
 
 					<AnimateHeight
@@ -72,12 +79,14 @@ class SlideShow extends React.Component {
 						className="slideshow-red"
 						duration={1000}
 						height={3 === this.state.stage ? 30 : 10}
+						children=""
 					/>
 					<AnimateHeight
 						id="panel4"
 						className="slideshow-purple"
 						duration={1000}
 						height={4 === this.state.stage ? 30 : 10}
+						children=""
 					/>
 				</div>
 				<div className="slideshow-quote-container">

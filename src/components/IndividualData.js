@@ -62,6 +62,7 @@ class IndividualData extends React.Component {
 	recSumData(data) {
 		// Create local copy of score template
 		let myJson = scoreObject;
+		console.log(myJson);
 		const domainNames = [
 			"Compassion",
 			"Agreeableness",
@@ -74,14 +75,17 @@ class IndividualData extends React.Component {
 		// Iterate through each domain
 		for (var topKey of Object.keys(myJson)) {
 			// Iterate through each facet
+			console.log(topKey);
 			for (var lowKey of Object.keys(myJson[topKey])) {
+				console.log(lowKey);
+				console.log(myJson[topKey][lowKey]);
 				// Pull score from next part of string
 				let currentScore = parseInt(data.slice(a, a + 2));
 				// Sort it into correct object
 				if (lowKey == "domain") {
 					myJson[topKey].domain = domainNames[n];
 				} else {
-					myJson[topKey][lowKey] = currentScore;
+					myJson[topKey][lowKey].val = currentScore;
 					a += 2;
 				}
 			}
@@ -113,22 +117,24 @@ class IndividualData extends React.Component {
 	renderUserData() {
 		const userData = this.state.data;
 		let domainElements = [];
+		//console.log(userData[0]);
 		// Iterate over each domain
 		for (let i = 0; i < 5; i++) {
 			// Store current domain locally
 			let cD = userData[i];
-
+			console.log(userData[i]);
 			// Create JSX object for each specific domain
 			let elements = (
 				<div className="domain" key={cD.domain}>
 					<div className="domainHeader">
 						<h1>Domain: {cD.domain}</h1>
-						<p>Total: {cD.total}</p>
+						<p>Total: {cD.total.val}</p>
 					</div>
 					<div className="domainFacet">
 						<p>
-							Facet 1: {cD.f1} | Facet 2: {cD.f2} | Facet 3: {cD.f3} | Facet 4:{" "}
-							{cD.f4} | Facet 5: {cD.f5} | Facet 6: {cD.f6}
+							{cD.f1.title}: {cD.f1.val} | {cD.f2.title}: {cD.f2.val} |{" "}
+							{cD.f3.title}: {cD.f3.val} | {cD.f4.title}: {cD.f4.val} |{" "}
+							{cD.f5.title}: {cD.f5.val} | {cD.f6.title}: {cD.f6.val}
 						</p>
 					</div>
 				</div>

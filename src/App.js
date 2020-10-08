@@ -1,9 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { ThemeProvider } from "styled-components";
-import { useDarkMode } from "./components/useDarkMode";
-import { GlobalStyles } from "./components/globalStyles";
-import { lightTheme, darkTheme } from "./components/Themes";
-import Toggle from "./components/Toggler";
+import React, { useState } from "react";
 import Quiz from "./Quiz/Quiz";
 import data from "./data/items-en.json";
 import darkBanner from "./Design Assets/Dark-Banner.png";
@@ -18,9 +13,7 @@ import Footer from "./components/Footer";
 import "./stylesheets/App.css";
 
 const App = () => {
-	const [theme, themeToggler] = useDarkMode();
 	const [showing, setShowing] = useState("Home");
-	const themeMode = theme === "light" ? lightTheme : darkTheme;
 
 	return (
 		// <ThemeProvider theme={themeMode}>

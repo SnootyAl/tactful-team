@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../stylesheets/Quiz.css";
 import AnswerButton from "./AnswerButtons";
 import Question from "./Question";
@@ -8,8 +8,6 @@ import TemplateJSON from "../data/templates/ScoreObject.json";
 import QuizHelp from "../components/QuizHelp";
 
 import ProgressBar from "react-bootstrap/ProgressBar";
-
-// NEED BACK BUTTON FOR QUIZ
 
 class Quiz extends React.Component {
 	constructor(props) {
@@ -44,7 +42,7 @@ class Quiz extends React.Component {
 			"\nValue is: ",
 			currentQuestion.choices[response].score
 		);
-		const localQuestionsRemain = 119 != this.state.questionNumberState;
+		const localQuestionsRemain = 119 !== this.state.questionNumberState;
 		this.setState(
 			{
 				answer: this.state.answer + currentQuestion.choices[response].score,
@@ -135,7 +133,7 @@ class Quiz extends React.Component {
 			let currentQuestion = questionData[i];
 
 			let added =
-				currentQuestion.keyed == "plus" ? currentScore : 6 - currentScore;
+				currentQuestion.keyed === "plus" ? currentScore : 6 - currentScore;
 			myJson[`total${currentQuestion.domain}`][
 				`f${currentQuestion.facet}`
 			] += added;
@@ -148,7 +146,7 @@ class Quiz extends React.Component {
 				console.log(
 					`Top key: ${topKey} | Low key: ${lowKey} | Value: ${myJson[topKey][lowKey]}`
 				);
-				if (lowKey != "domain") {
+				if (lowKey !== "domain") {
 					if (myJson[topKey][lowKey] < 10) {
 						finalAnswer += "0";
 					}
@@ -273,6 +271,8 @@ class Quiz extends React.Component {
 				break;
 			case 2:
 				content = this.renderResultContent();
+			default:
+				content = this.renderQuizContent();
 		}
 		return <div className="Quiz">{content}</div>;
 	}

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Radar, Bar, HorizontalBar } from "react-chartjs-2";
+import React from "react";
+import { Radar, HorizontalBar } from "react-chartjs-2";
 import findIndex from "../javascripts/indexOf";
 import Graph from "../javascripts/Graphs";
 import findStdDeviation from "../javascripts/StdDev";
@@ -117,7 +117,7 @@ class TeamDisplay extends React.Component {
 				names[0];
 		}
 
-		if (compString == "lowest") {
+		if (compString === "lowest") {
 			result += teamText[`${domLetter}`][`low`] + "\n";
 		} else {
 			result += teamText[`${domLetter}`][`high`] + "\n";
@@ -132,7 +132,7 @@ class TeamDisplay extends React.Component {
 		let totalScore = 0;
 		let teamAvg = 0;
 		let teamAverageCompare = "";
-		let teamScores = "";
+		let teamScores;
 		const DL = domain[0];
 		const shortDescription = DomainText[DL].shortDescription;
 		const longDescription = DomainText[DL].description;
@@ -340,7 +340,7 @@ class TeamDisplay extends React.Component {
 		const values = { ...this.state.roles };
 		values[roleName].val = event.target.value;
 		for (const [key, value] of Object.entries(values)) {
-			if (value.val === event.target.value && key != roleName) {
+			if (value.val === event.target.value && key !== roleName) {
 				values[key].val = "";
 			}
 		}
@@ -367,6 +367,10 @@ class TeamDisplay extends React.Component {
 			formTeam.push(temp);
 		});
 		const roles = this.state.roles;
+		//console.log(roles);
+		for (const [key, value] of Object.entries(roles)) {
+			value.set = "- Not set -";
+		}
 		const calculatedRoles = RoleAssign(formTeam, roles, data);
 		this.setState({ roles: calculatedRoles });
 		console.log(calculatedRoles);
@@ -425,7 +429,7 @@ class TeamDisplay extends React.Component {
 			<div className="roleAssign">
 				<div className="roleContents">
 					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
-						<img src={RoleImage} className="imgRoleImage" />
+						<img src={RoleImage} alt="talking heads" className="imgRoleImage" />
 						<div className="divRoleTable">
 							<table className="tblRoleTable">
 								<tbody>
