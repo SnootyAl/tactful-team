@@ -26,6 +26,14 @@
 	margin-left: 10px;
 }
 
+.btnRemoveField {
+	width: 20px;
+}
+
+.btnRemoveField:hover {
+	cursor: pointer;
+}
+
 .btnTeamAdd {
 	margin: auto;
 	margin-top: 20px;

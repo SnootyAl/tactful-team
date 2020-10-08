@@ -33,7 +33,7 @@ class NameForm extends React.Component {
 				<input
 					className="userInputBox"
 					type="text"
-					placeholder="Insert unique hash here: "
+					placeholder="Insert unique personality code here: "
 					id="userInput"
 					autoComplete="off"
 					value={this.state.value}

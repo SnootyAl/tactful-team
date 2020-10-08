@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import NameForm from "./NameForm";
+import React from "react";
 import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
-import questionData from "../data/items-en-trimmed.json";
-import scoreObject from "../data/templates/ScoreObject.json";
 import TeamDisplay from "./TeamDisplay";
+import minIcon from "../Design Assets/minus_icon.png";
+import plsIcon from "../Design Assets/minus_icon.png";
 
 import "../stylesheets/Team.css";
 
@@ -19,10 +18,32 @@ class TeamData extends React.Component {
 			value: { name: "", hash: "" },
 			members: [
 				{
-					name: "",
-					hash: "",
+					name: "Jordan",
+					hash:
+						"U2FsdGVkX1+Q7I4Opd3oxfnO8Rubb+G07zS2N+PZozs2FBl7arW+fLu8eRw1RmRD9u5PGIicINPgPKSfVcCa4c2i6XMO5SxaeyO+I3iqBaYVyh6y6+/zgTtshHfhURenn9vtvQF+5MySCqDpN0gdRR1EWuqV20iXTds/aXlhm3g=",
 					plain: "",
 					colour: ["104", "87", "161"],
+				},
+				{
+					name: "Alex",
+					hash:
+						"U2FsdGVkX19N2fiewMCO+i9hOzojHRHxlZomL0oEbWhxiQAg0aHI/VNugfh4YMKkYxkxgH+C9LaWWIEThWuDFF1Q8+sTpbq+LA6jPFCrOvBOO6MUXgMMXoLAbr8VO4nx3ocl6+GRnVppJg9Vj/L+0ErTX017MTWV2vvNbrlozvU=",
+					plain: "",
+					colour: ["127", "48", "59"],
+				},
+				{
+					name: "Jono",
+					hash:
+						"U2FsdGVkX1///YzIw3Ia+tH1sX9w8wHjAGQk5tWcmBVrvX0X/GuzeAzMPf2kAspVFIAJ+fBahY1QIPUBEgpB6LCWSn178dKZftohZoy1rO53iBl1P3B3I07KdKX5N/wHTQyn5xyBoqBPPDoAys2ppUIl9LCui+gTOLwOBHp3i3U=",
+					plain: "",
+					colour: ["127", "94", "37"],
+				},
+				{
+					name: "Calum",
+					hash:
+						"U2FsdGVkX1+atMWiquQcAXQtfJgJnXjDnIbYgRF4aC7OFdnsRQcwTrqUtjO7tgb+N/pm16YcGvAlbPL5iedbD26diDq7w5n6ryNSqCMsU2uPbcIJ5NlThnZgFeURXltA+xNpxcnuyQ9gO96U6xDTgJLuQR9QvnZZnDdSeUPYVfA=",
+					plain: "",
+					colour: ["40", "115", "82"],
 				},
 			],
 			hasData: false,
@@ -52,30 +73,24 @@ class TeamData extends React.Component {
 			let decryptedBytes = AES.decrypt(member.hash, "Super Secret Key");
 			let plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
 			let isValid = this.checkValue(plaintext);
-			if (isValid != false) {
-				console.log(isValid);
+			if (isValid !== false) {
 				member.plain = plaintext;
 				member.scores = isValid;
 			}
 			return member;
 		});
 
-		this.setState({ members: updatedTeamData }, () => {
-			//console.log(this.state.members);
-		});
+		this.setState({ members: updatedTeamData }, () => {});
 	}
 
 	// Given a plaintext string, check that it meets the criteria of a correctly decrpyted hash
 	checkValue(value) {
 		const errCheck = value.slice(0, 8);
-		console.log(value);
 		const result = value.slice(8);
 		if (errCheck === "CheckSum") {
 			const data = result.split("{-data-}");
-			const name = data[1];
 			const rawResults = data[2];
-			if (rawResults.length == 70) {
-				console.log(rawResults);
+			if (rawResults.length === 70) {
 				let formattedScores = this.pullScores(rawResults);
 				return formattedScores;
 			} else {
@@ -128,38 +143,27 @@ class TeamData extends React.Component {
 
 	handleAddField() {
 		let availableColours = this.state.colours.available;
-		this.setState(
-			{
-				members: [
-					...this.state.members,
-					{ name: "", hash: "", plain: "", colour: availableColours.shift() },
-				],
-				colours: {
-					available: availableColours,
-				},
+		this.setState({
+			members: [
+				...this.state.members,
+				{ name: "", hash: "", plain: "", colour: availableColours.shift() },
+			],
+			colours: {
+				available: availableColours,
 			},
-			() => {
-				console.log(this.state.members);
-			}
-		);
+		});
 	}
 
 	handleRemoveField(index) {
 		const localmembers = this.state.members;
 		const removedUser = localmembers.splice(index, 1);
 		const removedColour = removedUser[0].colour;
-		console.log(removedColour);
 		let localColours = this.state.colours.available;
 		localColours.push(removedColour);
-		this.setState(
-			{
-				members: localmembers,
-				colours: { available: localColours },
-			},
-			() => {
-				console.log(this.state.colours.available);
-			}
-		);
+		this.setState({
+			members: localmembers,
+			colours: { available: localColours },
+		});
 	}
 
 	handleSubmit = (e) => {
@@ -175,7 +179,7 @@ class TeamData extends React.Component {
 				<span
 					className={`inputRowColour ${member.colour}`}
 					style={{
-						"background-color": `rgb(${member.colour[0]},${member.colour[1]},${member.colour[2]})`,
+						backgroundColor: `rgb(${member.colour[0]},${member.colour[1]},${member.colour[2]})`,
 					}}
 				/>
 				<input
@@ -194,10 +198,9 @@ class TeamData extends React.Component {
 					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}
 				/>
-				<input
-					type="button"
-					value="Remove"
-					className="teamInput"
+				<img
+					src={minIcon}
+					className="teamInput btnRemoveField"
 					onClick={() => this.handleRemoveField(index)}
 				/>
 			</div>
@@ -228,12 +231,7 @@ class TeamData extends React.Component {
 		let content = doesHaveData
 			? this.renderTeamData()
 			: this.renderTeamInputs();
-		return (
-			<div className="showHome">
-				<h1 className="teamTitle">Create Team</h1>
-				{content}
-			</div>
-		);
+		return <div className="showTeam">{content}</div>;
 	}
 }
 
