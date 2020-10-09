@@ -70,7 +70,19 @@ const App = () => {
 		setShowing("Personal");
 	}
 
+	function handleChangePersonalClick(e) {
+		e.preventDefault();
+		setShowing("null");
+		setShowing("Personal");
+	}
+
 	function handleTeamClick(e) {
+		e.preventDefault();
+		setShowing("null");
+		setShowing("Team");
+	}
+
+	function handleChangeTeamClick(e) {
 		e.preventDefault();
 		setShowing("null");
 		setShowing("Team");
@@ -84,7 +96,11 @@ const App = () => {
 				return (
 					<div className="showTest">
 						<h1 className="test">Big 5 Personality Test</h1>
-						<Quiz questions={data} />
+						<Quiz
+							questions={data}
+							onReviewPersonality={handleChangePersonalClick}
+							onCompareTeam={handleChangeTeamClick}
+						/>
 					</div>
 				);
 
