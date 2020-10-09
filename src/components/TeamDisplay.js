@@ -6,7 +6,6 @@ import findStdDeviation from "../javascripts/StdDev";
 import averageData from "../data/Average-and-StdDist-JSON.json";
 import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
-import RoleAssign from "../javascripts/RoleAssign";
 import RoleImage from "../Design Assets/role_icon.png";
 
 class TeamDisplay extends React.Component {
@@ -19,31 +18,31 @@ class TeamDisplay extends React.Component {
 				Team: {
 					Full: "Team Lead",
 					val: "",
-					set: "- Not set -",
+					set: "- Not Set -",
 					index: 0,
 				},
 				Rela: {
 					Full: "Relations Lead",
 					val: "",
-					set: "- Not set -",
+					set: "- Not Set -",
 					index: 1,
 				},
 				Motv: {
 					Full: "Motivation Lead",
 					val: "",
-					set: "- Not set -",
+					set: "- Not Set -",
 					index: 2,
 				},
 				Crtv: {
 					Full: "Creative Lead",
 					val: "",
-					set: "- Not set -",
+					set: "- Not Set -",
 					index: 3,
 				},
 				Comm: {
 					Full: "Communications Lead",
 					val: "",
-					set: "- Not set -",
+					set: "- Not Set -",
 					index: 4,
 				},
 			},
@@ -349,6 +348,53 @@ class TeamDisplay extends React.Component {
 		});
 	}
 
+	AssignRoles = (Team, SetRoles, Data) => {
+		let localTeam = Team;
+		let takenIndicies = [];
+
+		// For each Role
+		for (const [key, value] of Object.entries(SetRoles)) {
+			// Store name of user-set member
+			let currentName = value.val;
+			let tempLowScore = 0;
+			let tempHighScore = 100;
+			let tempIter = 0;
+			let tempName = "";
+			let roleIndex = value.index;
+			// For each member in the remaining team
+			for (let i = 0; i < localTeam.length; i++) {
+				// If this member is the user-set member, assign them to the role and remove them from the team list
+				if (localTeam[i].name === currentName) {
+					tempName = localTeam[i].name;
+					tempIter = i;
+
+					break;
+				} else {
+					if (key === "Motv") {
+						if (localTeam[i].scores[roleIndex] < tempHighScore) {
+							tempHighScore = localTeam[i].scores[roleIndex];
+							tempName = localTeam[i].name;
+							tempIter = i;
+						}
+					} else {
+						// Find the user that has the highest skill level for this role (value.index)
+						if (localTeam[i].scores[roleIndex] > tempLowScore) {
+							tempLowScore = localTeam[i].scores[roleIndex];
+							tempName = localTeam[i].name;
+							tempIter = i;
+						}
+					}
+				}
+			}
+			localTeam.splice(tempIter, 1);
+			takenIndicies.push(roleIndex);
+			SetRoles[key].set = tempName != "" ? tempName : "- Not Set -";
+			SetRoles[key].val = "";
+		}
+
+		return SetRoles;
+	};
+
 	handleRoleAssign = (e) => {
 		const team = this.state.team;
 		const data = this.state.data;
@@ -371,7 +417,7 @@ class TeamDisplay extends React.Component {
 		for (const [key, value] of Object.entries(roles)) {
 			value.set = "- Not set -";
 		}
-		const calculatedRoles = RoleAssign.default(formTeam, roles, data);
+		const calculatedRoles = this.AssignRoles(formTeam, roles, data);
 		this.setState({ roles: calculatedRoles });
 		console.log(calculatedRoles);
 		e.preventDefault();
