@@ -82,7 +82,7 @@ class IndividualData extends React.Component {
 				// Pull score from next part of string
 				let currentScore = parseInt(data.slice(a, a + 2));
 				// Sort it into correct object
-				if (lowKey == "domain") {
+				if (lowKey === "domain") {
 					myJson[topKey].domain = domainNames[n];
 				} else {
 					myJson[topKey][lowKey].val = currentScore;
