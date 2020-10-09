@@ -42,7 +42,7 @@ class Quiz extends React.Component {
 			"\nValue is: ",
 			currentQuestion.choices[response].score
 		);
-		const localQuestionsRemain = 119 !== this.state.questionNumberState;
+		const localQuestionsRemain = 119 != this.state.questionNumberState;
 		this.setState(
 			{
 				answer: this.state.answer + currentQuestion.choices[response].score,
@@ -271,8 +271,6 @@ class Quiz extends React.Component {
 				break;
 			case 2:
 				content = this.renderResultContent();
-			default:
-				content = this.renderQuizContent();
 		}
 		return <div className="Quiz">{content}</div>;
 	}

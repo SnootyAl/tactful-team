@@ -371,7 +371,7 @@ class TeamDisplay extends React.Component {
 		for (const [key, value] of Object.entries(roles)) {
 			value.set = "- Not set -";
 		}
-		const calculatedRoles = RoleAssign(formTeam, roles, data);
+		const calculatedRoles = RoleAssign.default(formTeam, roles, data);
 		this.setState({ roles: calculatedRoles });
 		console.log(calculatedRoles);
 		e.preventDefault();
