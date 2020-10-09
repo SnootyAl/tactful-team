@@ -6,6 +6,7 @@ import SlideShow from "./components/SlideShow";
 
 import IndividualData from "./components/IndividualData";
 import TeamData from "./components/TeamData";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 //import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 //import ToggleButton from "react-bootstrap/ToggleButton";
@@ -20,22 +21,12 @@ const App = () => {
 		// 	<>
 		// 		<GlobalStyles />
 		<div className="App">
-			<div className="headerPanel">
-				<a className="btnHome" onClick={handleHomeClick}>
-					Tactful Team
-				</a>
-				<div className="headerButtons">
-					<a className="btnTest" onClick={handleTestClick}>
-						Take Test
-					</a>
-					<a className="btnPersonal" onClick={handlePersonalClick}>
-						Personal Results
-					</a>
-					<a className="btnTeam" onClick={handleTeamClick}>
-						Team Results
-					</a>
-				</div>
-			</div>
+			<Header
+				handleHomeClick={handleHomeClick}
+				handleTestClick={handleTestClick}
+				handlePersonalClick={handlePersonalClick}
+				handleTeamClick={handleTeamClick}
+			/>
 			<div className="bodyPanel">{renderContent()}</div>
 			<div className="footerPanel">
 				<Footer />

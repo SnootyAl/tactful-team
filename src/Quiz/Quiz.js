@@ -32,7 +32,7 @@ class Quiz extends React.Component {
 		let currentQuestion = this.state.questions.questions[
 			this.state.questionNumberState
 		];
-		const localQuestionsRemain = 119 != this.state.questionNumberState;
+		const localQuestionsRemain = 10 != this.state.questionNumberState;
 		this.setState({
 			answer: this.state.answer + currentQuestion.choices[response].score,
 			questionNumberState: this.state.questionNumberState + 1,

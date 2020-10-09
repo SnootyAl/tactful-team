@@ -4,7 +4,7 @@
 
 .inputRow {
 	margin: 15px;
-	padding-left: 55px;
+	padding-left: 10px;
 	display: flex;
 	justify-content: center;
 }
@@ -38,7 +38,13 @@
 	margin: auto;
 	margin-top: 20px;
 	margin-bottom: 30px;
+	width: 40px;
 }
+
+.btnTeamAdd:hover {
+	cursor: pointer;
+}
+
 .btnTeamSubmit {
 	margin: auto;
 }
@@ -52,19 +58,23 @@
 .more {
 	margin-top: 15px;
 }
+
 .btnSpanDiv {
 	margin: auto;
 	margin-top: 20px;
 }
+
 .btnToggleSpan {
 	color: black;
 	background-color: white;
 	padding: 5px 10px;
 	border-radius: 5px;
 }
+
 .btnToggleSpan:hover {
 	cursor: pointer;
 }
+
 .barGraph {
 	position: relative;
 	margin: auto;

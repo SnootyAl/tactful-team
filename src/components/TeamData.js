@@ -3,7 +3,7 @@ import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
 import TeamDisplay from "./TeamDisplay";
 import minIcon from "../Design Assets/minus_icon.png";
-import plsIcon from "../Design Assets/minus_icon.png";
+import plsIcon from "../Design Assets/plus_icon.png";
 
 import "../stylesheets/Team.css";
 
@@ -171,6 +171,7 @@ class TeamData extends React.Component {
 		this.unHashTeam();
 		this.setState({ hasData: true });
 	};
+
 	renderTable() {
 		let myMembers = this.state.members;
 		let content, temp;
@@ -208,14 +209,14 @@ class TeamData extends React.Component {
 		content = (
 			<form className="teamInputForm" onSubmit={this.handleSubmit}>
 				{temp}
-				<input
+				<img
+					src={plsIcon}
 					className="btnTeamAdd"
-					type="button"
 					value="Add Member"
 					onClick={() => this.handleAddField()}
 				/>
 				<button
-					className="btnTeamSubmit"
+					className="btn btnTeamSubmit"
 					type="submit"
 					onClick={this.handleSubmit}
 				>

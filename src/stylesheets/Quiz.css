@@ -16,6 +16,7 @@
 	background-color: rgba(0, 0, 0, 0.9);
 	overflow-x: hidden;
 	transition: 0.5s;
+	font-size: 18px !important;
 }
 
 .QuizOverlayContent {
@@ -58,7 +59,7 @@
 }
 
 .copySuccess {
-	margin-top: 150px;
+	margin-top: 50px;
 }
 .quizResult {
 	width: 500px;

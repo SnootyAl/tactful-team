@@ -1,0 +1,15 @@
+.btnSubmitPersonal {
+	width: 100px;
+	height: 30px;
+}
+
+.userInputForm {
+	display: flex;
+	width: 25%;
+	margin: auto;
+}
+
+.userInputBox {
+	margin-right: 20px;
+	width: 220px;
+}
