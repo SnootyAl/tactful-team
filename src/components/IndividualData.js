@@ -27,7 +27,7 @@ class IndividualData extends React.Component {
 		// Use crypto-js functions to reverse the encryption process
 		const decryptedBytes = AES.decrypt(value, "Super Secret Key");
 		const plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
-
+		console.log(plaintext);
 		// Pass unverified value to the validation function
 		this.checkValue(plaintext);
 	}
@@ -62,7 +62,7 @@ class IndividualData extends React.Component {
 	recSumData(data) {
 		// Create local copy of score template
 		let myJson = scoreObject;
-		console.log(myJson);
+		console.log(data);
 		const domainNames = [
 			"Compassion",
 			"Agreeableness",
@@ -75,10 +75,7 @@ class IndividualData extends React.Component {
 		// Iterate through each domain
 		for (var topKey of Object.keys(myJson)) {
 			// Iterate through each facet
-			console.log(topKey);
 			for (var lowKey of Object.keys(myJson[topKey])) {
-				console.log(lowKey);
-				console.log(myJson[topKey][lowKey]);
 				// Pull score from next part of string
 				let currentScore = parseInt(data.slice(a, a + 2));
 				// Sort it into correct object
@@ -117,12 +114,10 @@ class IndividualData extends React.Component {
 	renderUserData() {
 		const userData = this.state.data;
 		let domainElements = [];
-		//console.log(userData[0]);
 		// Iterate over each domain
 		for (let i = 0; i < 5; i++) {
 			// Store current domain locally
 			let cD = userData[i];
-			console.log(userData[i]);
 			// Create JSX object for each specific domain
 			let elements = (
 				<div className="domain" key={cD.domain}>
