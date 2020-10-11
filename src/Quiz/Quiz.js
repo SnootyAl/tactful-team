@@ -29,31 +29,16 @@ class Quiz extends React.Component {
 
 	buttonPressHandler = (data) => {
 		let response = data.target.value;
-		console.log(this.state.questionNumberState + 1);
 		let currentQuestion = this.state.questions.questions[
 			this.state.questionNumberState
 		];
-		console.log(
-			currentQuestion.text,
-			"\nValue is: ",
-			currentQuestion.choices[response].text,
-			"\nDomain is: ",
-			currentQuestion.domain,
-			"\nValue is: ",
-			currentQuestion.choices[response].score
-		);
-		const localQuestionsRemain = 119 !== this.state.questionNumberState;
-		this.setState(
-			{
-				answer: this.state.answer + currentQuestion.choices[response].score,
-				questionNumberState: this.state.questionNumberState + 1,
-				questionsRemain: localQuestionsRemain,
-				stage: localQuestionsRemain ? 0 : 1,
-			},
-			() => {
-				console.log("answer");
-			}
-		);
+		const localQuestionsRemain = 10 != this.state.questionNumberState;
+		this.setState({
+			answer: this.state.answer + currentQuestion.choices[response].score,
+			questionNumberState: this.state.questionNumberState + 1,
+			questionsRemain: localQuestionsRemain,
+			stage: localQuestionsRemain ? 0 : 1,
+		});
 	};
 
 	previousQuestion = (e) => {
@@ -64,11 +49,9 @@ class Quiz extends React.Component {
 	};
 
 	showHelp = (e) => {
-		console.log("Show!");
 		this.setState({ overlayWidth: "100%" });
 	};
 	hideHelp = (e) => {
-		console.log("Hide!");
 		this.setState({ overlayWidth: "0%" });
 	};
 
@@ -141,11 +124,7 @@ class Quiz extends React.Component {
 		}
 		let finalAnswer = "";
 		for (var topKey of Object.keys(myJson)) {
-			console.log(topKey + " -> " + myJson[topKey]);
 			for (var lowKey of Object.keys(myJson[topKey])) {
-				console.log(
-					`Top key: ${topKey} | Low key: ${lowKey} | Value: ${myJson[topKey][lowKey]}`
-				);
 				if (lowKey !== "domain") {
 					if (myJson[topKey][lowKey] < 10) {
 						finalAnswer += "0";
@@ -157,7 +136,6 @@ class Quiz extends React.Component {
 
 		const tempString = `CheckSum{-data-}${name}{-data-}${finalAnswer}{-data-}`;
 		const tempHash = cryptoJS.AES.encrypt(tempString, "Super Secret Key");
-		console.log(finalAnswer);
 		// Iterate over myJson, add each element to the "finalAnswer" strig
 		this.setState({
 			hashPlain: tempString,
@@ -214,9 +192,15 @@ class Quiz extends React.Component {
 		e.preventDefault();
 	};
 
-	renderResultContent = () => {
-		console.log(this.state.hashPlain);
+	reviewPersonality = (event) => {
+		this.props.onReviewPersonality(event);
+	};
 
+	compareTeam = (event) => {
+		this.props.onCompareTeam(event);
+	};
+
+	renderResultContent = () => {
 		let content = (
 			<div className="quizResult">
 				<div className="divCopyHash">
@@ -271,8 +255,6 @@ class Quiz extends React.Component {
 				break;
 			case 2:
 				content = this.renderResultContent();
-			default:
-				content = this.renderQuizContent();
 		}
 		return <div className="Quiz">{content}</div>;
 	}

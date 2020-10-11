@@ -1,0 +1,44 @@
+.headerPanel {
+	width: 100%;
+	height: 70px;
+	background-color: #212121;
+	padding-left: 25%;
+	display: flex;
+	position: fixed;
+	z-index: 2;
+}
+
+.btnHome {
+	margin-top: 10px;
+}
+
+.btnHome:hover {
+	cursor: pointer;
+}
+
+.headerButtons {
+	padding-left: 13%;
+	width: 50%;
+	display: inline-flex;
+}
+
+.divBtn {
+	height: 70px;
+	padding-right: 30px;
+}
+
+.headerButton {
+	float: left;
+	background-color: #212121;
+	color: white;
+	height: 100%;
+	padding-top: 18px;
+	display: inline-table;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.headerButton:hover {
+	cursor: pointer;
+	background-color: #111111;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../stylesheets/NameForm.css";
 // Component class to handle the input for personal results
 class NameForm extends React.Component {
 	constructor(props) {
@@ -39,7 +39,13 @@ class NameForm extends React.Component {
 					value={this.state.value}
 					onChange={this.handleChange}
 				/>
-				<input type="submit" value="Generate" />
+				<button
+					className="btn btnSubmitPersonal"
+					type="submit"
+					value="Generate"
+				>
+					Generate
+				</button>
 			</form>
 		);
 	}

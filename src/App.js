@@ -6,6 +6,7 @@ import SlideShow from "./components/SlideShow";
 
 import IndividualData from "./components/IndividualData";
 import TeamData from "./components/TeamData";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 //import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 //import ToggleButton from "react-bootstrap/ToggleButton";
@@ -20,22 +21,12 @@ const App = () => {
 		// 	<>
 		// 		<GlobalStyles />
 		<div className="App">
-			<div className="headerPanel">
-				<a className="btnHome" onClick={handleHomeClick}>
-					Tactful Team
-				</a>
-				<div className="headerButtons">
-					<a className="btnTest" onClick={handleTestClick}>
-						Take Test
-					</a>
-					<a className="btnPersonal" onClick={handlePersonalClick}>
-						Personal Results
-					</a>
-					<a className="btnTeam" onClick={handleTeamClick}>
-						Team Results
-					</a>
-				</div>
-			</div>
+			<Header
+				handleHomeClick={handleHomeClick}
+				handleTestClick={handleTestClick}
+				handlePersonalClick={handlePersonalClick}
+				handleTeamClick={handleTeamClick}
+			/>
 			<div className="bodyPanel">{renderContent()}</div>
 			<div className="footerPanel">
 				<Footer />
@@ -70,7 +61,19 @@ const App = () => {
 		setShowing("Personal");
 	}
 
+	function handleChangePersonalClick(e) {
+		e.preventDefault();
+		setShowing("null");
+		setShowing("Personal");
+	}
+
 	function handleTeamClick(e) {
+		e.preventDefault();
+		setShowing("null");
+		setShowing("Team");
+	}
+
+	function handleChangeTeamClick(e) {
 		e.preventDefault();
 		setShowing("null");
 		setShowing("Team");
@@ -84,7 +87,11 @@ const App = () => {
 				return (
 					<div className="showTest">
 						<h1 className="test">Big 5 Personality Test</h1>
-						<Quiz questions={data} />
+						<Quiz
+							questions={data}
+							onReviewPersonality={handleChangePersonalClick}
+							onCompareTeam={handleChangeTeamClick}
+						/>
 					</div>
 				);
 
