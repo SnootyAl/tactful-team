@@ -83,7 +83,7 @@ class Quiz extends React.Component {
 	handleNameSubmit = (event) => {
 		const answer = this.state.answer;
 		const name = this.state.name;
-		let myJson = TemplateJSON;
+		let myJson = this.generateNewTemplate();
 		for (let i = 0; i < answer.length; i++) {
 			let currentScore = parseInt(answer.slice(i, i + 1));
 			let currentQuestion = questionData[i];
@@ -283,6 +283,161 @@ class Quiz extends React.Component {
 				content = this.renderResultContent();
 		}
 		return <div className="Quiz">{content}</div>;
+	}
+
+	generateNewTemplate() {
+		return {
+			totalC: {
+				f1: {
+					title: "Self-Efficacy",
+					val: 0,
+				},
+				f2: {
+					title: "Orderliness",
+					val: 0,
+				},
+				f3: {
+					title: "Dutifulness",
+					val: 0,
+				},
+				f4: {
+					title: "Achievement-Striving",
+					val: 0,
+				},
+				f5: {
+					title: "Self-Discipline",
+					val: 0,
+				},
+				f6: {
+					title: "Cautiousness",
+					val: 0,
+				},
+				total: {
+					val: 0,
+				},
+				domain: "Conscientiousness",
+			},
+			totalA: {
+				f1: {
+					title: "Trust",
+					val: 0,
+				},
+				f2: {
+					title: "Morality",
+					val: 0,
+				},
+				f3: {
+					title: "Altruism",
+					val: 0,
+				},
+				f4: {
+					title: "Cooperation",
+					val: 0,
+				},
+				f5: {
+					title: "Modesty",
+					val: 0,
+				},
+				f6: {
+					title: "Sympathy",
+					val: 0,
+				},
+				total: {
+					val: 0,
+				},
+				domain: "Agreeableness",
+			},
+			totalN: {
+				f1: {
+					title: "Anxiety",
+					val: 0,
+				},
+				f2: {
+					title: "Anger",
+					val: 0,
+				},
+				f3: {
+					title: "Depression",
+					val: 0,
+				},
+				f4: {
+					title: "Self-Consciousness",
+					val: 0,
+				},
+				f5: {
+					title: "Immoderation",
+					val: 0,
+				},
+				f6: {
+					title: "Vulnerability",
+					val: 0,
+				},
+				total: {
+					val: 0,
+				},
+				domain: "Neuroticism",
+			},
+			totalO: {
+				f1: {
+					title: "Imagination",
+					val: 0,
+				},
+				f2: {
+					title: "Artistic Interests",
+					val: 0,
+				},
+				f3: {
+					title: "Emotionality",
+					val: 0,
+				},
+				f4: {
+					title: "Adventurousness",
+					val: 0,
+				},
+				f5: {
+					title: "Intellect",
+					val: 0,
+				},
+				f6: {
+					title: "Liberalism",
+					val: 0,
+				},
+				total: {
+					val: 0,
+				},
+				domain: "Openness To Experience",
+			},
+			totalE: {
+				f1: {
+					title: "Friendliness",
+					val: 0,
+				},
+				f2: {
+					title: "Gregariousness",
+					val: 0,
+				},
+				f3: {
+					title: "Assertiveness",
+					val: 0,
+				},
+				f4: {
+					title: "Activity Level",
+					val: 0,
+				},
+				f5: {
+					title: "Excitement-Seeking",
+					val: 0,
+				},
+				f6: {
+					title: "Cheerfulness",
+					val: 0,
+				},
+				total: {
+					val: 0,
+				},
+				domain: "Extraversion",
+			},
+		};
 	}
 }
 
