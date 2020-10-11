@@ -28,9 +28,12 @@ class Header extends React.Component {
 	render() {
 		return (
 			<div className="headerPanel">
-				<a className="btnHome" onClick={this.handleHomeClick}>
-					Tactful Team
-				</a>
+				<div className="divBtnHome">
+					<a className="btnHome" onClick={this.handleHomeClick}>
+						Tactful Team
+					</a>
+				</div>
+
 				<div className="headerButtons">
 					<div className="divBtn">
 						<a className="headerButton btnTest" onClick={this.handleTestClick}>

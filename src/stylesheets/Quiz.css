@@ -32,6 +32,18 @@
 	margin-top: 40px;
 }
 
+.QuizQuestions {
+	width: 805px;
+	text-align: center;
+	height: auto;
+}
+
+.Question {
+	width: 805px;
+	text-align: center;
+	height: 160px;
+}
+
 .divQuizBack {
 	margin-top: 15px;
 }
@@ -56,6 +68,11 @@
 
 .btnQuizHelpHide:hover {
 	cursor: pointer;
+}
+
+.btn-group {
+	min-width: 805px;
+	margin: 0 auto;
 }
 
 .copySuccess {
