@@ -91,7 +91,7 @@ class SlideShow extends React.Component {
 				</div>
 				<div className="slideshow-quote-container">
 					<div className="slideshow-quote">
-						<h2>{ssInfo[stage].quote}</h2>
+						<h2>"{ssInfo[stage].quote}"</h2>
 						<br />
 						{`- ${ssInfo[stage].author}`}
 					</div>
