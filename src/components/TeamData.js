@@ -18,32 +18,10 @@ class TeamData extends React.Component {
 			value: { name: "", hash: "" },
 			members: [
 				{
-					name: "Jordan",
-					hash:
-						"U2FsdGVkX1+Q7I4Opd3oxfnO8Rubb+G07zS2N+PZozs2FBl7arW+fLu8eRw1RmRD9u5PGIicINPgPKSfVcCa4c2i6XMO5SxaeyO+I3iqBaYVyh6y6+/zgTtshHfhURenn9vtvQF+5MySCqDpN0gdRR1EWuqV20iXTds/aXlhm3g=",
+					name: "",
+					hash: "",
 					plain: "",
 					colour: ["104", "87", "161"],
-				},
-				{
-					name: "Alex",
-					hash:
-						"U2FsdGVkX19N2fiewMCO+i9hOzojHRHxlZomL0oEbWhxiQAg0aHI/VNugfh4YMKkYxkxgH+C9LaWWIEThWuDFF1Q8+sTpbq+LA6jPFCrOvBOO6MUXgMMXoLAbr8VO4nx3ocl6+GRnVppJg9Vj/L+0ErTX017MTWV2vvNbrlozvU=",
-					plain: "",
-					colour: ["127", "48", "59"],
-				},
-				{
-					name: "Jono",
-					hash:
-						"U2FsdGVkX1///YzIw3Ia+tH1sX9w8wHjAGQk5tWcmBVrvX0X/GuzeAzMPf2kAspVFIAJ+fBahY1QIPUBEgpB6LCWSn178dKZftohZoy1rO53iBl1P3B3I07KdKX5N/wHTQyn5xyBoqBPPDoAys2ppUIl9LCui+gTOLwOBHp3i3U=",
-					plain: "",
-					colour: ["127", "94", "37"],
-				},
-				{
-					name: "Calum",
-					hash:
-						"U2FsdGVkX1+atMWiquQcAXQtfJgJnXjDnIbYgRF4aC7OFdnsRQcwTrqUtjO7tgb+N/pm16YcGvAlbPL5iedbD26diDq7w5n6ryNSqCMsU2uPbcIJ5NlThnZgFeURXltA+xNpxcnuyQ9gO96U6xDTgJLuQR9QvnZZnDdSeUPYVfA=",
-					plain: "",
-					colour: ["40", "115", "82"],
 				},
 			],
 			hasData: false,
@@ -194,7 +172,7 @@ class TeamData extends React.Component {
 				<input
 					type="text"
 					name="hash"
-					placeholder="Member's hash"
+					placeholder="Member's code"
 					className="teamInput inputHash"
 					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}

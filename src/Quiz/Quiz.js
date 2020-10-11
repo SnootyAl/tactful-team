@@ -83,21 +83,17 @@ class Quiz extends React.Component {
 	handleNameSubmit = (event) => {
 		const answer = this.state.answer;
 		const name = this.state.name;
-		console.log(answer);
 		let myJson = TemplateJSON;
 		for (let i = 0; i < answer.length; i++) {
 			let currentScore = parseInt(answer.slice(i, i + 1));
 			let currentQuestion = questionData[i];
-
 			let added =
 				currentQuestion.keyed === "plus" ? currentScore : 6 - currentScore;
 			myJson[`total${currentQuestion.domain}`][
 				`f${currentQuestion.facet}`
 			].val += added;
 			myJson[`total${currentQuestion.domain}`].total.val += added;
-			console.log(myJson[`total${currentQuestion.domain}`].total.val);
 		}
-		console.log(myJson);
 		let finalAnswer = "";
 		for (var topKey of Object.keys(myJson)) {
 			for (var lowKey of Object.keys(myJson[topKey])) {
@@ -111,7 +107,6 @@ class Quiz extends React.Component {
 		}
 
 		const tempString = `CheckSum{-data-}${name}{-data-}${finalAnswer}{-data-}`;
-		console.log(tempString);
 		const tempHash = cryptoJS.AES.encrypt(tempString, "Super Secret Key");
 		// Iterate over myJson, add each element to the "finalAnswer" strig
 		this.setState({
