@@ -116,9 +116,9 @@ const App = () => {
 							<img className="darkBanner" src={darkBanner} alt="dark-banner" />
 							<h1>Team Optimisation</h1>
 							<p>
-								Learn how to best work as a team according to each member of
-								your team's personalities, through Big Five Personality test
-								combined with our in-house research.
+								Learn how to best work as a team taking into consideration the
+								personality of each team member, through Big Five Personality
+								test combined with our in-house research.
 							</p>
 							<a className="btn btnBanner" onClick={handleTestClick}>
 								Take the Test!

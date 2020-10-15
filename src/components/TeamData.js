@@ -40,6 +40,7 @@ class TeamData extends React.Component {
 					["109", "184", "253"],
 				],
 			},
+			entryError: false,
 		};
 	}
 
@@ -75,7 +76,6 @@ class TeamData extends React.Component {
 				return false;
 			}
 		} else {
-			alert("False");
 			return false;
 		}
 	}
@@ -108,6 +108,8 @@ class TeamData extends React.Component {
 			<div className="inputTeam">
 				<p className="inputTeamTitle">Welcome to your Team!</p>
 				{table}
+				{this.state.entryError && 
+				(<p>Input error - please check all fields have a valid entry</p>)}
 			</div>
 		);
 		return content;
@@ -145,9 +147,28 @@ class TeamData extends React.Component {
 	}
 
 	handleSubmit = (e) => {
+		let currentMembers = this.state.members;
+		let validInput = true;
+
+		currentMembers.forEach((member) => {
+			if (member.name.trim() === "" || member.hash.trim() === ""){
+				validInput = false;
+			}
+
+			let decryptedBytes = AES.decrypt(member.hash, "Super Secret Key");
+			let plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
+			let isValid = this.checkValue(plaintext);
+			validInput = isValid === false ? false : true
+
+		})
 		e.preventDefault();
-		this.unHashTeam();
-		this.setState({ hasData: true });
+		if (validInput) {
+			this.unHashTeam();
+			this.setState({ hasData: true, entryError: false });
+		} else {
+			this.setState({entryError: true})
+		}
+		
 	};
 
 	renderTable() {

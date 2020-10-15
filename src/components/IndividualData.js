@@ -176,7 +176,10 @@ class IndividualData extends React.Component {
 		return (
 			<div className="showHome">
 				<h1 className="Home">{this.state.title}</h1>
-				<NameForm onInputHash={this.handleInput} />
+				<div className="divInputForm">
+					<NameForm onInputHash={this.handleInput} />
+				</div>
+
 				{content}
 			</div>
 		);

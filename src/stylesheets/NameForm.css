@@ -5,8 +5,8 @@
 
 .userInputForm {
 	display: flex;
-	width: 25%;
-	margin: auto;
+	width: auto;
+	margin: 0 auto;
 }
 
 .userInputBox {

@@ -186,3 +186,12 @@
 	padding-left: 30px;
 	padding-right: 30px;
 }
+
+.showTeam {
+	width: 100%;
+}
+
+.divInputForm {
+	width: 350px;
+	margin: 0 auto;
+}
