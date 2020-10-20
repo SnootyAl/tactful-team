@@ -8,18 +8,12 @@ import IndividualData from "./components/IndividualData";
 import TeamData from "./components/TeamData";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-//import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
-//import ToggleButton from "react-bootstrap/ToggleButton";
-// <Toggle theme={theme} toggleTheme={themeToggler} />
 import "./stylesheets/App.css";
 
 const App = () => {
 	const [showing, setShowing] = useState("Home");
 
 	return (
-		// <ThemeProvider theme={themeMode}>
-		// 	<>
-		// 		<GlobalStyles />
 		<div className="App">
 			<Header
 				handleHomeClick={handleHomeClick}
@@ -32,8 +26,6 @@ const App = () => {
 				<Footer />
 			</div>
 		</div>
-		// 	</>
-		// </ThemeProvider>
 	);
 
 	// Functions to handle page navigation

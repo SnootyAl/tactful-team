@@ -1,4 +1,5 @@
 import React from "react";
+import TactfulIcon from "../Design Assets/Tactful.png";
 
 import "../stylesheets/Header.css";
 
@@ -31,6 +32,10 @@ class Header extends React.Component {
 				<div className="divBtnHome">
 					<a className="btnHome" onClick={this.handleHomeClick}>
 						Tactful Team
+						{/* <div className="divTactfulIcon">
+							<img className="tactfulIcon" src={TactfulIcon} />
+						</div> */}
+						
 					</a>
 				</div>
 
