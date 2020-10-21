@@ -14,7 +14,7 @@
 
 .btnHome {
 	height: 100%;
-	padding-top: 20px;
+	padding-top: 15px;
 	display: inline-table;
 	padding-right: 10px;
 	padding-left: 10px;
@@ -23,6 +23,16 @@
 .btnHome:hover {
 	cursor: pointer;
 	background-color: #111111;
+}
+
+.divTactfulIcon {
+	display: inline;
+	margin-top: 10px;
+}
+
+.tactfulIcon {
+	height: 30px;
+	margin-left: 20px;
 }
 
 .headerButtons {
@@ -41,7 +51,7 @@
 	background-color: #212121;
 	color: white;
 	height: 100%;
-	padding-top: 18px;
+	padding-top: 15px;
 	display: inline-table;
 	padding-right: 10px;
 	padding-left: 10px;

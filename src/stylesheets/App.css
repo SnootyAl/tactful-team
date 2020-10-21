@@ -21,7 +21,7 @@
 }
 
 .banner {
-	height: auto;
+	height: 2000px;
 	width: 100%;
 	display: block;
 	overflow: auto;
@@ -30,32 +30,127 @@
 .banner h1 {
 	position: absolute;
 	top: 210px;
-	left: 25%;
-	width: auto;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
 }
 
-.banner p {
+.homeIntroTitle {
+	width: 100%;
+}
+
+.homeIntroDetail {
 	position: absolute;
-	left: 25%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
 	top: 300px;
-	width: 300px;
-	text-align: left;
+	width: 400px;
+	text-align: center;
 	font-size: 18px;
 }
+.homeIntroNavButtons {
+	display: flex;
+}
 
-.banner a {
+.homeIntroNavStart {
 	position: absolute;
-	left: 25%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
 	top: 480px;
 }
 
-.banner img {
-	float: right;
-	max-width: 70%;
+.homeIntroNavLearn {
+	position: absolute;
+	top: 480px;
+	left: 50%;
 }
 
-.toggleTheme {
-	float: left;
+.homeIntroProcess {
+	position: absolute;
+	top: 600px;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+}
+
+.homeIntroProcessTitle {
+	margin-left: -650px;
+}
+.homeIntroProcessImage {
+	position: absolute;
+	top: 210px;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+}
+
+.homeIntroIdentify {
+	position: absolute;
+	top: 1100px;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+}
+
+.homeIntroIdentifyImage {
+	position: absolute;
+	left: -30%;
+	top: 140px;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+}
+
+.homeIntroIdentifyTextTitle {
+	top: 100px;
+	left: 50%;
+	margin-right: -50%;
+	margin-top: 90px;
+	transform: translate(100%, -50%);
+	width: 300px;
+	text-align: left;
+}
+
+.homeIntroIdentifyTextBody {
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(100%, -50%);
+	width: 300px;
+	text-align: left;
+}
+
+.homeIntroOptimise {
+	position: absolute;
+	top: 1600px;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+}
+
+.homeIntroOptimiseImage {
+	position: absolute;
+	left: 130%;
+	top: 190px;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	width: 500px;
+}
+
+.homeIntroOptimiseTextTitle {
+	margin-top: 90px;
+	margin-left: -180%;
+	transform: translate(100%, -50%);
+	width: 300px;
+	text-align: left;
+}
+
+.homeIntroOptimiseTextBody {
+	margin-top: 90px;
+	margin-left: -180%;
+	transform: translate(100%, -50%);
+	width: 300px;
+	text-align: left;
 }
 
 .bodyPanel {
@@ -185,4 +280,13 @@
 	margin: auto;
 	padding-left: 30px;
 	padding-right: 30px;
+}
+
+.showTeam {
+	width: 100%;
+}
+
+.divInputForm {
+	width: 350px;
+	margin: 0 auto;
 }
