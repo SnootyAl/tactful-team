@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import Quiz from "./Quiz/Quiz";
 import data from "./data/items-en.json";
-import darkBanner from "./Design Assets/Dark-Banner.png";
+
 import SlideShow from "./components/SlideShow";
 
 import IndividualData from "./components/IndividualData";
 import TeamData from "./components/TeamData";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
+import darkBanner from "./Design Assets/Dark-Banner.png";
+import Timeline from "./Design Assets/timeline.png";
+import Personalities5 from "./Design Assets/5personalities.png";
+import TeamExample from "./Design Assets/TeamExample.png";
+
 import "./stylesheets/App.css";
+
+
 
 const App = () => {
 	const [showing, setShowing] = useState("Home");
@@ -105,16 +113,57 @@ const App = () => {
 				return (
 					<div className="homeDiv">
 						<div className="banner">
-							<img className="darkBanner" src={darkBanner} alt="dark-banner" />
-							<h1>Team Optimisation</h1>
+							<div className="homeIntroTitle">
+								<h1>Better teamwork starts here</h1>
+							</div>
+							<div className="homeIntroDetail">
 							<p>
-								Learn how to best work as a team taking into consideration the
-								personality of each team member, through Big Five Personality
-								test combined with our in-house research.
+								Gain proficiency working in your team, according to your team's unique personalities.
 							</p>
-							<a className="btn btnBanner" onClick={handleTestClick}>
-								Take the Test!
-							</a>
+							</div>
+
+							<div className="homeIntroNavButtons">
+								<div className="homeIntroNavStart">
+									<a className="btn btnBannerStart" onClick={handleTestClick}>
+										Get Started
+									</a>				
+								</div>		
+							</div>	
+
+
+							<div className="homeIntroProcess">
+								<div className="homeIntroProcessTitle">
+									<h2>The Process</h2>
+								</div>	
+									<img src={Timeline} className="homeIntroProcessImage"/>
+							</div>		
+
+
+							<div className="homeIntroIdentify">
+								<img src={Personalities5} className="homeIntroIdentifyImage"/>
+								<div className="homeIntroIdentifyText">
+									<div className="homeIntroIdentifyTextTitle">
+										<h2>Identify the best team roles</h2>
+									</div>
+									<div className="homeIntroIdentifyTextBody">
+										<p>Choose suitable roles within the team based on skillset, availability and personality</p>
+									</div>
+								</div>	
+							</div>	
+
+
+							<div className="homeIntroOptimise">
+								
+								<div className="homeIntroOptimiseText">
+									<div className="homeIntroOptimiseTextTitle">
+										<h2>Optimize Team Performance</h2>
+									</div>
+									<div className="homeIntroOptimiseTextBody">
+										<p>Create an understanding around which team members are best at what, enabling a more cohesive working environment</p>
+									</div>
+								</div>
+								<img src={TeamExample} className="homeIntroOptimiseImage"/>	
+							</div>	
 						</div>
 						<SlideShow />
 					</div>
