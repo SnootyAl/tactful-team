@@ -5,7 +5,7 @@ import data from "./data/items-en.json";
 import SlideShow from "./components/SlideShow";
 
 import IndividualData from "./components/IndividualData";
-import TeamData from "./components/TeamData";
+import TeamInput from "./components/TeamInput";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -104,7 +104,7 @@ const App = () => {
 
 			// Display the team creation page
 			case "Team":
-				return <TeamData title="Team" />;
+				return <TeamInput title="Team" />;
 
 			// Display the home page
 			case "Home":

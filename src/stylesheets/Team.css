@@ -1,5 +1,6 @@
 .teamPage {
 	width: 100%;
+	padding-top: 30px;
 }
 
 .teamTitle {
@@ -55,6 +56,48 @@
 
 .btnTeamSubmit {
 	margin: auto;
+}
+
+.imgRoleImage:hover {
+	cursor: pointer;
+	filter: brightness(80%);
+}
+
+.divRoleTitles {
+	margin: auto;
+	max-width: 1000px;
+	padding-left: 30px;
+	padding-right: 30px;
+	font-size: 21px;
+	text-align: center;
+}
+
+.txtRoleTitle {
+	width: 20%;
+}
+.divRoleTable {
+	margin: auto;
+	max-width: 1000px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 30px;
+}
+
+.divRoleInputs {
+	margin-top: 100px;
+}
+.trRoleNames {
+	height: auto;
+}
+
+.tblRoleTable,
+.tblRoleInputTable,
+.tblRoleTitles {
+	width: 100%;
+}
+
+.txtRoleName {
+	width: 20%;
 }
 
 .teamDomain {

@@ -156,7 +156,7 @@
 .bodyPanel {
 	width: 100%;
 	height: 100%;
-	padding-top: 50px;
+	padding-top: 70px;
 	margin: auto;
 }
 
@@ -226,30 +226,6 @@
 	max-width: 100%;
 	height: auto;
 	width: auto;
-}
-
-.divRoleTable {
-	margin: auto;
-	max-width: 890px;
-	padding-left: 30px;
-	padding-right: 30px;
-	padding-top: 30px;
-}
-
-.divRoleInputs {
-	margin-top: 100px;
-}
-.trRoleNames {
-	height: auto;
-}
-
-.tblRoleTable,
-.tblRoleInputTable {
-	width: 100%;
-}
-
-.txtRoleName {
-	width: 20%;
 }
 
 .inpTeam {

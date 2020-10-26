@@ -8,11 +8,19 @@ import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
 import RoleImage from "../Design Assets/role_icon.png";
 
+import TeamL from "../Design Assets/roles/TeamLead.png";
+import CommsL from "../Design Assets/roles/CommsLead.png";
+import CreatL from "../Design Assets/roles/CreativeLead.png";
+import MotivL from "../Design Assets/roles/MotivationLead.png";
+import RelatL from "../Design Assets/roles/RelationLead.png";
+
 class TeamDisplay extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			showing: "",
 			team: props.data,
+			calculatedTeamElements: [],
 			showInfo: true,
 			roles: {
 				Team: {
@@ -269,7 +277,7 @@ class TeamDisplay extends React.Component {
 		this.setState({ showInfo: shouldDisplayInfo });
 	}
 
-	renderTeam() {
+	componentDidMount() {
 		const currentTeam = this.state.team;
 		let teamElements = [];
 		let arrayC = [];
@@ -297,37 +305,7 @@ class TeamDisplay extends React.Component {
 			this.printDetails("Openness to experience", arrayO, allGraphs[4])
 		);
 		teamElements.push(this.printDetails("Extraversion", arrayE, allGraphs[5]));
-
-		return (
-			<div className="teamResults">
-				<h1>Team Results:</h1>
-				<Radar
-					data={allGraphs[0]}
-					options={{
-						title: {
-							display: true,
-							text: "Team 1",
-							fontSize: 15,
-						},
-						legend: {
-							display: true,
-							position: "right",
-						},
-						scale: {
-							gridLines: {
-								color: "#FFFFFF",
-							},
-							ticks: {
-								max: 95,
-								min: 35,
-								stepSize: 5,
-							},
-						},
-					}}
-				/>
-				{teamElements}
-			</div>
-		);
+		this.setState({calculatedTeamElements: teamElements})
 	}
 
 	updateSetRole(roleName, event) {
@@ -430,6 +408,12 @@ class TeamDisplay extends React.Component {
 		return optionsObject;
 	}
 
+	changeDisplay(role) {
+		let currentRole = this.state.showing;
+		let newRole = role === currentRole ? "" : role;
+		this.setState({showing: newRole});
+	}
+
 	renderRoleAssign() {
 		let roles = this.state.roles;
 		let temp;
@@ -467,10 +451,26 @@ class TeamDisplay extends React.Component {
 			tableInputs.push(temp);
 		}
 		return (
-			<div className="roleAssign">
 				<div className="roleContents">
 					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
-						<img src={RoleImage} alt="talking heads" className="imgRoleImage" />
+						<img src={TeamL} alt="talking heads" className="Team imgRoleImage" onClick={() => this.changeDisplay("Team")}/>
+						<img src={CommsL} alt="talking heads" className="Creat imgRoleImage" onClick={() => this.changeDisplay("Creat")}/>
+						<img src={MotivL} alt="talking heads" className="Comms imgRoleImage" onClick={() => this.changeDisplay("Comms")}/>
+						<img src={RelatL} alt="talking heads" className="Relat imgRoleImage" onClick={() => this.changeDisplay("Relat")}/>
+						<img src={CreatL} alt="talking heads" className="Motiv imgRoleImage" onClick={() => this.changeDisplay("Motiv")}/>
+						<div className="divRoleTitles">
+							<table className="tblRoleTitles">
+								<tbody>
+								<tr>
+									<td className="txtRoleTitle">Team Lead</td>
+									<td className="txtRoleTitle">Creative Lead</td>
+									<td className="txtRoleTitle">Communications Lead</td>
+									<td className="txtRoleTitle">Relations Lead</td>
+									<td className="txtRoleTitle">Motivation Lead</td>
+								</tr>
+								</tbody>		
+							</table>
+						</div>
 						<div className="divRoleTable">
 							<table className="tblRoleTable">
 								<tbody>
@@ -495,31 +495,35 @@ class TeamDisplay extends React.Component {
 						</div>
 					</form>
 				</div>
-			</div>
 		);
 	}
-
+	
 	render() {
+		let detailedContent;
+		switch(this.state.showing) {
+			case "Team":
+				detailedContent = this.state.calculatedTeamElements[0];
+				break;
+			case "Comms":
+				detailedContent = this.state.calculatedTeamElements[4];
+				break;
+			case "Motiv": 
+				detailedContent = this.state.calculatedTeamElements[2];
+				break;
+			case "Relat":
+				detailedContent = this.state.calculatedTeamElements[1];
+				break;
+			case "Create":
+				detailedContent = this.state.calculatedTeamElements[3];
+				break;
+			default:
+				break;
+		}
 		// Buttons to split between team info and role builder
 		return (
 			<div className="teamPage">
-				<div className="teamNavButtons">
-					<div className="teamNav Left">
-						<a className="btn showInfo" onClick={() => this.displayInfo(true)}>
-							Team Results
-						</a>
-					</div>
-					<div className="teamNav Right">
-						<a
-							className="btn showRoleAssign"
-							onClick={() => this.displayInfo(false)}
-						>
-							Team Roles
-						</a>
-					</div>
-				</div>
-				{this.state.showInfo && this.renderTeam()}
-				{!this.state.showInfo && this.renderRoleAssign()}
+				{this.renderRoleAssign()}
+				{detailedContent}
 			</div>
 		);
 	}

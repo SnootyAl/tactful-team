@@ -18,14 +18,14 @@ class TeamData extends React.Component {
 			value: { name: "", hash: "" },
 			members: [
 				{
-					name: "",
-					hash: "",
+					name: "Test1",
+					hash: "U2FsdGVkX1+2kzLG5835HP0pEfJ16rGDFuOuK652PboDtHTBO+F3Bpvtw6cy5/vcMuHpj6dXT8K/jXzUKN7TMsIUslI6kxy+Px06j959GogrOjWnGqyNfoXZ/p3bctBOo0YSE/+intzHUP23bBLusnA30vGhin9uUf3kqkjcwUQ=",
 					plain: "",
 					colour: ["104", "87", "161"],
 				},
 				{
-					name: "",
-					hash: "",
+					name: "Test2",
+					hash: "U2FsdGVkX1/IBZFhpqImk9TrjOteBYE/rMN5WCS8/MRM9rgUsWS553aNMIfAwSue2935zgNOZ2lJT8LXFnxZcGynFd5jXph1Q6ud0w0vhUo9QNj8ixY+KW7pi/EiGReGCobN3Nl+9CjjZUUPlwgIGvd+tAr2HB2K1W1Jj4UeM4A=",
 					plain: "",
 					colour: ["127", "48", "59"],
 				},
@@ -102,7 +102,7 @@ class TeamData extends React.Component {
 		return scores;
 	}
 
-	renderTeamData() {
+	renderTeamDisplay() {
 		const teamData = this.state.members;
 		return <TeamDisplay data={teamData} />;
 	}
@@ -266,7 +266,7 @@ class TeamData extends React.Component {
 	render() {
 		const doesHaveData = this.state.hasData;
 		let content = doesHaveData
-			? this.renderTeamData()
+			? this.renderTeamDisplay()
 			: this.renderTeamInputs();
 		return <div className="showTeam">{content}</div>;
 	}
