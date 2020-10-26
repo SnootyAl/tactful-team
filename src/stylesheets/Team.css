@@ -63,6 +63,10 @@
 	filter: brightness(80%);
 }
 
+.imgSelectedRoleImage {
+	filter: brightness(80%);
+}
+
 .divRoleTitles {
 	margin: auto;
 	max-width: 1000px;

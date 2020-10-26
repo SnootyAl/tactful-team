@@ -6,7 +6,8 @@ import findStdDeviation from "../javascripts/StdDev";
 import averageData from "../data/Average-and-StdDist-JSON.json";
 import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
-import RoleImage from "../Design Assets/role_icon.png";
+
+import * as VisAvg from "../Design Assets/VisAvg"
 
 import TeamL from "../Design Assets/roles/TeamLead.png";
 import CommsL from "../Design Assets/roles/CommsLead.png";
@@ -247,6 +248,7 @@ class TeamDisplay extends React.Component {
 	}
 
 	toggleSpan(DLetter) {
+		alert(this.state.more)
 		let tempDL = DLetter;
 		let currentMore = this.state.more;
 		this.setState({
@@ -453,11 +455,11 @@ class TeamDisplay extends React.Component {
 		return (
 				<div className="roleContents">
 					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
-						<img src={TeamL} alt="talking heads" className="Team imgRoleImage" onClick={() => this.changeDisplay("Team")}/>
-						<img src={CommsL} alt="talking heads" className="Creat imgRoleImage" onClick={() => this.changeDisplay("Creat")}/>
-						<img src={MotivL} alt="talking heads" className="Comms imgRoleImage" onClick={() => this.changeDisplay("Comms")}/>
-						<img src={RelatL} alt="talking heads" className="Relat imgRoleImage" onClick={() => this.changeDisplay("Relat")}/>
-						<img src={CreatL} alt="talking heads" className="Motiv imgRoleImage" onClick={() => this.changeDisplay("Motiv")}/>
+						<img src={TeamL} alt="talking heads" className={this.state.showing === "Team" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Team")}/>
+						<img src={CommsL} alt="talking heads" className={this.state.showing === "Creat" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Creat")}/>
+						<img src={MotivL} alt="talking heads" className={this.state.showing === "Comms" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Comms")}/>
+						<img src={RelatL} alt="talking heads" className={this.state.showing === "Relat" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Relat")}/>
+						<img src={CreatL} alt="talking heads" className={this.state.showing === "Motiv" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Motiv")}/>
 						<div className="divRoleTitles">
 							<table className="tblRoleTitles">
 								<tbody>
@@ -513,7 +515,7 @@ class TeamDisplay extends React.Component {
 			case "Relat":
 				detailedContent = this.state.calculatedTeamElements[1];
 				break;
-			case "Create":
+			case "Creat":
 				detailedContent = this.state.calculatedTeamElements[3];
 				break;
 			default:
