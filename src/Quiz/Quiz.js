@@ -139,6 +139,7 @@ class Quiz extends React.Component {
 			stage: 0,
 			overlayWidth: "100%",
 			copied: false,
+			hasCopied: false,
 		});
 		e.preventDefault();
 	};
@@ -176,6 +177,7 @@ class Quiz extends React.Component {
 					/>
 					<div className="divQuizProgress">
 						<ProgressBar
+							className="objProgressBar"
 							animated
 							variant="success"
 							now={this.state.questionNumberState}
@@ -218,7 +220,13 @@ class Quiz extends React.Component {
 						value={this.state.name}
 						onChange={this.handleNameChange}
 					/>
-					<input type="submit" value="Submit" />
+					<button
+					className="btn btnNameInput"
+					type="submit"
+					value="Submit"
+					> 
+						Submit 
+					</button>
 				</form>
 			</div>
 		);
@@ -242,6 +250,7 @@ class Quiz extends React.Component {
 						</p>
 					)}
 				</div>
+				{this.state.hasCopied && (			
 				<div className="divPostQuizButtons">
 					<div className="relativeDiv">
 						<div className="divRetakeQuiz">
@@ -265,6 +274,7 @@ class Quiz extends React.Component {
 						</div>
 					</div>
 				</div>
+				)}
 			</div>
 		);
 		return content;

@@ -23,13 +23,18 @@ class TeamData extends React.Component {
 					plain: "",
 					colour: ["104", "87", "161"],
 				},
+				{
+					name: "",
+					hash: "",
+					plain: "",
+					colour: ["127", "48", "59"],
+				},
 			],
 			hasData: false,
 			data: [],
 			userName: "",
 			colours: {
-				available: [
-					["127", "48", "59"],
+				available: [				
 					["127", "94", "37"],
 					["40", "115", "82"],
 					["30", "80", "126"],
@@ -41,6 +46,7 @@ class TeamData extends React.Component {
 				],
 			},
 			entryError: false,
+			canAddMember: true,
 		};
 	}
 
@@ -131,6 +137,7 @@ class TeamData extends React.Component {
 			colours: {
 				available: availableColours,
 			},
+			canAddMember: availableColours.length > 0 ? true : false
 		});
 	}
 
@@ -143,6 +150,7 @@ class TeamData extends React.Component {
 		this.setState({
 			members: localmembers,
 			colours: { available: localColours },
+			canAddMember: true,
 		});
 	}
 
@@ -182,22 +190,51 @@ class TeamData extends React.Component {
 						backgroundColor: `rgb(${member.colour[0]},${member.colour[1]},${member.colour[2]})`,
 					}}
 				/>
-				<input
+
+
+				{index === 0 && (					
+					<input
+					type="text"
+					name="name"
+					placeholder="Your name"
+					className="teamInput inputName"
+					value={this.state.members[index].name}
+					onChange={(event) => this.handleChangeInput(index, event)}
+					/>			
+				)}
+				{index === 0 && (
+					<input
+					type="text"
+					name="hash"
+					placeholder="Your code"
+					className="teamInput inputHash"
+					value={this.state.members[index].hash}
+					onChange={(event) => this.handleChangeInput(index, event)}
+					/>
+				)}
+
+
+				{index !== 0 && (
+					<input
 					type="text"
 					name="name"
 					placeholder="Member's name"
 					className="teamInput inputName"
 					value={this.state.members[index].name}
 					onChange={(event) => this.handleChangeInput(index, event)}
-				/>
-				<input
+					/>
+				)}
+				{index !== 0 && (
+					<input
 					type="text"
 					name="hash"
 					placeholder="Member's code"
 					className="teamInput inputHash"
 					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}
-				/>
+					/>
+				)}
+				
 				<img
 					src={minIcon}
 					className="teamInput btnRemoveField"
@@ -208,12 +245,12 @@ class TeamData extends React.Component {
 		content = (
 			<form className="teamInputForm" onSubmit={this.handleSubmit}>
 				{temp}
-				<img
+				{this.state.canAddMember && (<img
 					src={plsIcon}
 					className="btnTeamAdd"
 					value="Add Member"
 					onClick={() => this.handleAddField()}
-				/>
+				/>)}
 				<button
 					className="btn btnTeamSubmit"
 					type="submit"

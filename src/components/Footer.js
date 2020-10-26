@@ -15,7 +15,7 @@ class Footer extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="footerPanel">
 				<div className="footerIcons">
 					<img className="footerImage twitter" src={Twitter} alt="twitter" />
 					<img className="footerImage facebook" src={Facebook} alt="facebook" />

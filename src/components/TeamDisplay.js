@@ -90,14 +90,9 @@ class TeamDisplay extends React.Component {
 		if (indicies.length > 1) {
 			let tempString = "";
 			for (let i = 0; i < indicies.length - 2; i++) {
-				//tempString += "person " + indicies[i + 1] + ", ";
 				tempString += `${names[i]}, `;
 			}
-			// Messy at the moment - trying to counter 0-indexed arrays with human-readable team numers
-			// i.e. The first person is labelled Person 1, but their index is array[0].
-			//tempString += "person " + (indicies[indicies.length - 2] + 1) + " ";
 			tempString += `${names[names.length - 2]} `;
-			//tempString += "and person " + (indicies[indicies.length - 1] + 1);
 			tempString += `and ${names[names.length - 1]}`;
 			result =
 				"The members of the team with the " +

@@ -74,9 +74,27 @@
 	cursor: pointer;
 }
 
+.progress-bar {
+	background-color: #fb61fe !important;
+}
+
 .btn-group {
 	min-width: 805px;
 	margin: 0 auto;
+}
+
+.quizNameForm {
+	width: 400px;
+}
+
+.quizNameInput {
+	margin-right: 20px;
+	width: 220px;
+	height: 24px;
+}
+
+.btnNameInput {
+	display: inline !important;
 }
 
 .copySuccess {
@@ -90,7 +108,7 @@
 
 .divPostQuizButtons {
 	position: absolute;
-	top: 50%;
+	top: calc(400px);
 	left: 50%;
 	width: auto;
 }

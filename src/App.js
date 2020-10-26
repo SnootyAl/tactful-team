@@ -30,9 +30,7 @@ const App = () => {
 				handleTeamClick={handleTeamClick}
 			/>
 			<div className="bodyPanel">{renderContent()}</div>
-			<div className="footerPanel">
-				<Footer />
-			</div>
+			<Footer />
 		</div>
 	);
 
