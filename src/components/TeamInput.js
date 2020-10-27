@@ -15,6 +15,7 @@ class TeamData extends React.Component {
 		super(props);
 		this.state = {
 			title: props.title,
+			fullTeamHash: "",
 			value: { name: "", hash: "" },
 			members: [
 				{
@@ -123,12 +124,14 @@ class TeamData extends React.Component {
 	renderTeamInputs() {
 		let content;
 		let table = this.renderTable();
+		let fullTeamInput = this.renderFullTeamInput();
 		content = (
 			<div className="inputTeam">
 				<h1 className="inputTeamTitle">Welcome to your Team!</h1>
 				{table}
 				{this.state.entryError && 
 				(<p>Input error - please check all fields have a valid entry</p>)}
+				{fullTeamInput}
 			</div>
 		);
 		return content;
@@ -276,12 +279,57 @@ class TeamData extends React.Component {
 		return <div className="inputTable">{content}</div>;
 	}
 
+	renderFullTeamInput() {
+		return (
+			<div className="inputFullTeam">
+				<form className="fullTeamInputForm">
+					<input type="text" name="teamHash" placeholder="Team Code: " className="fullTeamInput" value={this.state.fullTeamHash} onChange={(event => this.handleChangeTeamInput(event))} />
+					<button className="btn btnFullTeamSubmit" type="submit" onClick={this.handleFullTeamSubmit}>Submit Pre-made Team</button>
+			</form>
+			</div>
+		)
+	}
+
+	handleFullTeamSubmit = (e) => {
+		let fullTeamHash = this.state.fullTeamHash;
+
+		const decryptedBytes = AES.decrypt(fullTeamHash, "Super Secret Key");
+		const plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
+		var data = [];
+
+		const errCheck = plaintext.slice(0, 8);
+		console.log(plaintext);
+		const result = plaintext.slice(8);
+		if (errCheck === "CheckSum") {
+			data = result.split("{-data-}");
+			console.log(data);
+		}
+		let newTeam = [];
+
+		for (let i = 1; i < data.length; i++) {
+			newTeam.push(JSON.parse(data[i]));
+		}
+		console.log(newTeam);
+		e.preventDefault();
+		this.setState({members: newTeam, hasData: true})
+	}
+
+	handleChangeTeamInput(event) {
+		let localUpdate = event.target.value;
+		this.setState({fullTeamHash: localUpdate})
+	}
+
 	render() {
 		const doesHaveData = this.state.hasData;
 		let content = doesHaveData
 			? this.renderTeamDisplay()
 			: this.renderTeamInputs();
-		return <div className="showTeam">{content}</div>;
+		
+		return (
+			<div className="showTeam">
+				{content}
+				
+			</div>);
 	}
 }
 

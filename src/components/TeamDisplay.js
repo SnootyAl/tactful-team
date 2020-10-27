@@ -6,7 +6,8 @@ import findStdDeviation from "../javascripts/StdDev";
 import averageData from "../data/Average-and-StdDist-JSON.json";
 import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
-
+import cryptoJS from "crypto-js";
+import AES from "crypto-js/aes";
 //import * as VisAvg from "../Design Assets/VisAvg"
 
 import TeamL from "../Design Assets/roles/TeamLead.png";
@@ -86,6 +87,67 @@ class TeamDisplay extends React.Component {
 			},
 			more: "",
 		};
+	}
+
+	componentDidMount() {
+		const currentTeam = this.state.team;
+		let teamElements = [];
+		let arrayC = [];
+		let arrayA = [];
+		let arrayN = [];
+		let arrayO = [];
+		let arrayE = [];
+
+		currentTeam.forEach((member) => {
+			arrayC.push(member.scores[0][6]);
+			arrayA.push(member.scores[1][6]);
+			arrayN.push(member.scores[2][6]);
+			arrayO.push(member.scores[3][6]);
+			arrayE.push(member.scores[4][6]);
+		});
+
+		const allDomains = [arrayC, arrayA, arrayN, arrayO, arrayE];
+		const allGraphs = this.createGraphs(allDomains);
+		teamElements.push(
+			this.printDetails("Conscientousness", arrayC, allGraphs[1])
+		);
+		teamElements.push(this.printDetails("Agreeableness", arrayA, allGraphs[2]));
+		teamElements.push(this.printDetails("Neuroticism", arrayN, allGraphs[3]));
+		teamElements.push(
+			this.printDetails("Openness to experience", arrayO, allGraphs[4])
+		);
+		teamElements.push(this.printDetails("Extraversion", arrayE, allGraphs[5]));
+
+		let formTeam = this.formatTeam();
+		let roles = this.state.roles;
+		const calculatedRoles = this.AssignRoles(formTeam, roles);
+
+		let teamString = "CheckSum";
+		currentTeam.forEach((member) => {
+			let newObject = {
+				name: member.name,
+				hash: member.hash,
+				colour: member.colour,
+				scores: member.scores
+			}
+			let tempString = JSON.stringify(newObject);
+			teamString += `{-data-}${tempString}`;
+		});
+
+
+		const tempHash = cryptoJS.AES.encrypt(teamString, "Super Secret Key");
+		console.log(tempHash.toString());
+		const decryptedBytes = AES.decrypt(tempHash, "Super Secret Key");
+		const plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
+		const data = plaintext.split("{-data-}");
+
+		let newTeam = [];
+
+		for (let i = 1; i < data.length; i++) {
+			newTeam.push(JSON.parse(data[i]));
+		}
+
+		this.setState({calculatedTeamElements: teamElements, roles: calculatedRoles})
 	}
 
 	formatDomainString(indicies, compString, domainString) {
@@ -257,40 +319,6 @@ class TeamDisplay extends React.Component {
 		this.setState({ showInfo: shouldDisplayInfo });
 	}
 
-	componentDidMount() {
-		const currentTeam = this.state.team;
-		let teamElements = [];
-		let arrayC = [];
-		let arrayA = [];
-		let arrayN = [];
-		let arrayO = [];
-		let arrayE = [];
-
-		currentTeam.forEach((member) => {
-			arrayC.push(member.scores[0][6]);
-			arrayA.push(member.scores[1][6]);
-			arrayN.push(member.scores[2][6]);
-			arrayO.push(member.scores[3][6]);
-			arrayE.push(member.scores[4][6]);
-		});
-
-		const allDomains = [arrayC, arrayA, arrayN, arrayO, arrayE];
-		const allGraphs = this.createGraphs(allDomains);
-		teamElements.push(
-			this.printDetails("Conscientousness", arrayC, allGraphs[1])
-		);
-		teamElements.push(this.printDetails("Agreeableness", arrayA, allGraphs[2]));
-		teamElements.push(this.printDetails("Neuroticism", arrayN, allGraphs[3]));
-		teamElements.push(
-			this.printDetails("Openness to experience", arrayO, allGraphs[4])
-		);
-		teamElements.push(this.printDetails("Extraversion", arrayE, allGraphs[5]));
-
-		let formTeam = this.formatTeam();
-		let roles = this.state.roles;
-		const calculatedRoles = this.AssignRoles(formTeam, roles);
-		this.setState({calculatedTeamElements: teamElements, roles: calculatedRoles})
-	}
 
 	updateSetRole(roleName, event) {
 		const values = { ...this.state.roles };

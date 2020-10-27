@@ -4,6 +4,14 @@ import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
 import scoreObject from "../data/templates/ScoreObject.json";
 
+import Conscientiousness from "../Design Assets/DomainIcons/Conscientiousness.png";
+import Agreeableness from "../Design Assets/DomainIcons/Agreeableness.png";
+import Neuroticism from "../Design Assets/DomainIcons/Neuroticism.png";
+import Openness from "../Design Assets/DomainIcons/Openness.png";
+import Extraversion from "../Design Assets/DomainIcons/Extraversion.png";
+
+
+
 import "../stylesheets/Personal.css";
 
 // Component to calculate user data from a hash, and display it on the page
@@ -117,6 +125,9 @@ class IndividualData extends React.Component {
 		const userData = this.state.data;
 		let domainElements = [];
 		// Iterate over each domain
+		let images = [
+			Conscientiousness, Agreeableness, Neuroticism, Openness, Extraversion
+		]
 		for (let i = 0; i < 5; i++) {
 			// Store current domain locally
 			let cD = userData[i];
@@ -124,8 +135,10 @@ class IndividualData extends React.Component {
 			let elements = (
 				<div className="domain" key={cD.domain}>
 					<div className="domainHeader">
-						<h3>Domain: {cD.domain}</h3>
-						<p>Total: {cD.total.val}</p>
+						<img src= {images[i]}/>
+						<br />
+						Total: {cD.total.val}/120
+						<p />
 					</div>
 					<div className="domainFacet">
 						{cD.f1.title}: {cD.f1.val}/20 

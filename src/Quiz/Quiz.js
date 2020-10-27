@@ -54,6 +54,7 @@ class Quiz extends React.Component {
 	showHelp = (e) => {
 		this.setState({ overlayWidth: "100%" });
 	};
+	
 	hideHelp = (e) => {
 		this.setState({ overlayWidth: "0%" });
 	};
@@ -122,7 +123,7 @@ class Quiz extends React.Component {
 		this.setState({ copied: true, hasCopied: true }, () => {
 			setTimeout(() => {
 				this.setState({ copied: false });
-			}, 2500);
+			}, 3500);
 		});
 	};
 
@@ -235,6 +236,9 @@ class Quiz extends React.Component {
 	};
 
 	renderResultContent = () => {
+		if (!this.state.hasCopied) {
+			this.handleCopy();
+		}
 		let content = (
 			<div className="quizResult">
 				<div className="divCopyHash">
@@ -245,8 +249,8 @@ class Quiz extends React.Component {
 				<div className="copySuccess">
 					{this.state.copied && (
 						<p>
-							Personality code copied successfully! Save that somewhere for next
-							time.
+							Personality code copied successfully! Save that somewhere safe for any
+							future teams you join.
 						</p>
 					)}
 				</div>

@@ -172,3 +172,12 @@
 	padding-left: 30px;
 	padding-right: 30px;
 }
+
+.inputFullTeam {
+	margin-top: 40px;
+}
+
+.btnFullTeamSubmit {
+	margin: auto;
+	margin-top: 20px;
+}
