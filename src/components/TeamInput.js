@@ -18,17 +18,30 @@ class TeamData extends React.Component {
 			value: { name: "", hash: "" },
 			members: [
 				{
-					name: "Test1",
+					name: "Jonathan",
 					hash: "U2FsdGVkX1+2kzLG5835HP0pEfJ16rGDFuOuK652PboDtHTBO+F3Bpvtw6cy5/vcMuHpj6dXT8K/jXzUKN7TMsIUslI6kxy+Px06j959GogrOjWnGqyNfoXZ/p3bctBOo0YSE/+intzHUP23bBLusnA30vGhin9uUf3kqkjcwUQ=",
 					plain: "",
 					colour: ["104", "87", "161"],
 				},
 				{
-					name: "Test2",
+					name: "Alex",
 					hash: "U2FsdGVkX1/IBZFhpqImk9TrjOteBYE/rMN5WCS8/MRM9rgUsWS553aNMIfAwSue2935zgNOZ2lJT8LXFnxZcGynFd5jXph1Q6ud0w0vhUo9QNj8ixY+KW7pi/EiGReGCobN3Nl+9CjjZUUPlwgIGvd+tAr2HB2K1W1Jj4UeM4A=",
 					plain: "",
 					colour: ["127", "48", "59"],
 				},
+				{
+					name: "Calum",
+					hash: "U2FsdGVkX18TSSKe6OyHQsHe08CnZxiVCTcOa1SOtDKszChewM5JVHyY0ZqP/6fq2/oisERxzavkkv3ZlyWlMRiLHumEfucW3vmxk3vsMx4u9Gj+QVN5adCot0sO/5JLQZyqkjzfazZ9jy0OB/XiFIriACbjeFIlk/fOBqvbFo8=",
+					plain: "",
+					colour: ["127", "48", "59"],
+				},
+				{
+					name: "Jordan",
+					hash: "U2FsdGVkX1/brics3V5/DDI1aEkgIKVOlnEv3FMxAyNlVVBKamZa/YhalNIBi7yJMStmtJN+35tZBlsNtGsOWaKShzdOG/KRQCXJi9ffFMXhS0/BCqARIAbRvCv8lTn+MF31+66c2co1TmErhwSRn5wWVu2tg8trGYE3XSu5/rM=",
+					plain: "",
+					colour: ["127", "48", "59"],
+				},
+
 			],
 			hasData: false,
 			data: [],
@@ -112,7 +125,7 @@ class TeamData extends React.Component {
 		let table = this.renderTable();
 		content = (
 			<div className="inputTeam">
-				<p className="inputTeamTitle">Welcome to your Team!</p>
+				<h1 className="inputTeamTitle">Welcome to your Team!</h1>
 				{table}
 				{this.state.entryError && 
 				(<p>Input error - please check all fields have a valid entry</p>)}

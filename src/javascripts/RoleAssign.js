@@ -46,5 +46,22 @@ module.exports = (Team, SetRoles, Data) => {
 		}
 	});
 
+	let allCombinations = [];
+	localTeam.forEach(function (member, index, object) {
+		let tempMember = localTeam.splice(index, 1);
+		tempMember.scores.forEach(function (score, scoreIndex, scoreObject) {
+			
+		})
+	})
+	// For each member in the remaining team
+	// Pull member from remaining Team array
+	// For each remaining domain
+	// assign that to an object, containing domain index and member score
+	// if either array is empty, we return
+
+
+
+
+
 	return SetRoles;
 };

@@ -7,7 +7,7 @@ import averageData from "../data/Average-and-StdDist-JSON.json";
 import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
 
-import * as VisAvg from "../Design Assets/VisAvg"
+//import * as VisAvg from "../Design Assets/VisAvg"
 
 import TeamL from "../Design Assets/roles/TeamLead.png";
 import CommsL from "../Design Assets/roles/CommsLead.png";
@@ -53,7 +53,7 @@ class TeamDisplay extends React.Component {
 					val: "",
 					set: "- Not Set -",
 					index: 4,
-				},
+				},		
 			},
 			data: {
 				arrayC: [],
@@ -187,28 +187,6 @@ class TeamDisplay extends React.Component {
 				<h1>{domain}</h1>
 				<i>{shortDescription}</i>
 				<br />
-				<span
-					id={`dots ${DL}`}
-					style={{ display: this.state.more === `${DL}` ? "none" : "inline" }}
-				>
-					...
-				</span>
-				<div className={`more ${DL}`}>
-					<span
-						id={`more ${DL}`}
-						style={{
-							display: this.state.more === `${DL}` ? "inline" : "none",
-						}}
-					>
-						<i dangerouslySetInnerHTML={{ __html: longDescription }} />
-					</span>
-				</div>
-				<div className="btnSpanDiv">
-					<a onClick={() => this.toggleSpan(DL)} className="btn ToggleSpan">
-						{this.state.more === DL ? "Read less" : "Read more"}
-					</a>
-				</div>
-
 				<div className="barGraph">
 					<HorizontalBar
 						className="barGraph"
@@ -307,7 +285,11 @@ class TeamDisplay extends React.Component {
 			this.printDetails("Openness to experience", arrayO, allGraphs[4])
 		);
 		teamElements.push(this.printDetails("Extraversion", arrayE, allGraphs[5]));
-		this.setState({calculatedTeamElements: teamElements})
+
+		let formTeam = this.formatTeam();
+		let roles = this.state.roles;
+		const calculatedRoles = this.AssignRoles(formTeam, roles);
+		this.setState({calculatedTeamElements: teamElements, roles: calculatedRoles})
 	}
 
 	updateSetRole(roleName, event) {
@@ -318,83 +300,187 @@ class TeamDisplay extends React.Component {
 				values[key].val = "";
 			}
 		}
-		this.setState({ roles: values }, () => {
-			console.log(this.state.roles);
-		});
+		this.setState({ roles: values });
 	}
 
-	AssignRoles = (Team, SetRoles, Data) => {
-		let localTeam = Team;
-		let takenIndicies = [];
-
-		// For each Role
-		for (const [key, value] of Object.entries(SetRoles)) {
-			// Store name of user-set member
-			let currentName = value.val;
-			let tempLowScore = 0;
-			let tempHighScore = 100;
-			let tempIter = 0;
-			let tempName = "";
-			let roleIndex = value.index;
-			// For each member in the remaining team
-			for (let i = 0; i < localTeam.length; i++) {
-				// If this member is the user-set member, assign them to the role and remove them from the team list
-				if (localTeam[i].name === currentName) {
-					tempName = localTeam[i].name;
-					tempIter = i;
-
-					break;
-				} else {
-					if (key === "Motv") {
-						if (localTeam[i].scores[roleIndex] < tempHighScore) {
-							tempHighScore = localTeam[i].scores[roleIndex];
-							tempName = localTeam[i].name;
-							tempIter = i;
-						}
+	findBestRoles(combined, preSet) {
+		var betterResult = [];
+		var workingArray = [];
+		var rolesToBeAllocated = 5 - preSet.length;
+		function recHelper(remainingMembers, workingArray) {
+			let tempMembers = [];
+			for (let i = 0; i < remainingMembers.length; i++){
+				tempMembers.push(remainingMembers[i]);
+			}
+			var currentMember = tempMembers[0];
+	
+			currentMember.scores.forEach((memElement) => {
+				var memTemp = workingArray.slice(0);
+				var indexTaken = false;
+				memTemp.forEach((assignedMember) => {
+					if (memElement.index === assignedMember.index) {
+						indexTaken = true;
+					}
+				});
+	
+				if (!indexTaken) {
+					memTemp.push({member: currentMember.name, index: memElement.index, value: memElement.value});
+					if (memTemp.length === Math.min(rolesToBeAllocated, combined.length)) {
+						betterResult.push(memTemp)
+						return;
 					} else {
-						// Find the user that has the highest skill level for this role (value.index)
-						if (localTeam[i].scores[roleIndex] > tempLowScore) {
-							tempLowScore = localTeam[i].scores[roleIndex];
-							tempName = localTeam[i].name;
-							tempIter = i;
-						}
+						let newReturn = memTemp.slice(0);
+						recHelper(tempMembers.slice(1), newReturn)
 					}
 				}
+	
+				
+			})
+		}
+		recHelper(combined, [], workingArray);
+		var bestSum = 0;
+		var bestCombo = [];
+		betterResult.forEach((result) => {
+			let tempSum = 0;
+			let tempCombo = [];
+			result.forEach((entry, index, object) => {
+				tempSum += entry.value;
+				
+				let tempEntry = Object.assign({}, entry);
+				tempCombo.push(tempEntry);
+			})
+			if (tempSum > bestSum) {
+				bestSum = tempSum;
+				bestCombo = tempCombo.slice(0);
+				
 			}
-			localTeam.splice(tempIter, 1);
-			takenIndicies.push(roleIndex);
-			SetRoles[key].set = tempName != "" ? tempName : "- Not Set -";
-			SetRoles[key].val = "";
+		})
+		preSet.forEach((member) => {
+			bestCombo.push(member);
+		})
+		return bestCombo;
+	}
+
+	AssignRoles = (Team, SetRoles) => {
+		let localRoles = Object.assign({}, this.state.roles);
+		let localRoleAssignment = [];
+		let localTeam = [];
+		let refinedLocalTeam = [];
+
+		let setRoles = [];
+		Team.forEach((member) => {
+			let scores = [];
+			member.scores.forEach((score) => {
+				let tempScore = Object.assign({}, score);
+				scores.push(tempScore);
+			})
+			let temp = Object.assign({}, {name: member.name, scores: scores});
+			localTeam.push(temp);
+		})
+		let setNames = [];
+		// Check already allocated roles
+		for (const role in localRoles) {
+			let isSet = false;
+			if (localRoles[role].val !== "") {
+				console.log(localRoles[role].val);
+				let tempName = localRoles[role].val;
+				let tempIndex = localRoles[role].index
+				let tempValue = 0;
+
+				localTeam.forEach((member) => {
+					if (member.name === tempName){
+						tempValue = member.scores[tempIndex].value;
+					}
+				})
+				let temp = Object.assign({}, {title: role, name: tempName});
+				setNames.push(temp);
+				isSet = true;
+
+				// Make set object, push to array
+				let tempMember = {member: tempName, index: tempIndex, value: tempValue}
+				setRoles.push(tempMember);
+			}	
+			localRoleAssignment.push({index: localRoles[role].index, isSet: isSet})
 		}
 
-		return SetRoles;
+		var checkSetNames = []; 
+
+		setNames.forEach((value) => {
+			checkSetNames.push(value);
+		})
+
+		// Remove those people from the team array
+		localTeam.forEach(function(member, index, object) {
+			let alreadySet = false;
+			for (let i = 0; i < setNames.length; i++){
+				console.log(setNames[i].name);
+				if (setNames[i].name === member.name){
+					alreadySet = true;
+				}	
+			}
+			if (!alreadySet) {
+				refinedLocalTeam.push(member);
+			}
+		});
+
+		// Remove relative score indicies from remaining team
+		// Removing the wrong 2nd index
+		refinedLocalTeam.forEach(function(member, index, object) {
+			let tempScores = [];
+			member.scores.forEach((entry) => {
+				let entryIndex = entry.index;
+				if (localRoleAssignment[entryIndex].isSet !== true) {
+					//refinedLocalTeam[index].scores.splice(entryIndex, 1);
+					tempScores.push(entry);
+				}
+			});
+			member.scores = tempScores;
+		});
+		// Function
+
+		let finalArray = this.findBestRoles(refinedLocalTeam, setRoles);
+		
+		
+		finalArray.forEach((entry, index, object) => {
+			for (const role in localRoles) {
+				if (localRoles[role].index === entry.index) {
+					localRoles[role].set = entry.member;
+				}
+			}
+		})
+		return localRoles;
 	};
 
-	handleRoleAssign = (e) => {
+	formatTeam() {
 		const team = this.state.team;
-		const data = this.state.data;
-		let formTeam = [];
-
+		let tempTeam = [];
 		team.forEach((member) => {
 			let tempScores = [];
 			let memberScores = member.scores;
 			for (let i = 0; i < memberScores.length; i++) {
-				tempScores.push(memberScores[i][6]);
+				tempScores.push({index: i, value: memberScores[i][6]});
 			}
 			let temp = {
 				name: member.name,
 				scores: tempScores,
 			};
-			formTeam.push(temp);
+			tempTeam.push(temp);
 		});
+
+		return tempTeam;
+	}
+
+	handleRoleAssign = (e) => {
+		
+		let formTeam = this.formatTeam();		
 		const roles = this.state.roles;
 		//console.log(roles);
 		for (const [key, value] of Object.entries(roles)) {
-			value.set = "- Not set -";
+			value.set = "- Not Set -";
 		}
-		const calculatedRoles = this.AssignRoles(formTeam, roles, data);
+		const calculatedRoles = this.AssignRoles(formTeam, roles);
 		this.setState({ roles: calculatedRoles });
-		console.log(calculatedRoles);
+		// console.log(calculatedRoles);
 		e.preventDefault();
 	};
 
@@ -456,19 +542,19 @@ class TeamDisplay extends React.Component {
 				<div className="roleContents">
 					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
 						<img src={TeamL} alt="talking heads" className={this.state.showing === "Team" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Team")}/>
-						<img src={CommsL} alt="talking heads" className={this.state.showing === "Creat" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Creat")}/>
-						<img src={MotivL} alt="talking heads" className={this.state.showing === "Comms" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Comms")}/>
 						<img src={RelatL} alt="talking heads" className={this.state.showing === "Relat" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Relat")}/>
-						<img src={CreatL} alt="talking heads" className={this.state.showing === "Motiv" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Motiv")}/>
+						<img src={MotivL} alt="talking heads" className={this.state.showing === "Motiv" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Motiv")}/>
+						<img src={CreatL} alt="talking heads" className={this.state.showing === "Creat" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Creat")}/>
+						<img src={CommsL} alt="talking heads" className={this.state.showing === "Comms" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Comms")}/>
 						<div className="divRoleTitles">
 							<table className="tblRoleTitles">
 								<tbody>
 								<tr>
 									<td className="txtRoleTitle">Team Lead</td>
-									<td className="txtRoleTitle">Creative Lead</td>
-									<td className="txtRoleTitle">Communications Lead</td>
 									<td className="txtRoleTitle">Relations Lead</td>
 									<td className="txtRoleTitle">Motivation Lead</td>
+									<td className="txtRoleTitle">Creative Lead</td>
+									<td className="txtRoleTitle">Communications Lead</td>		
 								</tr>
 								</tbody>		
 							</table>

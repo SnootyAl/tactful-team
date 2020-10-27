@@ -4,6 +4,8 @@ import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
 import scoreObject from "../data/templates/ScoreObject.json";
 
+import "../stylesheets/Personal.css";
+
 // Component to calculate user data from a hash, and display it on the page
 class IndividualData extends React.Component {
 	constructor(props) {
@@ -122,15 +124,22 @@ class IndividualData extends React.Component {
 			let elements = (
 				<div className="domain" key={cD.domain}>
 					<div className="domainHeader">
-						<h1>Domain: {cD.domain}</h1>
+						<h3>Domain: {cD.domain}</h3>
 						<p>Total: {cD.total.val}</p>
 					</div>
 					<div className="domainFacet">
-						<p>
-							{cD.f1.title}: {cD.f1.val} | {cD.f2.title}: {cD.f2.val} |{" "}
-							{cD.f3.title}: {cD.f3.val} | {cD.f4.title}: {cD.f4.val} |{" "}
-							{cD.f5.title}: {cD.f5.val} | {cD.f6.title}: {cD.f6.val}
-						</p>
+						{cD.f1.title}: {cD.f1.val}/20 
+						<br />
+						{cD.f2.title}: {cD.f2.val}/20
+						<br />
+						{cD.f3.title}: {cD.f3.val}/20
+						<br />
+						{cD.f4.title}: {cD.f4.val}/20 
+						<br />
+						{cD.f5.title}: {cD.f5.val}/20
+						<br />
+						{cD.f6.title}: {cD.f6.val}/20
+						
 					</div>
 				</div>
 			);
@@ -140,7 +149,7 @@ class IndividualData extends React.Component {
 		// Return formatted JSX
 		return (
 			<div className="domainResults">
-				<h1>User: {this.state.userName}</h1>
+				<h2>{this.state.userName}'s results</h2>
 				{domainElements}
 			</div>
 		);

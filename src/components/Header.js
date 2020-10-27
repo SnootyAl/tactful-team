@@ -42,7 +42,7 @@ class Header extends React.Component {
 				<div className="headerButtons">
 					<div className="divBtn">
 						<a className="headerButton btnTest" onClick={this.handleTestClick}>
-							Take Test
+							Personality Test
 						</a>
 					</div>
 
@@ -51,13 +51,13 @@ class Header extends React.Component {
 							className="headerButton btnPersonal"
 							onClick={this.handlePersonalClick}
 						>
-							Personal Results
+							Personal
 						</a>
 					</div>
 
 					<div className="divBtn">
 						<a className="headerButton btnTeam" onClick={this.handleTeamClick}>
-							Team Results
+							Team
 						</a>
 					</div>
 				</div>

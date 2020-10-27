@@ -124,3 +124,19 @@
 .divReviewPersonality {
 	margin-right: 20px;
 }
+
+.divQuizProgress {
+	border: 1px solid white;
+}
+.progress-bar {
+	background-color: rgb(235, 86, 86);
+}
+
+.RetakeQuiz {
+	background-color: #757575;
+	color: #f8f8f8;
+}
+
+.RetakeQuiz:hover {
+	background-color: #585757;
+}

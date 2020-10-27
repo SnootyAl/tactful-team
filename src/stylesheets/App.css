@@ -1,3 +1,9 @@
+:root {
+	--header1: 40px bold white;
+	--header2: 30px bold white;
+	--header3: 25px white;
+}
+
 .App {
 	text-align: center;
 	height: 100%;
@@ -169,13 +175,6 @@
 	vertical-align: bottom;
 }
 
-.divQuizProgress {
-	border: 1px solid white;
-}
-.progress-bar {
-	background-color: rgb(235, 86, 86);
-}
-
 .btnTestRedirect:hover {
 	cursor: pointer;
 }
@@ -191,71 +190,6 @@
 .btn:hover {
 	cursor: pointer;
 	background-color: rgb(231, 230, 212);
-}
-
-.RetakeQuiz {
-	background-color: #757575;
-	color: #f8f8f8;
-}
-
-.RetakeQuiz:hover {
-	background-color: #585757;
-}
-
-.teamNavButtons {
-	height: auto;
-	margin: auto;
-	max-width: 890px;
-	display: flex;
-	margin-top: 40px;
-	margin-bottom: 50px;
-}
-
-.teamNav {
-	width: 50%;
-}
-
-.btn.showInfo,
-.btn.showRoleAssign {
-	width: 100%;
-	padding-left: 40px;
-	padding-right: 40px;
-}
-
-.imgRoleImage {
-	max-width: 100%;
-	height: auto;
-	width: auto;
-}
-
-.inpTeam {
-	line-height: 1.3;
-	padding: 0.6em 1.4em 0.5em 0.8em;
-	box-sizing: border-box;
-	background-color: #111111;
-	color: #f8f8f8;
-	border: 3px solid #f8f8f8;
-	box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
-	border-radius: 5px;
-}
-
-.inpTeam:hover {
-	border-color: #888;
-	cursor: pointer;
-}
-.inpTeam select {
-	display: none;
-}
-
-.divRoleSubmit {
-	margin-top: 70px;
-	margin-bottom: 100px;
-}
-
-.btnRoleSubmit {
-	margin: auto;
-	padding-left: 30px;
-	padding-right: 30px;
 }
 
 .showTeam {
