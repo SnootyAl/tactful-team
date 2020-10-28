@@ -3,7 +3,9 @@ import TactfulIcon from "../Design Assets/Tactful.png";
 
 import "../stylesheets/Header.css";
 
-// Basic component to render the footer on each page
+/**
+ * Basic component that handles the rendering of the header panel
+ */
 class Header extends React.Component {
 	constructor(props) {
 		super(props);

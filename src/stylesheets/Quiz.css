@@ -117,6 +117,7 @@
 	position: relative;
 	left: -50%;
 	width: auto;
+	min-width: 700px;
 	display: flex;
 }
 
@@ -133,8 +134,8 @@
 }
 
 .RetakeQuiz {
-	background-color: #757575;
-	color: #f8f8f8;
+	background-color: #757575 !important;
+	color: #f8f8f8 !important;
 }
 
 .RetakeQuiz:hover {

@@ -27,9 +27,17 @@ module.exports = (Score, Average, StdDist) => {
 	}
 
 	if (deviationsAway < 0) {
-		return "low";
+		if (deviationsAway < -1) {
+			return "very low"
+		} else {
+			return "low";
+		}	
 	} else if (deviationsAway > 0) {
-		return "high";
+		if (deviationsAway > 1) {
+			return "very high";
+		} else {
+			return "high";
+		}		
 	} else {
 		return "neutral";
 	}

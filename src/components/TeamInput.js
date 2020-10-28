@@ -64,8 +64,10 @@ class TeamData extends React.Component {
 		};
 	}
 
-	// Given an array of member objects, unhash each input and store the plaintext + score object
-	// in the state.
+	/**
+	 * Given an array of member objects, unhash each input and store the plaintext + score object
+	 * in the state.
+	 */
 	unHashTeam() {
 		const teamData = this.state.members.slice();
 		const updatedTeamData = teamData.map((member) => {
@@ -82,7 +84,10 @@ class TeamData extends React.Component {
 		this.setState({ members: updatedTeamData }, () => {});
 	}
 
-	// Given a plaintext string, check that it meets the criteria of a correctly decrpyted hash
+	/**
+	 * Given a plaintext string, check that it meets the criteria of a correctly decrpyted hash
+	 * @param {string} value - The plaintext string to be checked
+	 */
 	checkValue(value) {
 		const errCheck = value.slice(0, 8);
 		const result = value.slice(8);
@@ -100,8 +105,11 @@ class TeamData extends React.Component {
 		}
 	}
 
-	// Given a string of 70 characters, pull each 2 digit substring and place in its
-	// respective score object position.
+	/**
+	 * Given a string of 70 characters, pull each 2 digit substring and place in its
+	 * respective score object position.
+	 * @param {string} strScores - String of score characters
+	 */
 	pullScores(strScores) {
 		let scores = [];
 
@@ -116,11 +124,17 @@ class TeamData extends React.Component {
 		return scores;
 	}
 
+	/** 
+	 * Takes the team data from state and returns a custom TeamDisplay component
+	 */
 	renderTeamDisplay() {
 		const teamData = this.state.members;
 		return <TeamDisplay data={teamData} />;
 	}
 
+	/**
+	 * Renders the team member input table
+	 */
 	renderTeamInputs() {
 		let content;
 		let table = this.renderTable();
@@ -137,12 +151,20 @@ class TeamData extends React.Component {
 		return content;
 	}
 
+	/**
+	 * Updates the state with the user's changes to the team member input table
+	 * @param {number} index - The row that the user has modified
+	 * @param {event} event - The text-box whose value the user has modified
+	 */
 	handleChangeInput(index, event) {
 		const values = [...this.state.members];
 		values[index][event.target.name] = event.target.value;
 		this.setState({ members: values });
 	}
 
+	/**
+	 * Adds a new row to the team member input table
+	 */
 	handleAddField() {
 		let availableColours = this.state.colours.available;
 		this.setState({
@@ -157,6 +179,10 @@ class TeamData extends React.Component {
 		});
 	}
 
+	/**
+	 * Removes a row from the team member input table
+	 * @param {number} index - The index of the row to be removed
+	 */
 	handleRemoveField(index) {
 		const localmembers = this.state.members;
 		const removedUser = localmembers.splice(index, 1);
@@ -170,6 +196,10 @@ class TeamData extends React.Component {
 		});
 	}
 
+	/**
+	 * Handles the submission of the team member input table
+	 * @param {event} e - Event object
+	 */
 	handleSubmit = (e) => {
 		let currentMembers = this.state.members;
 		let validInput = true;
@@ -195,6 +225,9 @@ class TeamData extends React.Component {
 		
 	};
 
+	/**
+	 * Renders the team input table
+	 */
 	renderTable() {
 		let myMembers = this.state.members;
 		let content, temp;
@@ -260,6 +293,7 @@ class TeamData extends React.Component {
 		));
 		content = (
 			<form className="teamInputForm" onSubmit={this.handleSubmit}>
+				<h4>Enter each member individually</h4>
 				{temp}
 				{this.state.canAddMember && (<img
 					src={plsIcon}
@@ -272,24 +306,32 @@ class TeamData extends React.Component {
 					type="submit"
 					onClick={this.handleSubmit}
 				>
-					Submit Team
+					Create New Team
 				</button>
 			</form>
 		);
 		return <div className="inputTable">{content}</div>;
 	}
 
+	/**
+	 * Renders the section of the page that allows the user to input a previous team's hash
+	 */
 	renderFullTeamInput() {
 		return (
 			<div className="inputFullTeam">
+				<h4>Review a preiously generated team</h4>
 				<form className="fullTeamInputForm">
 					<input type="text" name="teamHash" placeholder="Team Code: " className="fullTeamInput" value={this.state.fullTeamHash} onChange={(event => this.handleChangeTeamInput(event))} />
-					<button className="btn btnFullTeamSubmit" type="submit" onClick={this.handleFullTeamSubmit}>Submit Pre-made Team</button>
+					<button className="btn btnFullTeamSubmit" type="submit" onClick={this.handleFullTeamSubmit}>Review Existing Team</button>
 			</form>
 			</div>
 		)
 	}
 
+	/**
+	 * Handles the submission of the full team input form
+	 * @param {event} e 
+	 */
 	handleFullTeamSubmit = (e) => {
 		let fullTeamHash = this.state.fullTeamHash;
 
@@ -314,11 +356,18 @@ class TeamData extends React.Component {
 		this.setState({members: newTeam, hasData: true})
 	}
 
+	/**
+	 * Updates the state with the user's change to the full team input form
+	 * @param {event} event 
+	 */
 	handleChangeTeamInput(event) {
 		let localUpdate = event.target.value;
 		this.setState({fullTeamHash: localUpdate})
 	}
 
+	/**
+	 * Renders the page
+	 */
 	render() {
 		const doesHaveData = this.state.hasData;
 		let content = doesHaveData

@@ -14,7 +14,9 @@ import Extraversion from "../Design Assets/DomainIcons/Extraversion.png";
 
 import "../stylesheets/Personal.css";
 
-// Component to calculate user data from a hash, and display it on the page
+/**
+ * Component that handles the personal results page
+ */
 class IndividualData extends React.Component {
 	constructor(props) {
 		super(props);
@@ -184,7 +186,7 @@ class IndividualData extends React.Component {
 				<div className="divPersonalIntro">
 					<p>Want to know more about your personality?</p>
 					<p>
-						First take the Big Five personality test, then copy the result into
+						First take the Big Five personality test, then copy the resulting code into
 						the text box above!
 					</p>
 					<a className="btn TestRedirect" onClick={this.takeTest}>

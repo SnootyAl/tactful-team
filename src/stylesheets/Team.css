@@ -60,11 +60,11 @@
 
 .imgRoleImage:hover {
 	cursor: pointer;
-	filter: brightness(80%);
+	filter: brightness(70%);
 }
 
 .imgSelectedRoleImage {
-	filter: brightness(80%);
+	filter: brightness(70%);
 }
 
 .divRoleTitles {
@@ -106,8 +106,16 @@
 
 .teamDomain {
 	width: 60%;
+	max-width: 1200px;
 	margin: auto;
 	z-index: -1;
+	background-color: #f8f8f8;
+	border-radius: 10px;
+	color: #111111;
+	padding-top: 1px;
+	padding-bottom: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .more {
@@ -121,7 +129,7 @@
 
 .btnToggleSpan {
 	color: black;
-	background-color: white;
+	background-color: #f8f8f8;
 	padding: 5px 10px;
 	border-radius: 5px;
 }
@@ -134,12 +142,14 @@
 	position: relative;
 	margin: auto;
 	margin-top: 20px;
-	width: 100%;
-	border: 1px solid white;
+	width: 90%;
+	border: 1px solid #111111;
 	border-radius: 10px;
 	padding: 5px;
-	box-shadow: 1px 1px #77aaff, 2px 2px #77aaff, 3px 3px #77aaff, 4px 4px #77aaff,
-		5px 5px #77aaff;
+}
+
+.imgVisualAverage {
+	margin-top: 70px;
 }
 
 .inpTeam {
@@ -180,4 +190,27 @@
 .btnFullTeamSubmit {
 	margin: auto;
 	margin-top: 20px;
+}
+
+.new-line {
+	white-space: pre-line;
+}
+
+.domainInfohighest {
+	margin-top: 40px;
+}
+
+.divTeamHash {
+	width: 610px;
+	margin: auto;
+	margin-top: 50px;
+}
+
+.divTeamCopySuccess {
+	height: 105px;
+}
+
+.divTeamCopySuccess p {
+	margin: 0;
+	padding-top: 35px;
 }
