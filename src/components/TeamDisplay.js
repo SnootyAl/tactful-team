@@ -6,13 +6,34 @@ import findStdDeviation from "../javascripts/StdDev";
 import averageData from "../data/Average-and-StdDist-JSON.json";
 import teamText from "../TextFiles/team-text";
 import DomainText from "../data/DomainText/index";
-import RoleImage from "../Design Assets/role_icon.png";
+import cryptoJS from "crypto-js";
+import AES from "crypto-js/aes";
+//import * as VisAvg from "../Design Assets/VisAvg"
 
+import TeamL from "../Design Assets/roles/TeamLead.png";
+import CommsL from "../Design Assets/roles/CommsLead.png";
+import CreatL from "../Design Assets/roles/CreativeLead.png";
+import MotivL from "../Design Assets/roles/MotivationLead.png";
+import RelatL from "../Design Assets/roles/RelationLead.png";
+
+import WBelow from "../Design Assets/VisAvg/wellBelow_graphic.png"
+import Below from "../Design Assets/VisAvg/below_graphic.png"
+import Average from "../Design Assets/VisAvg/average_graphic.png"
+import Above from "../Design Assets/VisAvg/above_graphic.png"
+import WAbove from "../Design Assets/VisAvg/wellAbove_graphic.png"
+
+/**
+ * Component class that renders the team information page
+ */
 class TeamDisplay extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			showing: "",
 			team: props.data,
+			teamHash: "",
+			copied: false,
+			calculatedTeamElements: [],
 			showInfo: true,
 			roles: {
 				Team: {
@@ -44,7 +65,7 @@ class TeamDisplay extends React.Component {
 					val: "",
 					set: "- Not Set -",
 					index: 4,
-				},
+				},		
 			},
 			data: {
 				arrayC: [],
@@ -79,70 +100,154 @@ class TeamDisplay extends React.Component {
 		};
 	}
 
+	/**
+	 * Run this when the component loads for the first time. Calculates team text once, and stores this in state.
+	 */
+	componentDidMount() {
+		const currentTeam = this.state.team;
+		let teamElements = [];
+		let arrayC = [];
+		let arrayA = [];
+		let arrayN = [];
+		let arrayO = [];
+		let arrayE = [];
+
+		// Store member total scores in a more compact form
+		currentTeam.forEach((member) => {
+			arrayC.push(member.scores[0][6]);
+			arrayA.push(member.scores[1][6]);
+			arrayN.push(member.scores[2][6]);
+			arrayO.push(member.scores[3][6]);
+			arrayE.push(member.scores[4][6]);
+		});
+
+		// Create the JSX elements for each domain
+		const allDomains = [arrayC, arrayA, arrayN, arrayO, arrayE];
+		const allGraphs = this.createGraphs(allDomains);
+		teamElements.push(
+			this.printDetails("Conscientousness", arrayC, allGraphs[1])
+		);
+		teamElements.push(this.printDetails("Agreeableness", arrayA, allGraphs[2]));
+		teamElements.push(this.printDetails("Neuroticism", arrayN, allGraphs[3]));
+		teamElements.push(
+			this.printDetails("Openness to experience", arrayO, allGraphs[4])
+		);
+		teamElements.push(this.printDetails("Extraversion", arrayE, allGraphs[5]));
+
+
+		// Format team and calculate the roles automatically
+		let formTeam = this.formatTeam();
+		let roles = this.state.roles;
+		const calculatedRoles = this.AssignRoles(formTeam, roles);
+
+		// Create the member objects that will be turned into a hash
+		let teamString = "CheckSum";
+		currentTeam.forEach((member) => {
+			let newObject = {
+				name: member.name,
+				hash: member.hash,
+				colour: member.colour,
+				scores: member.scores
+			}
+			let tempString = JSON.stringify(newObject);
+			teamString += `{-data-}${tempString}`;
+		});
+
+		// Create a hash that the user can use to review this exact team at a later date.
+		const tempHash = cryptoJS.AES.encrypt(teamString, "Super Secret Key");
+		console.log(tempHash.toString());
+
+		// Update the state with this data
+		this.setState({calculatedTeamElements: teamElements, roles: calculatedRoles, teamHash: tempHash})
+	}
+
+	/**
+	 * Formats the highest/lowest comparison strings for each domain
+	 * @param {number[]} indicies - The team indicies with the highest/lowest score
+	 * @param {string} compString - Comparison string - highest or lowest
+	 * @param {string} domainString - The domain to be compared
+	 */
 	formatDomainString(indicies, compString, domainString) {
 		let result = "";
 		let names = [];
 		let domLetter = domainString[0];
 		let myTeam = this.state.team;
+
+		// Push the names of each respective member into a local array
 		indicies.forEach((index) => {
 			names.push(myTeam[index].name);
 		});
+
+		// Variable string construction - multiple people means a plural string
 		if (indicies.length > 1) {
 			let tempString = "";
 			for (let i = 0; i < indicies.length - 2; i++) {
-				//tempString += "person " + indicies[i + 1] + ", ";
 				tempString += `${names[i]}, `;
 			}
-			// Messy at the moment - trying to counter 0-indexed arrays with human-readable team numers
-			// i.e. The first person is labelled Person 1, but their index is array[0].
-			//tempString += "person " + (indicies[indicies.length - 2] + 1) + " ";
 			tempString += `${names[names.length - 2]} `;
-			//tempString += "and person " + (indicies[indicies.length - 1] + 1);
 			tempString += `and ${names[names.length - 1]}`;
 			result =
-				"The members of the team with the " +
+				"The members with the " +
 				compString +
 				" scores in " +
 				domainString +
 				" are: " +
-				tempString;
+				tempString +", meaning: \n";
 		} else {
 			result =
-				"The member of the team with the " +
+				"The member with the " +
 				compString +
 				" score in " +
 				domainString +
 				" is " +
-				names[0];
+				names[0] + ", meaning: \n \n";
 		}
 
+		// Format the text results
+		let tempStrings = "";
 		if (compString === "lowest") {
-			result += teamText[`${domLetter}`][`low`] + "\n";
+			tempStrings = teamText[`${domLetter}`][`low`]
 		} else {
-			result += teamText[`${domLetter}`][`high`] + "\n";
+			 tempStrings = teamText[`${domLetter}`][`high`];
 		}
-		return result;
+
+		result += tempStrings;
+
+		// Return the formatted JSX
+		return (
+			<div className={`new-line domainInfo${compString}`}>
+				{result}
+			</div>
+		)
 	}
 
+	/**
+	 * Creates the JSX that will render the team's information for each domain
+	 * @param {string} domain - The domain to print the details for
+	 * @param {number[]} workingArray - The array of team scores related to the domain
+	 * @param {object} graph - The ChartJS graph details
+	 */
 	printDetails(domain, workingArray, graph) {
+		// Initialise variables
 		let smallestIndexArray = [];
 		let largestIndexArray = [];
-		let difference = 0;
 		let totalScore = 0;
 		let teamAvg = 0;
 		let teamAverageCompare = "";
-		let teamScores;
-		const DL = domain[0];
-		const shortDescription = DomainText[DL].shortDescription;
-		const longDescription = DomainText[DL].description;
-		teamScores += "| ";
-		for (let i = 0; i < workingArray.length; i++) {
-			teamScores += workingArray[i];
-			teamScores += " | ";
+
+		// Helper function to sum the total score of this domain
+		function myFunc(total, num) {
+			return total + num;
 		}
+		// Retrieve the Domain Letter from the first letter of the domain parameter
+		const DL = domain[0];
+
+		// Retrieve the short description of this domain from the local file
+		const shortDescription = DomainText[DL].shortDescription;
+
 		// Find which members of the team have the lowest score
 		smallestIndexArray = findIndex.smallest({ array: workingArray });
-		let smallestIndex = smallestIndexArray[0];
+
 		// Print this information out in human readable form
 		let lowestMember = this.formatDomainString(
 			smallestIndexArray,
@@ -152,7 +257,7 @@ class TeamDisplay extends React.Component {
 
 		// Find which members of the team have the highest score
 		largestIndexArray = findIndex.largest({ array: workingArray });
-		let largestIndex = largestIndexArray[0];
+
 		// Print this information out in human readable form
 		let largestMember = this.formatDomainString(
 			largestIndexArray,
@@ -160,51 +265,43 @@ class TeamDisplay extends React.Component {
 			domain
 		);
 
-		// Calculate difference between highest and lowest value
-		difference = workingArray[largestIndex] - workingArray[smallestIndex];
-		let strDifference =
-			"The difference between the largest and smallest " +
-			domain +
-			" score is " +
-			difference;
-
 		// Calculate combined team's average
-		totalScore = workingArray.reduce(this.myFunc);
+		totalScore = workingArray.reduce(myFunc);
 		teamAvg = Math.round(totalScore / workingArray.length);
 		teamAverageCompare = findStdDeviation(
 			teamAvg,
 			averageData[domain[0]].Average,
 			averageData[domain[0]].StdDist
 		);
-		let teamAverageText = `The team's average score for ${domain} is ${teamAvg}. \nCompared to the average score for ${domain}, this is ${teamAverageCompare}`;
+		
+		// Find the correct Visual Average graphic
+		let domainCompare = WBelow
+		switch (teamAverageCompare) {
+			case "very low":
+				domainCompare = WBelow;
+				break;
+			case "low":
+				domainCompare = Below;
+				break;
+			case "neutral":
+				domainCompare = Average;
+				break;
+			case "high":
+				domainCompare = Above;
+				break;
+			case "very high":
+				domainCompare = WAbove;
+				break;
+			default:
+				break;
+		}
 
+		// Return the formatted JSX
 		return (
 			<div className="teamDomain" key={`${DL}`}>
 				<h1>{domain}</h1>
-				<i>{shortDescription}</i>
+				{shortDescription}
 				<br />
-				<span
-					id={`dots ${DL}`}
-					style={{ display: this.state.more === `${DL}` ? "none" : "inline" }}
-				>
-					...
-				</span>
-				<div className={`more ${DL}`}>
-					<span
-						id={`more ${DL}`}
-						style={{
-							display: this.state.more === `${DL}` ? "inline" : "none",
-						}}
-					>
-						<i dangerouslySetInnerHTML={{ __html: longDescription }} />
-					</span>
-				</div>
-				<div className="btnSpanDiv">
-					<a onClick={() => this.toggleSpan(DL)} className="btn ToggleSpan">
-						{this.state.more === DL ? "Read less" : "Read more"}
-					</a>
-				</div>
-
 				<div className="barGraph">
 					<HorizontalBar
 						className="barGraph"
@@ -225,43 +322,46 @@ class TeamDisplay extends React.Component {
 								xAxes: [
 									{
 										ticks: {
+											fontSize: 18,
 											max: 95,
 											min: 35,
 											stepSize: 5,
 										},
 									},
 								],
+								yAxes: [{
+									ticks: {
+										fontSize: 30
+									}
+								}]
 							},
 						}}
 					/>
 				</div>
-				<p>{lowestMember}</p>
-				<p>{largestMember}</p>
-				<p>{strDifference}</p>
-				<p>{teamAverageText}</p>
+				<img className="imgVisualAverage" src={domainCompare} />
+				<br />
+				----------
+				{lowestMember}		
+				<br />
+				----------	
+				{largestMember}
 			</div>
 		);
 	}
 
-	toggleSpan(DLetter) {
-		let tempDL = DLetter;
-		let currentMore = this.state.more;
-		this.setState({
-			more: currentMore === tempDL ? "" : tempDL,
-		});
-	}
-
-	myFunc(total, num) {
-		return total + num;
-	}
-
+	/**
+	 * Creates the Radar and Bar graphs for the team
+	 * @param {[number[]]} allDomains - Array of score arrays
+	 */
 	createGraphs(allDomains) {
 		const team = this.state.team;
-
 		let allGraphs = [];
+
+		// Use local library to create Radar graph
 		let teamRadarGraph = Graph.Radar(allDomains, team);
 		allGraphs.push(teamRadarGraph);
 
+		// Use local library to procedurally generate Bar graphs
 		allDomains.forEach((domain) => {
 			let tempGraph = Graph.Bar(domain, team);
 			allGraphs.push(tempGraph);
@@ -270,71 +370,11 @@ class TeamDisplay extends React.Component {
 		return allGraphs;
 	}
 
-	displayInfo(shouldDisplayInfo) {
-		this.setState({ showInfo: shouldDisplayInfo });
-	}
-
-	renderTeam() {
-		const currentTeam = this.state.team;
-		let teamElements = [];
-		let arrayC = [];
-		let arrayA = [];
-		let arrayN = [];
-		let arrayO = [];
-		let arrayE = [];
-
-		currentTeam.forEach((member) => {
-			arrayC.push(member.scores[0][6]);
-			arrayA.push(member.scores[1][6]);
-			arrayN.push(member.scores[2][6]);
-			arrayO.push(member.scores[3][6]);
-			arrayE.push(member.scores[4][6]);
-		});
-
-		const allDomains = [arrayC, arrayA, arrayN, arrayO, arrayE];
-		const allGraphs = this.createGraphs(allDomains);
-		teamElements.push(
-			this.printDetails("Conscientousness", arrayC, allGraphs[1])
-		);
-		teamElements.push(this.printDetails("Agreeableness", arrayA, allGraphs[2]));
-		teamElements.push(this.printDetails("Neuroticism", arrayN, allGraphs[3]));
-		teamElements.push(
-			this.printDetails("Openness to experience", arrayO, allGraphs[4])
-		);
-		teamElements.push(this.printDetails("Extraversion", arrayE, allGraphs[5]));
-
-		return (
-			<div className="teamResults">
-				<h1>Team Results:</h1>
-				<Radar
-					data={allGraphs[0]}
-					options={{
-						title: {
-							display: true,
-							text: "Team 1",
-							fontSize: 15,
-						},
-						legend: {
-							display: true,
-							position: "right",
-						},
-						scale: {
-							gridLines: {
-								color: "#FFFFFF",
-							},
-							ticks: {
-								max: 95,
-								min: 35,
-								stepSize: 5,
-							},
-						},
-					}}
-				/>
-				{teamElements}
-			</div>
-		);
-	}
-
+	/**
+	 * Updates the specified role with the user-defined team member name
+	 * @param {string} roleName 
+	 * @param {event} event 
+	 */
 	updateSetRole(roleName, event) {
 		const values = { ...this.state.roles };
 		values[roleName].val = event.target.value;
@@ -343,86 +383,244 @@ class TeamDisplay extends React.Component {
 				values[key].val = "";
 			}
 		}
-		this.setState({ roles: values }, () => {
-			console.log(this.state.roles);
-		});
+		this.setState({ roles: values });
 	}
 
-	AssignRoles = (Team, SetRoles, Data) => {
-		let localTeam = Team;
-		let takenIndicies = [];
-
-		// For each Role
-		for (const [key, value] of Object.entries(SetRoles)) {
-			// Store name of user-set member
-			let currentName = value.val;
-			let tempLowScore = 0;
-			let tempHighScore = 100;
-			let tempIter = 0;
-			let tempName = "";
-			let roleIndex = value.index;
-			// For each member in the remaining team
-			for (let i = 0; i < localTeam.length; i++) {
-				// If this member is the user-set member, assign them to the role and remove them from the team list
-				if (localTeam[i].name === currentName) {
-					tempName = localTeam[i].name;
-					tempIter = i;
-
-					break;
-				} else {
-					if (key === "Motv") {
-						if (localTeam[i].scores[roleIndex] < tempHighScore) {
-							tempHighScore = localTeam[i].scores[roleIndex];
-							tempName = localTeam[i].name;
-							tempIter = i;
-						}
-					} else {
-						// Find the user that has the highest skill level for this role (value.index)
-						if (localTeam[i].scores[roleIndex] > tempLowScore) {
-							tempLowScore = localTeam[i].scores[roleIndex];
-							tempName = localTeam[i].name;
-							tempIter = i;
-						}
-					}
-				}
-			}
-			localTeam.splice(tempIter, 1);
-			takenIndicies.push(roleIndex);
-			SetRoles[key].set = tempName != "" ? tempName : "- Not Set -";
-			SetRoles[key].val = "";
+	/**
+	 * Handles the assignment of team roles
+	 * @param {event} e 
+	 */
+	handleRoleAssign = (e) => {
+		// Formats the team array
+		let formTeam = this.formatTeam();	
+		
+		// Store roles locally, overwrite the set values of this object.
+		const roles = this.state.roles;
+		for (const [key, value] of Object.entries(roles)) {
+			value.set = "- Not Set -";
 		}
 
-		return SetRoles;
+		// Calculate the roles, and update the state
+		const calculatedRoles = this.AssignRoles(formTeam, roles);
+		this.setState({ roles: calculatedRoles });
+		e.preventDefault();
 	};
-
-	handleRoleAssign = (e) => {
+	
+	/**
+	 * Takes the team data stored in the state and returns an array of member objects that can be
+	 * used to assign roles.
+	 */
+	formatTeam() {
 		const team = this.state.team;
-		const data = this.state.data;
-		let formTeam = [];
+		let tempTeam = [];
 
+		// Each member's total domain scores are stored in an array, and a new object is created and pushed to an array
 		team.forEach((member) => {
 			let tempScores = [];
 			let memberScores = member.scores;
 			for (let i = 0; i < memberScores.length; i++) {
-				tempScores.push(memberScores[i][6]);
+				tempScores.push({index: i, value: memberScores[i][6]});
 			}
 			let temp = {
 				name: member.name,
 				scores: tempScores,
 			};
-			formTeam.push(temp);
+			tempTeam.push(temp);
 		});
-		const roles = this.state.roles;
-		//console.log(roles);
-		for (const [key, value] of Object.entries(roles)) {
-			value.set = "- Not set -";
+
+		return tempTeam;
+	}
+
+	/**
+	 * 
+	 * @param {*} Team 
+	 * @param {*} SetRoles 
+	 */
+	AssignRoles = (Team, SetRoles) => {
+		// Assign local variables
+		let localRoles = Object.assign({}, this.state.roles);
+		let localRoleAssignment = [];
+		let localTeam = [];
+		let refinedLocalTeam = [];
+
+		let setRoles = [];
+
+		// Create memory-unique copies of each member and their score variables
+		Team.forEach((member) => {
+			let scores = [];
+			member.scores.forEach((score) => {
+				let tempScore = Object.assign({}, score);
+				scores.push(tempScore);
+			})
+			let temp = Object.assign({}, {name: member.name, scores: scores});
+			localTeam.push(temp);
+		})
+
+		let setNames = [];
+		// Check already allocated roles
+		for (const role in localRoles) {
+			let isSet = false;
+			// If the user has set a team member for this particular role
+			if (localRoles[role].val !== "") {
+				// Store the information of the member name and the index
+				let tempName = localRoles[role].val;
+				let tempIndex = localRoles[role].index
+				let tempValue = 0;
+
+				// Search the team until the member is found
+				localTeam.forEach((member) => {
+					// Store that member's score into a temporary value
+					if (member.name === tempName){
+						tempValue = member.scores[tempIndex].value;
+					}
+				})
+
+				// Create a memory-unique new object that contains  the role name and the name of the member
+				// that was assigned to it
+				let temp = Object.assign({}, {title: role, name: tempName});
+				// Push this temporary object to an array, and set the set check to true
+				setNames.push(temp);
+				isSet = true;
+
+				// Make set object, push to array
+				let tempMember = {member: tempName, index: tempIndex, value: tempValue}
+				setRoles.push(tempMember);
+			}	
+
+			// Push the index of the role, as well as whether or not it has been set, to an array.
+			localRoleAssignment.push({index: localRoles[role].index, isSet: isSet})
 		}
-		const calculatedRoles = this.AssignRoles(formTeam, roles, data);
-		this.setState({ roles: calculatedRoles });
-		console.log(calculatedRoles);
-		e.preventDefault();
+
+		// Remove any pre-set members from the team-to-be-assigned array.
+		localTeam.forEach(function(member, index, object) {
+			let alreadySet = false;
+			// Check this member's name against the entirety of the setNames array.
+			for (let i = 0; i < setNames.length; i++){
+				// If the name is found, we set the boolean check to true.
+				if (setNames[i].name === member.name){
+					alreadySet = true;
+				}	
+			}
+			// If the member wasn't found, we can add them to the refined team-to-be-assigned array
+			if (!alreadySet) {
+				refinedLocalTeam.push(member);
+			}
+		});
+
+		// Remove the scores (that relate to any already-assigned roles) from the remaining team members
+		refinedLocalTeam.forEach(function(member, index, object) {
+			let tempScores = [];
+			member.scores.forEach((entry) => {
+				let entryIndex = entry.index;
+				if (localRoleAssignment[entryIndex].isSet !== true) {
+					tempScores.push(entry);
+				}
+			});
+			member.scores = tempScores;
+		});
+
+		// Find the best role allocation
+		let finalArray = this.findBestRoles(refinedLocalTeam, setRoles);
+		
+		// Update the "set" values of any roles that have been set
+		finalArray.forEach((entry, index, object) => {
+			for (const role in localRoles) {
+				if (localRoles[role].index === entry.index) {
+					localRoles[role].set = entry.member;
+				}
+			}
+		})
+		
+		// Return this updated role object, now including any new "set" values
+		return localRoles;
 	};
 
+	/**
+	 * 
+	 * @param {object[]} combined - The formatted, compressed team score details
+	 * @param {object} preSet - The roles object, containing any pre-set roles
+	 */
+	findBestRoles(combined, preSet) {
+		// Initialise local variables
+		var betterResult = [];
+		var workingArray = [];
+		var rolesToBeAllocated = 5 - preSet.length;
+
+		// Recursive helper function that finds every possible combination of the given arrays.
+		// Doesn't repeat row or column, and takes into account any roles previously set
+		function recHelper(remainingMembers, workingArray) {
+			let tempMembers = [];
+			// Make a local, non-memory-shared copy of the members yet to be assigned a role
+			for (let i = 0; i < remainingMembers.length; i++){
+				tempMembers.push(remainingMembers[i]);
+			}
+
+			// Take the first member of this array
+			var currentMember = tempMembers[0];
+			// Allocate them to every remaining role
+			currentMember.scores.forEach((memElement) => {
+				// Make a copy of the current role draft
+				var memTemp = workingArray.slice(0);
+				var indexTaken = false;
+				// If the index of this member's score has already been taken, make a note of that
+				memTemp.forEach((assignedMember) => {
+					if (memElement.index === assignedMember.index) {
+						indexTaken = true;
+					}
+				});
+				
+				// If the index of this member's score hasn't already been taken by any other member
+				if (!indexTaken) {
+					// Add this member's details to the copied role assignment draft
+					memTemp.push({member: currentMember.name, index: memElement.index, value: memElement.value});
+					// If the draft array has reached the number of roles it needed to allocate, or the number of members
+					// in the team, the role assignment is complete and we can add this array to the external array
+					if (memTemp.length === Math.min(rolesToBeAllocated, combined.length)) {
+						betterResult.push(memTemp)
+						return;
+					} else {
+						// Otherwise, we create a new copy of the role assignment draft and recursively call the helper
+						// function with our updated arrays.
+						let newReturn = memTemp.slice(0);
+						recHelper(tempMembers.slice(1), newReturn)
+					}
+				}	
+			})
+		}
+
+		// Call the helper function with the original list of members, and empty array of taken indicies,
+		// and an empty external array to store any completed role assignments.
+		recHelper(combined, [], workingArray);
+
+		// Work out which of the completed arrays is objectively (based on the sum of all domain totals assigned) best.
+		var bestSum = 0;
+		var bestCombo = [];
+		betterResult.forEach((result) => {
+			let tempSum = 0;
+			let tempCombo = [];
+			result.forEach((entry, index, object) => {
+				tempSum += entry.value;
+				
+				let tempEntry = Object.assign({}, entry);
+				tempCombo.push(tempEntry);
+			})
+			if (tempSum > bestSum) {
+				bestSum = tempSum;
+				bestCombo = tempCombo.slice(0);
+				
+			}
+		})
+		preSet.forEach((member) => {
+			bestCombo.push(member);
+		})
+
+		// Return the best role assignment combination.
+		return bestCombo;
+	}
+
+	/**
+	 * Format the dropdown box for each role
+	 */
 	formatTeamOptions() {
 		const team = this.state.team;
 		let optionsObject = [];
@@ -435,6 +633,28 @@ class TeamDisplay extends React.Component {
 		return optionsObject;
 	}
 
+	/**
+	 * Changes which role information should be displayed below the role assign widget
+	 * @param {string} role 
+	 */
+	changeDisplay(role) {
+		let currentRole = this.state.showing;
+		let newRole = role === currentRole ? "" : role;
+		this.setState({showing: newRole});
+	}
+
+	handleCopy = (e) => {
+		navigator.clipboard.writeText(this.state.teamHash);
+		this.setState({ copied: true}, () => {
+			setTimeout(() => {
+				this.setState({ copied: false });
+			}, 10500);
+		});
+	}
+
+	/**
+	 * Renders the role assign section of the page
+	 */
 	renderRoleAssign() {
 		let roles = this.state.roles;
 		let temp;
@@ -443,7 +663,9 @@ class TeamDisplay extends React.Component {
 
 		const teamOptions = this.formatTeamOptions();
 
+		// For each sub-object in the roles object
 		for (const [key, value] of Object.entries(roles)) {
+			// Create the text areas that display which member has been set to which role
 			temp = (
 				<td
 					key={`txt${key}`}
@@ -456,7 +678,9 @@ class TeamDisplay extends React.Component {
 			tableNames.push(temp);
 		}
 
+		// For each sub-object in the roles object
 		for (const [key, value] of Object.entries(roles)) {
+			// Create the dropdown boxes that allow the user to select specific roles
 			temp = (
 				<td>
 					<select
@@ -471,11 +695,29 @@ class TeamDisplay extends React.Component {
 			);
 			tableInputs.push(temp);
 		}
+
+		// Render the JSX
 		return (
-			<div className="roleAssign">
 				<div className="roleContents">
 					<form className="frmRoleAssign" onSubmit={this.handleRoleAssign}>
-						<img src={RoleImage} alt="talking heads" className="imgRoleImage" />
+						<img src={TeamL} alt="talking heads" className={this.state.showing === "Team" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Team")}/>
+						<img src={RelatL} alt="talking heads" className={this.state.showing === "Relat" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Relat")}/>
+						<img src={MotivL} alt="talking heads" className={this.state.showing === "Motiv" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Motiv")}/>
+						<img src={CreatL} alt="talking heads" className={this.state.showing === "Creat" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Creat")}/>
+						<img src={CommsL} alt="talking heads" className={this.state.showing === "Comms" ? "imgSelectedRoleImage" : "imgRoleImage"} onClick={() => this.changeDisplay("Comms")}/>
+						<div className="divRoleTitles">
+							<table className="tblRoleTitles">
+								<tbody>
+								<tr>
+									<td className="txtRoleTitle">Team Lead</td>
+									<td className="txtRoleTitle">Relations Lead</td>
+									<td className="txtRoleTitle">Motivation Lead</td>
+									<td className="txtRoleTitle">Creative Lead</td>
+									<td className="txtRoleTitle">Communications Lead</td>		
+								</tr>
+								</tbody>		
+							</table>
+						</div>
 						<div className="divRoleTable">
 							<table className="tblRoleTable">
 								<tbody>
@@ -500,31 +742,63 @@ class TeamDisplay extends React.Component {
 						</div>
 					</form>
 				</div>
-			</div>
 		);
 	}
+	
+	/**
+	 * Renders the bottom of the page, where the user can save their team hash
+	 */
+	renderTeamHash() {
+		return (
+			<div className="divTeamHash">
+				<p>Every team is unique, so if you want to view this team again sometime down the road,
+					click the button below to copy your team's unique code. Save it somewhere safe, and
+					when you come back, simply paste the code into the "Review a previously generated team"
+					section of the Team Creation page.
+				</p>
+				<a className="btn btnTeamHash" onClick={this.handleCopy}>
+					Copy Team Hash
+				</a>
+				<div className="divTeamCopySuccess">
+					{this.state.copied && (
+						<p>Team code copied successfully - put that somewhere safe!</p>
+					)}
+				</div>
+			</div>
+		)
+	}
 
+	/**
+	 * Render the page
+	 */
 	render() {
+		let detailedContent;
+		let teamHashSection = this.renderTeamHash();
+		switch(this.state.showing) {
+			case "Team":
+				detailedContent = this.state.calculatedTeamElements[0];
+				break;
+			case "Comms":
+				detailedContent = this.state.calculatedTeamElements[4];
+				break;
+			case "Motiv": 
+				detailedContent = this.state.calculatedTeamElements[2];
+				break;
+			case "Relat":
+				detailedContent = this.state.calculatedTeamElements[1];
+				break;
+			case "Creat":
+				detailedContent = this.state.calculatedTeamElements[3];
+				break;
+			default:
+				break;
+		}
 		// Buttons to split between team info and role builder
 		return (
 			<div className="teamPage">
-				<div className="teamNavButtons">
-					<div className="teamNav Left">
-						<a className="btn showInfo" onClick={() => this.displayInfo(true)}>
-							Team Results
-						</a>
-					</div>
-					<div className="teamNav Right">
-						<a
-							className="btn showRoleAssign"
-							onClick={() => this.displayInfo(false)}
-						>
-							Team Roles
-						</a>
-					</div>
-				</div>
-				{this.state.showInfo && this.renderTeam()}
-				{!this.state.showInfo && this.renderRoleAssign()}
+				{this.renderRoleAssign()}
+				{detailedContent}
+				{teamHashSection}
 			</div>
 		);
 	}

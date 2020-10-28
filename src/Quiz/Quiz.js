@@ -28,8 +28,13 @@ class Quiz extends React.Component {
 		};
 	}
 
-	buttonPressHandler = (data) => {
-		let response = data.target.value;
+	/**
+	 * Takes the user's answer and stores it in state.
+	 * Updates state to show next question
+	 * @param {event} event 
+	 */
+	buttonPressHandler = (event) => {
+		let response = event.target.value;
 		let currentQuestion = this.state.questions.questions[
 			this.state.questionNumberState
 		];
@@ -44,6 +49,10 @@ class Quiz extends React.Component {
 		});
 	};
 
+	/**
+	 * Steps the question back once
+	 * @param {event} e 
+	 */
 	previousQuestion = (e) => {
 		let questionNumber = this.state.questionNumberState;
 		if (questionNumber > 0) {
@@ -51,13 +60,26 @@ class Quiz extends React.Component {
 		}
 	};
 
+	/**
+	 * Displays the help overlay
+	 * @param {event} e 
+	 */
 	showHelp = (e) => {
 		this.setState({ overlayWidth: "100%" });
 	};
+	
+	/**
+	 * Hides the help overlay
+	 * @param {event} e 
+	 */
 	hideHelp = (e) => {
 		this.setState({ overlayWidth: "0%" });
 	};
 
+	/**
+	 * Skips the remaining questions in the quiz, regardless of how many questions have been answered already
+	 * @param {event} e 
+	 */
 	skipRemaining = (e) => {
 		let localQuestionsRemaining = 120 - this.state.questionNumberState;
 		let localAnswer = this.state.answer;
@@ -76,10 +98,18 @@ class Quiz extends React.Component {
 		});
 	};
 
+	/**
+	 * Updates state with any user changes to the name input section
+	 * @param {event} event 
+	 */
 	handleNameChange = (event) => {
 		this.setState({ name: event.target.value });
 	};
 
+	/**
+	 * Formats the user's answers and hashes the result
+	 * @param {event} event 
+	 */
 	handleNameSubmit = (event) => {
 		const answer = this.state.answer;
 		const name = this.state.name;
@@ -116,16 +146,23 @@ class Quiz extends React.Component {
 		});
 	};
 
+	/**
+	 * Copies the user's hash to their clipboard
+	 * @param {event} e 
+	 */
 	handleCopy = (e) => {
-		//document.execCommand("copy", false, this.state.hashString);
 		navigator.clipboard.writeText(this.state.hashString);
 		this.setState({ copied: true, hasCopied: true }, () => {
 			setTimeout(() => {
 				this.setState({ copied: false });
-			}, 2500);
+			}, 4500);
 		});
 	};
 
+	/**
+	 * Resets the state and allows the user to retake the quiz
+	 * @param {event} e 
+	 */
 	retakeQuiz = (e) => {
 		let questions = this.state.questions;
 		this.setState({
@@ -139,18 +176,30 @@ class Quiz extends React.Component {
 			stage: 0,
 			overlayWidth: "100%",
 			copied: false,
+			hasCopied: false,
 		});
 		e.preventDefault();
 	};
 
+	/**
+	 * Navigates the user to the review personality page
+	 * @param {event} event 
+	 */
 	reviewPersonality = (event) => {
 		this.props.onReviewPersonality(event);
 	};
 
+	/**
+	 * Navigates the user to the team creation page
+	 * @param {event} event 
+	 */
 	compareTeam = (event) => {
 		this.props.onCompareTeam(event);
 	};
 
+	/**
+	 * Renders the quiz content
+	 */
 	renderQuizContent() {
 		return (
 			<div className="QuizWhole">
@@ -176,6 +225,7 @@ class Quiz extends React.Component {
 					/>
 					<div className="divQuizProgress">
 						<ProgressBar
+							className="objProgressBar"
 							animated
 							variant="success"
 							now={this.state.questionNumberState}
@@ -205,6 +255,9 @@ class Quiz extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the name input content
+	 */
 	renderPostQuizContent = () => {
 		let content = (
 			<div className="QuizResults">
@@ -218,7 +271,13 @@ class Quiz extends React.Component {
 						value={this.state.name}
 						onChange={this.handleNameChange}
 					/>
-					<input type="submit" value="Submit" />
+					<button
+					className="btn btnNameInput"
+					type="submit"
+					value="Submit"
+					> 
+						Submit 
+					</button>
 				</form>
 			</div>
 		);
@@ -226,7 +285,13 @@ class Quiz extends React.Component {
 		return content;
 	};
 
+	/**
+	 * Renders the copy hash button + navigation buttons
+	 */
 	renderResultContent = () => {
+		if (!this.state.hasCopied) {
+			this.handleCopy();
+		}
 		let content = (
 			<div className="quizResult">
 				<div className="divCopyHash">
@@ -237,11 +302,12 @@ class Quiz extends React.Component {
 				<div className="copySuccess">
 					{this.state.copied && (
 						<p>
-							Personality code copied successfully! Save that somewhere for next
-							time.
+							Personality code copied successfully! You can use that code for any
+							future teams you join, so save it somewhere safe.
 						</p>
 					)}
 				</div>
+				{this.state.hasCopied && (			
 				<div className="divPostQuizButtons">
 					<div className="relativeDiv">
 						<div className="divRetakeQuiz">
@@ -265,11 +331,15 @@ class Quiz extends React.Component {
 						</div>
 					</div>
 				</div>
+				)}
 			</div>
 		);
 		return content;
 	};
 
+	/**
+	 * Renders the page
+	 */
 	render() {
 		let content;
 		switch (this.state.stage) {
@@ -285,6 +355,9 @@ class Quiz extends React.Component {
 		return <div className="Quiz">{content}</div>;
 	}
 
+	/**
+	 * Generates a new blank result template
+	 */
 	generateNewTemplate() {
 		return {
 			totalC: {

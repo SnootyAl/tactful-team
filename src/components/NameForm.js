@@ -1,6 +1,8 @@
 import React from "react";
 import "../stylesheets/NameForm.css";
-// Component class to handle the input for personal results
+/**
+ * Component class to handle the input for personal results
+ */
 class NameForm extends React.Component {
 	constructor(props) {
 		super(props);

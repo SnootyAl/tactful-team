@@ -7,7 +7,9 @@ import "../stylesheets/Slideshow.css";
 // Set time (in ms) taken to change bar height
 const FADE_DURATION = 2000;
 
-// Component class that handles the slideshow section of the home page
+/**
+ * Component class that handles the slideshow section of the home page
+ */
 class SlideShow extends React.Component {
 	constructor(props) {
 		super(props);
@@ -31,7 +33,7 @@ class SlideShow extends React.Component {
 	 */
 	tick() {
 		let tempStage = this.state.stage;
-		let newStage = (tempStage + 1) % 5;
+		let newStage = (tempStage + 1) % 6;
 		setTimeout(() => {
 			this.setState({
 				stage: newStage,
@@ -53,22 +55,23 @@ class SlideShow extends React.Component {
 				<div className="slideshow-bar">
 					<AnimateHeight
 						id="panel0"
-						className="slideshow-blue"
+						className="slideshow-pink"
 						duration={1000}
 						height={0 === this.state.stage ? 30 : 10}
 						children=""
 					/>
-
+					
 					<AnimateHeight
 						id="panel1"
-						className="slideshow-green"
+						className="slideshow-blue"
 						duration={1000}
 						height={1 === this.state.stage ? 30 : 10}
 						children=""
 					/>
+
 					<AnimateHeight
 						id="panel2"
-						className="slideshow-yellow"
+						className="slideshow-green"
 						duration={1000}
 						height={2 === this.state.stage ? 30 : 10}
 						children=""
@@ -76,16 +79,25 @@ class SlideShow extends React.Component {
 
 					<AnimateHeight
 						id="panel3"
-						className="slideshow-red"
+						className="slideshow-yellow"
 						duration={1000}
 						height={3 === this.state.stage ? 30 : 10}
 						children=""
 					/>
 					<AnimateHeight
 						id="panel4"
-						className="slideshow-purple"
+						className="slideshow-red"
 						duration={1000}
 						height={4 === this.state.stage ? 30 : 10}
+						children=""
+					/>
+
+					
+					<AnimateHeight
+						id="panel5"
+						className="slideshow-purple"
+						duration={1000}
+						height={5 === this.state.stage ? 30 : 10}
 						children=""
 					/>
 				</div>

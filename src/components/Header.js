@@ -3,7 +3,9 @@ import TactfulIcon from "../Design Assets/Tactful.png";
 
 import "../stylesheets/Header.css";
 
-// Basic component to render the footer on each page
+/**
+ * Basic component that handles the rendering of the header panel
+ */
 class Header extends React.Component {
 	constructor(props) {
 		super(props);
@@ -42,7 +44,7 @@ class Header extends React.Component {
 				<div className="headerButtons">
 					<div className="divBtn">
 						<a className="headerButton btnTest" onClick={this.handleTestClick}>
-							Take Test
+							Personality Test
 						</a>
 					</div>
 
@@ -51,13 +53,13 @@ class Header extends React.Component {
 							className="headerButton btnPersonal"
 							onClick={this.handlePersonalClick}
 						>
-							Personal Results
+							Personal
 						</a>
 					</div>
 
 					<div className="divBtn">
 						<a className="headerButton btnTeam" onClick={this.handleTeamClick}>
-							Team Results
+							Team
 						</a>
 					</div>
 				</div>

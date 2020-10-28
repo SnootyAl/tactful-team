@@ -1,34 +1,41 @@
 [
 	{
 		"stage": 0,
+		"title": "Big 5 Personalities",
+		"info": "The Big Five personality traits, also known as the five-factor model, is a suggested grouping used to define and identify personality traits, based on a spectrum of five individual factors.",
+		"quote": "Personality is an unbroken series of successful gestures.",
+		"author": "F. Scott Fitzgerald"
+	},
+	{
+		"stage": 1,
 		"title": "Conscientiousness",
 		"info": "Conscientiousness is a fundamental personality trait that reflects the tendency to be responsible, organized, hard-working, goal-directed, and to adhere to norms and rules.",
 		"quote": "Nothing in all the world is more dangerous than sincere ignorance and conscientious stupidity.",
 		"author": "Martin Luther King, Jr"
 	},
 	{
-		"stage": 1,
+		"stage": 2,
 		"title": "Agreeableness",
 		"info": "Agreeableness is a personality trait manifesting itself in individual behavioral characteristics that are perceived as kind, sympathetic, cooperative, warm, and considerate.",
 		"quote": "Tact is the art of making a point without making an enemy.",
 		"author": "Isaac Newton"
 	},
 	{
-		"stage": 2,
+		"stage": 3,
 		"title": "Neuroticism",
 		"info": "Neuroticism refers to the tendency to experience negative feelings.",
 		"quote": "When someone tell me 'no', it doesn't mean I can't do it, it simply means I can't do it with them.",
 		"author": "Karen E. Quinones Miller"
 	},
 	{
-		"stage": 3,
+		"stage": 4,
 		"title": "Openness to Experience",
 		"info": "Openness to experience refers to a tendency towards intellectual curiosity, aesthetic sensitivity, liberal values, and emotional differentiation.",
 		"quote": "It takes a lot of courage to show your dreams to someone else.",
 		"author": "Erma Bombeck"
 	},
 	{
-		"stage": 4,
+		"stage": 5,
 		"title": "Extraversion",
 		"info": "Extraversion refers to the tendency to focus on gratification obtained from outside the self.",
 		"quote": "There is no such thing as a pure extrovert or a pure introvert. Such a man would be in the lunatic asylum.",

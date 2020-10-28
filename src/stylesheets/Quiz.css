@@ -74,9 +74,27 @@
 	cursor: pointer;
 }
 
+.progress-bar {
+	background-color: #fb61fe !important;
+}
+
 .btn-group {
 	min-width: 805px;
 	margin: 0 auto;
+}
+
+.quizNameForm {
+	width: 400px;
+}
+
+.quizNameInput {
+	margin-right: 20px;
+	width: 220px;
+	height: 24px;
+}
+
+.btnNameInput {
+	display: inline !important;
 }
 
 .copySuccess {
@@ -90,7 +108,7 @@
 
 .divPostQuizButtons {
 	position: absolute;
-	top: 50%;
+	top: calc(400px);
 	left: 50%;
 	width: auto;
 }
@@ -99,10 +117,27 @@
 	position: relative;
 	left: -50%;
 	width: auto;
+	min-width: 700px;
 	display: flex;
 }
 
 .divRetakeQuiz,
 .divReviewPersonality {
 	margin-right: 20px;
+}
+
+.divQuizProgress {
+	border: 1px solid white;
+}
+.progress-bar {
+	background-color: rgb(235, 86, 86);
+}
+
+.RetakeQuiz {
+	background-color: #757575 !important;
+	color: #f8f8f8 !important;
+}
+
+.RetakeQuiz:hover {
+	background-color: #585757;
 }

@@ -4,7 +4,19 @@ import AES from "crypto-js/aes";
 import cryptoJS from "crypto-js";
 import scoreObject from "../data/templates/ScoreObject.json";
 
-// Component to calculate user data from a hash, and display it on the page
+import Conscientiousness from "../Design Assets/DomainIcons/Conscientiousness.png";
+import Agreeableness from "../Design Assets/DomainIcons/Agreeableness.png";
+import Neuroticism from "../Design Assets/DomainIcons/Neuroticism.png";
+import Openness from "../Design Assets/DomainIcons/Openness.png";
+import Extraversion from "../Design Assets/DomainIcons/Extraversion.png";
+
+
+
+import "../stylesheets/Personal.css";
+
+/**
+ * Component that handles the personal results page
+ */
 class IndividualData extends React.Component {
 	constructor(props) {
 		super(props);
@@ -115,6 +127,9 @@ class IndividualData extends React.Component {
 		const userData = this.state.data;
 		let domainElements = [];
 		// Iterate over each domain
+		let images = [
+			Conscientiousness, Agreeableness, Neuroticism, Openness, Extraversion
+		]
 		for (let i = 0; i < 5; i++) {
 			// Store current domain locally
 			let cD = userData[i];
@@ -122,15 +137,24 @@ class IndividualData extends React.Component {
 			let elements = (
 				<div className="domain" key={cD.domain}>
 					<div className="domainHeader">
-						<h1>Domain: {cD.domain}</h1>
-						<p>Total: {cD.total.val}</p>
+						<img src= {images[i]}/>
+						<br />
+						Total: {cD.total.val}/120
+						<p />
 					</div>
 					<div className="domainFacet">
-						<p>
-							{cD.f1.title}: {cD.f1.val} | {cD.f2.title}: {cD.f2.val} |{" "}
-							{cD.f3.title}: {cD.f3.val} | {cD.f4.title}: {cD.f4.val} |{" "}
-							{cD.f5.title}: {cD.f5.val} | {cD.f6.title}: {cD.f6.val}
-						</p>
+						{cD.f1.title}: {cD.f1.val}/20 
+						<br />
+						{cD.f2.title}: {cD.f2.val}/20
+						<br />
+						{cD.f3.title}: {cD.f3.val}/20
+						<br />
+						{cD.f4.title}: {cD.f4.val}/20 
+						<br />
+						{cD.f5.title}: {cD.f5.val}/20
+						<br />
+						{cD.f6.title}: {cD.f6.val}/20
+						
 					</div>
 				</div>
 			);
@@ -140,7 +164,7 @@ class IndividualData extends React.Component {
 		// Return formatted JSX
 		return (
 			<div className="domainResults">
-				<h1>User: {this.state.userName}</h1>
+				<h2>{this.state.userName}'s results</h2>
 				{domainElements}
 			</div>
 		);
@@ -162,7 +186,7 @@ class IndividualData extends React.Component {
 				<div className="divPersonalIntro">
 					<p>Want to know more about your personality?</p>
 					<p>
-						First take the Big Five personality test, then copy the result into
+						First take the Big Five personality test, then copy the resulting code into
 						the text box above!
 					</p>
 					<a className="btn TestRedirect" onClick={this.takeTest}>
