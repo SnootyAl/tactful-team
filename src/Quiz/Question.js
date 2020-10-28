@@ -3,7 +3,7 @@ import React from "react";
 const Question = (props) => {
 	return (
 		<div className="Question">
-			<h1>{props.question}</h1>
+			<h3>{props.question}</h3>
 		</div>
 	);
 };

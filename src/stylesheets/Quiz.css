@@ -45,7 +45,8 @@
 .Question {
 	width: 805px;
 	text-align: center;
-	height: 160px;
+	height: 120px;
+	padding-top: 20px;
 }
 
 .divQuizBack {

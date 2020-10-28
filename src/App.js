@@ -111,11 +111,20 @@ const App = () => {
 					<div className="homeDiv">
 						<div className="banner">
 							<div className="homeIntroTitle">
-								<h1>Better teamwork starts here</h1>
+								<h1>What is Tactful Team?</h1>
 							</div>
 							<div className="homeIntroDetail">
 							<p>
-								Gain proficiency working in your team, according to your team's unique personalities.
+								Tactful Team helps alleviate some of the preventable problems that occur in teams.
+							</p>
+							<p>
+								Developed out of the frustration that is team work at university.
+							</p>
+							<p>
+								The tool uses your personalitity to gain an insight into who you are and how you might function in a team environment.
+							</p>
+							<p>
+								Tactful provides you with the tools to work far more cohesively and effectively within your team environment.
 							</p>
 							</div>
 

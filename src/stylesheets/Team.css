@@ -113,7 +113,7 @@
 	border-radius: 10px;
 	color: #111111;
 	padding-top: 1px;
-	padding-bottom: 30px;
+	padding-bottom: 50px;
 	padding-left: 10px;
 	padding-right: 10px;
 }
@@ -194,6 +194,8 @@
 
 .new-line {
 	white-space: pre-line;
+	max-width: 800px;
+	margin: auto;
 }
 
 .domainInfohighest {
