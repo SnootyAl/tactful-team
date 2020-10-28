@@ -6,6 +6,7 @@ import minIcon from "../Design Assets/minus_icon.png";
 import plsIcon from "../Design Assets/plus_icon.png";
 
 import "../stylesheets/Team.css";
+import { findAllByPlaceholderText } from "@testing-library/react";
 
 /**
  * Component class that handles data input
@@ -16,29 +17,18 @@ class TeamData extends React.Component {
 		this.state = {
 			title: props.title,
 			fullTeamHash: "",
+			entryErrorTeam: false,
 			value: { name: "", hash: "" },
 			members: [
 				{
-					name: "Jonathan",
-					hash: "U2FsdGVkX1+2kzLG5835HP0pEfJ16rGDFuOuK652PboDtHTBO+F3Bpvtw6cy5/vcMuHpj6dXT8K/jXzUKN7TMsIUslI6kxy+Px06j959GogrOjWnGqyNfoXZ/p3bctBOo0YSE/+intzHUP23bBLusnA30vGhin9uUf3kqkjcwUQ=",
+					name: "",
+					hash: "",
 					plain: "",
 					colour: ["104", "87", "161"],
 				},
 				{
-					name: "Alex",
-					hash: "U2FsdGVkX1/IBZFhpqImk9TrjOteBYE/rMN5WCS8/MRM9rgUsWS553aNMIfAwSue2935zgNOZ2lJT8LXFnxZcGynFd5jXph1Q6ud0w0vhUo9QNj8ixY+KW7pi/EiGReGCobN3Nl+9CjjZUUPlwgIGvd+tAr2HB2K1W1Jj4UeM4A=",
-					plain: "",
-					colour: ["127", "48", "59"],
-				},
-				{
-					name: "Calum",
-					hash: "U2FsdGVkX18TSSKe6OyHQsHe08CnZxiVCTcOa1SOtDKszChewM5JVHyY0ZqP/6fq2/oisERxzavkkv3ZlyWlMRiLHumEfucW3vmxk3vsMx4u9Gj+QVN5adCot0sO/5JLQZyqkjzfazZ9jy0OB/XiFIriACbjeFIlk/fOBqvbFo8=",
-					plain: "",
-					colour: ["127", "48", "59"],
-				},
-				{
-					name: "Jordan",
-					hash: "U2FsdGVkX1/brics3V5/DDI1aEkgIKVOlnEv3FMxAyNlVVBKamZa/YhalNIBi7yJMStmtJN+35tZBlsNtGsOWaKShzdOG/KRQCXJi9ffFMXhS0/BCqARIAbRvCv8lTn+MF31+66c2co1TmErhwSRn5wWVu2tg8trGYE3XSu5/rM=",
+					name: "",
+					hash: "",
 					plain: "",
 					colour: ["127", "48", "59"],
 				},
@@ -246,6 +236,7 @@ class TeamData extends React.Component {
 					type="text"
 					name="name"
 					placeholder="Your name"
+					autoComplete="off"
 					className="teamInput inputName"
 					value={this.state.members[index].name}
 					onChange={(event) => this.handleChangeInput(index, event)}
@@ -256,6 +247,7 @@ class TeamData extends React.Component {
 					type="text"
 					name="hash"
 					placeholder="Your code"
+					autoComplete="off"
 					className="teamInput inputHash"
 					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}
@@ -268,6 +260,7 @@ class TeamData extends React.Component {
 					type="text"
 					name="name"
 					placeholder="Member's name"
+					autoComplete="off"
 					className="teamInput inputName"
 					value={this.state.members[index].name}
 					onChange={(event) => this.handleChangeInput(index, event)}
@@ -278,6 +271,7 @@ class TeamData extends React.Component {
 					type="text"
 					name="hash"
 					placeholder="Member's code"
+					autoComplete="off"
 					className="teamInput inputHash"
 					value={this.state.members[index].hash}
 					onChange={(event) => this.handleChangeInput(index, event)}
@@ -321,9 +315,12 @@ class TeamData extends React.Component {
 			<div className="inputFullTeam">
 				<h4>Review a preiously generated team</h4>
 				<form className="fullTeamInputForm">
-					<input type="text" name="teamHash" placeholder="Team Code: " className="fullTeamInput" value={this.state.fullTeamHash} onChange={(event => this.handleChangeTeamInput(event))} />
+					<input type="text" name="teamHash" placeholder="Team Code: " className="fullTeamInput" value={this.state.fullTeamHash} onChange={(event => this.handleChangeTeamInput(event))} autoComplete="off" />
 					<button className="btn btnFullTeamSubmit" type="submit" onClick={this.handleFullTeamSubmit}>Review Existing Team</button>
-			</form>
+				</form>
+				{this.state.entryErrorTeam && (
+					<p>Error with team hash - try copy pasting again.</p>
+				)}
 			</div>
 		)
 	}
@@ -339,21 +336,28 @@ class TeamData extends React.Component {
 		const plaintext = decryptedBytes.toString(cryptoJS.enc.Utf8);
 		var data = [];
 
-		const errCheck = plaintext.slice(0, 8);
-		console.log(plaintext);
+		const errCheck = plaintext.slice(0, 12);
 		const result = plaintext.slice(8);
-		if (errCheck === "CheckSum") {
-			data = result.split("{-data-}");
-			console.log(data);
+		var validInput = true;
+		if (errCheck === "CheckSumTeam") {
+			data = result.split("{-data-}");	
+		} else {
+			validInput = false;
 		}
 		let newTeam = [];
-
+		console.log(plaintext);
+		
 		for (let i = 1; i < data.length; i++) {
 			newTeam.push(JSON.parse(data[i]));
 		}
-		console.log(newTeam);
 		e.preventDefault();
-		this.setState({members: newTeam, hasData: true})
+		if (validInput) {
+			console.log(newTeam);
+			this.setState({members: newTeam, hasData: true})
+		} else {
+			console.log(data);
+			this.setState({hasData: false, fullTeamHash: "", entryErrorTeam: true})
+		}		
 	}
 
 	/**
@@ -362,7 +366,7 @@ class TeamData extends React.Component {
 	 */
 	handleChangeTeamInput(event) {
 		let localUpdate = event.target.value;
-		this.setState({fullTeamHash: localUpdate})
+		this.setState({fullTeamHash: localUpdate, entryErrorTeam: false})
 	}
 
 	/**
@@ -376,8 +380,7 @@ class TeamData extends React.Component {
 		
 		return (
 			<div className="showTeam">
-				{content}
-				
+				{content}			
 			</div>);
 	}
 }

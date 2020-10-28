@@ -3,6 +3,11 @@ import TactfulIcon from "../Design Assets/Tactful.png";
 
 import "../stylesheets/Header.css";
 
+import HomeIcon from "../Design Assets/Header/iconHome.png"
+import TestIcon from "../Design Assets/Header/iconTest.png"
+import PersIcon from "../Design Assets/Header/iconPersonal.png"
+import TeamIcon from "../Design Assets/Header/iconTeam.png"
+
 /**
  * Basic component that handles the rendering of the header panel
  */
@@ -31,38 +36,37 @@ class Header extends React.Component {
 	render() {
 		return (
 			<div className="headerPanel">
-				<div className="divBtnHome">
-					<a className="btnHome" onClick={this.handleHomeClick}>
-						Tactful Team
-						{/* <div className="divTactfulIcon">
-							<img className="tactfulIcon" src={TactfulIcon} />
-						</div> */}
-						
-					</a>
-				</div>
-
-				<div className="headerButtons">
-					<div className="divBtn">
-						<a className="headerButton btnTest" onClick={this.handleTestClick}>
-							Personality Test
+				<div className="divAllButtons">
+					<div className="divBtnHome">
+						<a className="btnHome" onClick={this.handleHomeClick}>
+							<img src={HomeIcon} />					
 						</a>
 					</div>
 
-					<div className="divBtn">
-						<a
-							className="headerButton btnPersonal"
-							onClick={this.handlePersonalClick}
-						>
-							Personal
-						</a>
-					</div>
+					<div className="headerButtons">
+						<div className="divBtn">
+							<a className="headerButton btnTest" onClick={this.handleTestClick}>
+								<img src={TestIcon} />
+							</a>
+						</div>
 
-					<div className="divBtn">
-						<a className="headerButton btnTeam" onClick={this.handleTeamClick}>
-							Team
-						</a>
+						<div className="divBtn">
+							<a
+								className="headerButton btnPersonal"
+								onClick={this.handlePersonalClick}
+							>
+								<img src={PersIcon} />
+							</a>
+						</div>
+
+						<div className="divBtn">
+							<a className="headerButton btnTeam" onClick={this.handleTeamClick}>
+								<img src={TeamIcon} />
+							</a>
+						</div>
 					</div>
 				</div>
+				
 			</div>
 		);
 	}

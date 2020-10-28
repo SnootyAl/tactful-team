@@ -9,10 +9,9 @@ import TeamInput from "./components/TeamInput";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-import darkBanner from "./Design Assets/Dark-Banner.png";
-import Timeline from "./Design Assets/timeline.png";
-import Personalities5 from "./Design Assets/5personalities.png";
-import TeamExample from "./Design Assets/TeamExample.png";
+import Timeline from "./Design Assets/Home/timeline.png";
+import Personalities5 from "./Design Assets/Home/5personalities.png";
+import TeamExample from "./Design Assets/Home/TeamExample.png";
 
 import "./stylesheets/App.css";
 

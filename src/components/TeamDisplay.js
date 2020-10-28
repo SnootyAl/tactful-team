@@ -141,7 +141,7 @@ class TeamDisplay extends React.Component {
 		const calculatedRoles = this.AssignRoles(formTeam, roles);
 
 		// Create the member objects that will be turned into a hash
-		let teamString = "CheckSum";
+		let teamString = "CheckSumTeam";
 		currentTeam.forEach((member) => {
 			let newObject = {
 				name: member.name,

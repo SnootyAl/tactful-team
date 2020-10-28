@@ -1,10 +1,10 @@
 import React from "react";
 
 import "../stylesheets/Footer.css";
-import Twitter from "../Design Assets/Twitter.png";
-import Facebook from "../Design Assets/F.png";
-import LinkedIn from "../Design Assets/LinkedIn.png";
-import Email from "../Design Assets/Email.png";
+import Twitter from "../Design Assets/Footer/Twitter.png";
+import Facebook from "../Design Assets/Footer/F.png";
+import LinkedIn from "../Design Assets/Footer/LinkedIn.png";
+import Email from "../Design Assets/Footer/Email.png";
 
 /**
  * Basic class that renders the footer of each page
